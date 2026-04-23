@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New World Capital · Meme Economy</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a84c;
+  --gold2:#a07c2e;
+  --gold-dim:rgba(201,168,76,0.12);
+  --bg:#070707;
+  --bg2:#0d0d0d;
+  --bg3:#131313;
+  --border:rgba(201,168,76,0.16);
+  --border2:rgba(201,168,76,0.07);
+  --text:#e8e0d0;
+  --muted:#6a6050;
+  --muted2:#3a3428;
+  --green:#3ddc84;
+  --red:#ff4d4d;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'Crimson Pro',Georgia,serif;
+  --display:'Bebas Neue',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);overflow-x:hidden}
+
+/* TICKER */
+.ticker-wrap{position:sticky;top:0;z-index:200;background:#050505;border-bottom:1px solid var(--border);display:flex;align-items:center;height:34px;overflow:hidden}
+.ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
+.ticker-track{overflow:hidden;flex:1}
+.ticker-inner{display:flex;animation:ticker 70s linear infinite}
+.ticker-inner:hover{animation-play-state:paused}
+.tick-item{font-family:var(--mono);font-size:9px;color:var(--muted);padding:0 28px;white-space:nowrap}
+.tick-item b{color:var(--gold)}
+.tick-item .sep{color:var(--muted2);margin:0 10px}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* NAV */
+nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0 52px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:34px;z-index:199;backdrop-filter:blur(12px)}
+.nav-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px}
+
+/* HERO */
+.hero{min-height:500px;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
+.hero-radial{position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 65% 25%,rgba(201,168,76,0.055) 0%,transparent 65%),linear-gradient(180deg,#0a0a0a 0%,var(--bg) 100%);pointer-events:none}
+.hero-wm{position:absolute;font-family:var(--display);font-size:300px;letter-spacing:-6px;color:rgba(201,168,76,0.02);bottom:-30px;right:-10px;pointer-events:none;user-select:none;line-height:1}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--gold)}
+.hero h1{font-family:var(--display);font-size:104px;letter-spacing:1px;line-height:.88;color:#fff;position:relative;z-index:1}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero-desc{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.5);max-width:580px;margin-top:26px;line-height:1.8;font-style:italic;position:relative;z-index:1}
+.hero-stats{display:flex;gap:44px;margin-top:36px;position:relative;z-index:1}
+.hs{display:flex;flex-direction:column;gap:4px}
+.hs-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.hs-val{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--gold)}
+
+/* SECTION */
+.section-wrap{padding:0 52px}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;padding:44px 0 0;margin-bottom:28px}
+.sec-title{font-family:var(--display);font-size:40px;letter-spacing:2px;color:#fff}
+.sec-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px}
+
+/* PORTFOLIO CARD */
+.portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(201,168,76,0.03);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s;position:relative;overflow:hidden}
+.portfolio-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.portfolio-card:hover{background:rgba(201,168,76,0.06)}
+.portfolio-card-left{padding:40px 48px;flex:1}
+.portfolio-card-right{padding:40px 48px;border-left:1px solid var(--border2);display:flex;flex-direction:column;justify-content:center;gap:24px;min-width:280px}
+.pc-cat{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pc-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.pc-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px;margin-left:auto}
+.portfolio-card h2{font-family:var(--display);font-size:48px;letter-spacing:1px;color:#fff;margin-bottom:14px;transition:color .2s}
+.portfolio-card:hover h2{color:var(--gold)}
+.portfolio-card p{font-family:var(--serif);font-size:15px;color:rgba(232,224,208,0.5);line-height:1.75;font-style:italic;max-width:540px}
+.pc-stat{display:flex;flex-direction:column;gap:4px}
+.pc-stat-label{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.pc-stat-val{font-family:var(--mono);font-size:18px;font-weight:700;color:#fff}
+.pc-arrow{font-family:var(--mono);font-size:13px;color:var(--muted2);margin-top:8px;transition:all .25s}
+.portfolio-card:hover .pc-arrow{color:var(--gold);transform:translateX(5px)}
+
+/* ARTICLE GRID */
+.article-grid{padding:0 52px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2)}
+@media(max-width:1100px){.article-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.article-grid{grid-template-columns:1fr}}
+
+/* ARTICLE CARD */
+.acard{background:var(--bg2);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s;position:relative;overflow:hidden}
+.acard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.acard:hover{background:var(--bg3)}
+.acard:hover::after{transform:scaleX(1)}
+.acard.live .acard-status{color:var(--green)}
+.acard.pending{opacity:.45;pointer-events:none}
+.acard.pending .acard-status{color:var(--muted)}
+.acard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.acard-num{font-family:var(--mono);font-size:10px;color:var(--muted2);font-weight:700}
+.acard-status{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;text-transform:uppercase}
+.acard h3{font-family:var(--display);font-size:28px;letter-spacing:1px;color:#fff;margin-bottom:8px;line-height:1.05;transition:color .2s}
+.acard:hover h3{color:var(--gold)}
+.acard-name{font-family:var(--serif);font-size:13px;color:rgba(232,224,208,0.4);font-style:italic;margin-bottom:16px}
+.acard-meta{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--border2);margin-top:auto}
+.acard-mcap{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.5px}
+.acard-badge{font-family:var(--mono);font-size:7px;padding:2px 7px;border:1px solid rgba(61,220,132,0.3);color:var(--green);text-transform:uppercase;letter-spacing:1px}
+.acard-arrow{font-family:var(--mono);font-size:11px;color:var(--muted2);transition:all .25s}
+.acard:hover .acard-arrow{color:var(--gold);transform:translateX(4px)}
+
+/* MANDATE */
+.mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden}
+.mandate-wm{position:absolute;font-family:var(--display);font-size:150px;color:rgba(201,168,76,0.025);right:40px;top:50%;transform:translateY(-50%);pointer-events:none;letter-spacing:4px;white-space:nowrap}
+.mandate-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:14px}
+.mandate-title{font-family:var(--display);font-size:44px;letter-spacing:2px;color:#fff;margin-bottom:20px}
+.mandate-body{font-family:var(--serif);font-size:17px;color:rgba(232,224,208,0.55);font-style:italic;max-width:640px;line-height:1.8;margin-bottom:16px}
+.mandate-sig{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:28px;padding-top:22px;border-top:1px solid var(--border2)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
+.footer-note{font-family:var(--mono);font-size:8px;color:var(--muted);text-align:right;line-height:2;letter-spacing:.5px}
+
+/* ANIMS */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+.acard{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease,background .2s}
+.acard.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-badge">MEME · SOL</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="tickerEl"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">NEW WORLD CAPITAL</div>
+  <div class="nav-links">
+    <a href="#portfolio">Portfolio</a>
+    <a href="#articles">Articles</a>
+    <a href="#mandate">Mandate</a>
+  </div>
+  <div class="nav-ref">NWC · MEME ECONOMY</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-radial"></div>
+  <div class="hero-wm">MEME</div>
+  <div class="hero-eyebrow">New World Capital · Meme Economy</div>
+  <h1>The Meme<br><em>Economy</em></h1>
+  <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation -- observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
+  <div class="hero-stats">
+    <div class="hs"><span class="hs-label">Deployed</span><span class="hs-val">$19,800</span></div>
+    <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">31</span></div>
+    <div class="hs"><span class="hs-label">Base Size</span><span class="hs-val">$600</span></div>
+    <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO LINK -->
+<div class="section-wrap fade-up" id="portfolio">
+  <div class="section-header">
+    <div class="sec-title">Breadth Map</div>
+    <div class="sec-sub">31 POSITIONS · $19,800 DEPLOYED · APR 23, 2026</div>
+  </div>
+</div>
+
+<a class="portfolio-card fade-up" href="nwc_sol_portfolio.html">
+  <div class="portfolio-card-left">
+    <div class="pc-cat"><span class="pc-dot"></span>Portfolio · Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
+    <h2>Thirty-One at the Line</h2>
+    <p>31-position equal-weight deployment across the lower stratum of the Solana meme ecosystem. $600 base per position. Three featured positions at $1,000. The portfolio is the thesis -- equal weight, no prediction, maximum surface area.</p>
+  </div>
+  <div class="portfolio-card-right">
+    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$19,800</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000 × 3</span></div>
+    <div class="pc-arrow">&#8594;</div>
+  </div>
+</a>
+
+<!-- ARTICLES -->
+<div class="section-wrap fade-up" id="articles">
+  <div class="section-header">
+    <div class="sec-title">Token Articles</div>
+    <div class="sec-sub">ONE ARTICLE PER TOKEN · BUILDING THE ARCHIVE</div>
+  </div>
+</div>
+
+<div class="article-grid" id="articleGrid"></div>
+
+<!-- MANDATE -->
+<div class="mandate fade-up" id="mandate">
+  <div class="mandate-wm">BREADTH</div>
+  <div class="mandate-lbl">NWC MANDATE</div>
+  <div class="mandate-title">Attention Into Liquidity</div>
+  <p class="mandate-body">New World Capital's meme coin allocation is not framed as speculative novelty. It is a deliberate exposure to emergent attention markets where narrative, coordination, and liquidity interact in real time. The portfolio is both capital deployment and observational infrastructure.</p>
+  <p class="mandate-body">The objective is not only to capture asymmetric returns, but to map the conditions under which these markets emerge, sustain themselves, and in rare cases -- persist.</p>
+  <div class="mandate-sig">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; APR 23, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
+</div>
+
+<footer>
+  <div class="footer-brand">NEW WORLD CAPITAL</div>
+  <div class="footer-note">
+    NWC · MEME ECONOMY · SOLANA BREADTH MAP<br>
+    NOT FINANCIAL ADVICE · DYOR · ALL POSITIONS SPECULATIVE
+  </div>
+</footer>
+
+<script>
+const tokens = [
+  { n:1,  ticker:'1SOL',       name:'1 Sol and a Dream',              mcap:'$35K',  alloc:600,  file:'nwc-sol-1sol.html',       live:false },
+  { n:2,  ticker:'WIZARD',     name:'Smoking Wizard',                 mcap:'$261K', alloc:600,  file:'nwc-sol-wizard.html',     live:false },
+  { n:3,  ticker:'PsyopAnime', name:'PsyopAnime',                     mcap:'$2.5M', alloc:1000, file:'nwc-sol-psyopanime.html', live:false },
+  { n:4,  ticker:'BILLBOARD',  name:'BILLBOARD',                      mcap:'$8.8K', alloc:600,  file:'nwc-sol-billboard.html',  live:false },
+  { n:5,  ticker:'CatFu',      name:'CatFu',                          mcap:'$19K',  alloc:600,  file:'nwc-sol-catfu.html',      live:false },
+  { n:6,  ticker:'Degen',      name:'Degen the Otter',                mcap:'$14K',  alloc:600,  file:'nwc-sol-degen.html',      live:false },
+  { n:7,  ticker:'SLEAZE',     name:'KEANU SLEAZE',                   mcap:'$64K',  alloc:600,  file:'nwc-sol-sleaze.html',     live:false },
+  { n:8,  ticker:'JESTER',     name:'JESTERMAXXING',                  mcap:'$54K',  alloc:600,  file:'nwc-sol-jester.html',     live:false },
+  { n:9,  ticker:'cobson',     name:'cobson',                         mcap:'$24K',  alloc:600,  file:'nwc-sol-cobson.html',     live:false },
+  { n:10, ticker:'Samba',      name:'The Runner',                     mcap:'$36K',  alloc:600,  file:'nwc-sol-samba.html',      live:false },
+  { n:11, ticker:'NYAN',       name:'Nyan Cat',                       mcap:'$40K',  alloc:600,  file:'nwc-sol-nyan.html',       live:false },
+  { n:12, ticker:'renta',      name:'rentahuman',                     mcap:'$37K',  alloc:600,  file:'nwc-sol-renta.html',      live:false },
+  { n:13, ticker:'KILROY',     name:'Kilroy was here',                mcap:'$290K', alloc:1000, file:'nwc-sol-kilroy.html',     live:false },
+  { n:14, ticker:'AUTISM',     name:'Autism Coin',                    mcap:'$35K',  alloc:600,  file:'nwc-sol-autism.html',     live:false },
+  { n:15, ticker:'SNP500',     name:'Sock and Pussy 500',             mcap:'$47K',  alloc:600,  file:'nwc-sol-snp500.html',     live:false },
+  { n:16, ticker:'SOL',        name:'Sol The Trophy Tomato',          mcap:'$468K', alloc:1000, file:'nwc-sol-trophy.html',     live:false },
+  { n:17, ticker:'XAU',        name:'Gold',                           mcap:'$62K',  alloc:600,  file:'nwc-sol-xau.html',        live:false },
+  { n:18, ticker:'yomama',     name:'Yo mama',                        mcap:'$16K',  alloc:600,  file:'nwc-sol-yomama.html',     live:false },
+  { n:19, ticker:'OILINU',     name:'oil inu',                        mcap:'$43K',  alloc:600,  file:'nwc-sol-oilinu.html',     live:false },
+  { n:20, ticker:'fish',       name:'rainbowfish',                    mcap:'$75K',  alloc:600,  file:'nwc-sol-fish.html',       live:false },
+  { n:21, ticker:'Monitor',    name:'Monitoring the Situation',       mcap:'$156K', alloc:600,  file:'nwc-sol-monitor.html',    live:false },
+  { n:22, ticker:'oora',       name:'oora',                           mcap:'$93K',  alloc:600,  file:'nwc-sol-oora.html',       live:false },
+  { n:23, ticker:'CIA',        name:'John Kiriakou',                  mcap:'$19K',  alloc:600,  file:'nwc-sol-cia.html',        live:false },
+  { n:24, ticker:'Rome',       name:'All Roads Lead To Rome',         mcap:'$48K',  alloc:600,  file:'nwc-sol-rome.html',       live:false },
+  { n:25, ticker:'OBJECTS',    name:'Talking Objects',                mcap:'$23K',  alloc:600,  file:'nwc-sol-objects.html',    live:false },
+  { n:26, ticker:'FAFO',       name:'Fuck Around Find Out',           mcap:'$26K',  alloc:600,  file:'nwc-sol-fafo.html',       live:false },
+  { n:27, ticker:'worth',      name:'one life, its worth an attempt', mcap:'$26K',  alloc:600,  file:'nwc-sol-worth.html',      live:false },
+  { n:28, ticker:'Optimus',    name:'Optimus',                        mcap:'$28K',  alloc:600,  file:'nwc-sol-optimus.html',    live:false },
+  { n:29, ticker:'bulk',       name:'bulk',                           mcap:'$27K',  alloc:600,  file:'nwc-sol-bulk.html',       live:false },
+  { n:30, ticker:'Cope',       name:'Cope',                           mcap:'$107K', alloc:600,  file:'nwc-sol-cope.html',       live:false },
+  { n:31, ticker:'underclass', name:'escape the permanent underclass',mcap:'$88K',  alloc:600,  file:'nwc-sol-underclass.html', live:false },
+];
+
+// Build grid
+const grid = document.getElementById('articleGrid');
+tokens.forEach(t => {
+  const isFeatured = t.alloc === 1000;
+  const el = document.createElement(t.live ? 'a' : 'div');
+  if(t.live) el.href = t.file;
+  el.className = 'acard' + (t.live ? ' live' : ' pending');
+  el.innerHTML = `
+    <div class="acard-top">
+      <span class="acard-num">#${String(t.n).padStart(2,'0')}</span>
+      <span class="acard-status">${t.live ? '&#11044; LIVE' : '&#9900; PENDING'}</span>
+    </div>
+    <h3>${t.ticker}</h3>
+    <div class="acard-name">${t.name}</div>
+    <div class="acard-meta">
+      <span class="acard-mcap">MCAP ${t.mcap}</span>
+      <span class="acard-badge" style="${isFeatured ? '' : 'border-color:rgba(201,168,76,0.3);color:var(--gold)'}">$${t.alloc.toLocaleString()}</span>
+      ${t.live ? '<span class="acard-arrow">&#8594;</span>' : '<span class="acard-arrow" style="font-size:8px;letter-spacing:1px">SOON</span>'}
+    </div>
+  `;
+  grid.appendChild(el);
+});
+
+// Ticker
+const tickEl = document.getElementById('tickerEl');
+const items = tokens.map(t =>
+  `<span class="tick-item"><b>${t.ticker}</b><span class="sep">·</span>${t.name}<span class="sep">·</span>${t.mcap}</span>`
+).join('');
+tickEl.innerHTML = items + items;
+
+// Scroll anims
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 45);
+  });
+},{threshold:0.04});
+document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
