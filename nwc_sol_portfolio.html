@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NWC-PORT-SOL-2026-001 · Solana Breadth Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a84c;
+  --gold2:#a07c2e;
+  --bg:#080808;
+  --bg2:#0f0f0f;
+  --bg3:#161616;
+  --bg4:#1e1e1e;
+  --border:rgba(201,168,76,0.18);
+  --border2:rgba(201,168,76,0.08);
+  --text:#e8e0d0;
+  --muted:#7a7060;
+  --green:#3ddc84;
+  --red:#ff4d4d;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'Crimson Pro',Georgia,serif;
+  --display:'Bebas Neue',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* TICKER */
+.ticker-wrap{position:sticky;top:0;z-index:100;background:#0a0a0a;border-bottom:1px solid var(--border);display:flex;align-items:center;height:36px;overflow:hidden}
+.ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:0 14px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
+.ticker-track{overflow:hidden;flex:1}
+.ticker-inner{display:flex;animation:ticker 60s linear infinite}
+.ticker-inner:hover{animation-play-state:paused}
+.tick-item{font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 28px;white-space:nowrap}
+.tick-item b{color:var(--gold)}
+.tick-item .up{color:var(--green)}
+.tick-item .dn{color:var(--red)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* NAV */
+nav{background:rgba(8,8,8,0.97);border-bottom:1px solid var(--border2);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:36px;z-index:99;backdrop-filter:blur(8px)}
+.nav-brand{font-family:var(--display);font-size:18px;letter-spacing:2px;color:var(--gold)}
+.nav-links{display:flex;gap:32px}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-ref{font-family:var(--mono);font-size:9px;color:var(--border);letter-spacing:1px}
+
+/* HERO */
+.hero{min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 48px 56px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(201,168,76,0.04) 0%,transparent 70%),radial-gradient(ellipse 50% 80% at 10% 80%,rgba(201,168,76,0.03) 0%,transparent 60%),linear-gradient(180deg,#0a0a0a 0%,#080808 100%)}
+.hero-wm{position:absolute;font-family:var(--display);font-size:260px;letter-spacing:-4px;color:rgba(201,168,76,0.025);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none}
+.hero-cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-family:var(--display);font-size:88px;letter-spacing:2px;line-height:.92;color:#fff;position:relative}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero-sub{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.65);max-width:600px;margin-top:20px;line-height:1.7;font-style:italic}
+.hero-meta{margin-top:32px;display:flex;gap:40px;align-items:center}
+.hero-meta-item{display:flex;flex-direction:column;gap:4px}
+.hero-meta-label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.hero-meta-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold)}
+
+/* METRICS BAND */
+.metrics-band{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border)}
+.mc{padding:28px 32px;border-right:1px solid var(--border2)}
+.mc:last-child{border-right:none}
+.mc-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.mc-val{font-family:var(--mono);font-size:24px;font-weight:700;color:#fff}
+.mc-val.gold{color:var(--gold)}
+.mc-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:6px}
+
+/* SECTION HEADERS */
+.section-wrap{padding:0 48px}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;padding:40px 0 20px;border-bottom:1px solid var(--border)}
+.sec-title{font-family:var(--display);font-size:36px;letter-spacing:2px;color:#fff}
+.sec-ref{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;padding:0 48px 48px}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px;margin-top:0}
+thead tr{border-bottom:2px solid var(--gold2)}
+th{padding:12px 10px;text-align:right;color:var(--gold);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;white-space:nowrap}
+th:first-child,th:nth-child(2),th:nth-child(3){text-align:left}
+tbody tr{border-bottom:1px solid var(--border2);transition:background .15s}
+tbody tr:hover{background:rgba(201,168,76,0.04)}
+tbody tr.featured{background:rgba(201,168,76,0.06);border-left:2px solid var(--gold)}
+td{padding:11px 10px;color:rgba(232,224,208,0.85);text-align:right;white-space:nowrap}
+td:first-child,td:nth-child(2),td:nth-child(3){text-align:left}
+td.num{color:#fff;font-weight:600}
+td.gold-val{color:var(--gold);font-weight:700}
+td.up{color:var(--green)}
+td.dn{color:var(--red)}
+td.muted{color:var(--muted)}
+.ord-cell{color:var(--muted);font-size:10px;width:28px}
+.ticker-cell{color:var(--gold);font-weight:700;font-size:12px}
+.name-cell{color:rgba(232,224,208,0.65);font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.alloc-badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:1px}
+.alloc-600{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
+.alloc-1000{background:rgba(61,220,132,0.12);color:var(--green);border:1px solid rgba(61,220,132,0.3)}
+
+/* VERDICT */
+.verdict{margin:0 48px 64px;border:1px solid var(--border);padding:48px;position:relative;overflow:hidden}
+.verdict-wm{position:absolute;font-family:var(--display);font-size:140px;color:rgba(201,168,76,0.04);top:50%;right:40px;transform:translateY(-50%);pointer-events:none;letter-spacing:4px}
+.v-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.v-title{font-family:var(--display);font-size:52px;letter-spacing:2px;color:#fff;margin-bottom:24px}
+.v-body{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.75);max-width:720px;line-height:1.8;margin-bottom:16px;font-style:italic}
+.v-mandate{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-family:var(--display);font-size:22px;letter-spacing:3px;color:var(--gold)}
+.footer-note{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right;line-height:1.8;letter-spacing:.5px}
+
+/* SCROLL ANIMATION */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-badge">SOL · BREADTH</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="tickerInner"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">NEW WORLD CAPITAL</div>
+  <div class="nav-links">
+    <a href="#holdings">Holdings</a>
+    <a href="#verdict">Mandate</a>
+  </div>
+  <div class="nav-ref">NWC-PORT-SOL-2026-001</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-wm">BREADTH</div>
+  <div style="position:relative">
+    <div class="hero-cat">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; Solana Meme Breadth Map &nbsp;·&nbsp; Apr 23, 2026</div>
+    <h1>Thirty-One<br>at the <em>Line</em></h1>
+    <p class="hero-sub">A systematic deployment across the lower stratum of the Solana meme ecosystem. Equal weight. No prediction. Maximum surface area.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Total Deployed</span>
+        <span class="hero-meta-val">$19,800</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Positions</span>
+        <span class="hero-meta-val">31</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Base Size</span>
+        <span class="hero-meta-val">$600</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Chain</span>
+        <span class="hero-meta-val">SOL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS BAND -->
+<div class="metrics-band">
+  <div class="mc">
+    <div class="mc-lbl">Capital Deployed</div>
+    <div class="mc-val gold">$19,800</div>
+    <div class="mc-sub">28 × $600 + 3 × $1,000</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">Base Position</div>
+    <div class="mc-val">$600</div>
+    <div class="mc-sub">Equal weight · 28 positions</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">Featured Positions</div>
+    <div class="mc-val">$1,000</div>
+    <div class="mc-sub">PSYOPANIME · KILROY · SOL</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">Chain</div>
+    <div class="mc-val">SOLANA</div>
+    <div class="mc-sub">SPL · Raydium · Pump.fun</div>
+  </div>
+  <div class="mc">
+    <div class="mc-lbl">Strategy</div>
+    <div class="mc-val gold">BREADTH</div>
+    <div class="mc-sub">Low mcap · High dispersion</div>
+  </div>
+</div>
+
+<!-- HOLDINGS TABLE -->
+<div class="section-wrap" id="holdings">
+  <div class="section-header fade-in">
+    <div class="sec-title">Holdings Registry</div>
+    <div class="sec-ref">31 POSITIONS · TOKENS HELD = ALLOCATION ÷ ENTRY PRICE</div>
+  </div>
+</div>
+
+<div class="table-wrap fade-in">
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ticker</th>
+        <th>Name</th>
+        <th>MCAP</th>
+        <th>Entry Price</th>
+        <th>Allocation</th>
+        <th>Tokens Held</th>
+        <th>Liquidity</th>
+        <th>Age</th>
+        <th>24H</th>
+      </tr>
+    </thead>
+    <tbody id="holdingsBody"></tbody>
+  </table>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict fade-in" id="verdict">
+  <div class="verdict-wm">BREADTH</div>
+  <div class="v-lbl">NWC Mandate</div>
+  <div class="v-title">The Breadth Thesis</div>
+  <p class="v-body">This portfolio does not predict which token wins. It owns the entire lower stratum so that when the Solana meme supercycle reprices, NWC is already positioned across 31 parallel bets. The portfolio is the thesis. Equal weight enforces discipline. Breadth replaces prediction.</p>
+  <p class="v-body">When the supercycle ignites, it does not lift one token. It lifts everything that is positioned and liquid. This is probability working in our favor across the full distribution.</p>
+  <div class="v-mandate">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; 31 POSITIONS &nbsp;·&nbsp; $19,800 DEPLOYED &nbsp;·&nbsp; APR 23, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
+</div>
+
+<footer>
+  <div class="footer-brand">NEW WORLD CAPITAL</div>
+  <div class="footer-note">
+    NWC-PORT-SOL-2026-001 · SOLANA BREADTH MAP<br>
+    ARCHIVE OF FORESIGHT · NOT FINANCIAL ADVICE · DYOR<br>
+    THOTH THE 13TH · NEW WORLD CAPITAL
+  </div>
+</footer>
+
+<script>
+// ── HOLDINGS DATA ──────────────────────────────────────────────────────────
+// price is exact entry price in USD
+// alloc: 1000 for featured, 600 for base
+// tokens = alloc / price (calculated precisely)
+const holdings = [
+  { n:1,  ticker:'1SOL',       name:'1 Sol and a Dream',            mcap:'$35K',   price:0.00003602,  alloc:600,  liq:'$16K',  age:'3mo', h24:'+117%'  },
+  { n:2,  ticker:'WIZARD',     name:'Smoking Wizard',               mcap:'$261K',  price:0.0002610,   alloc:600,  liq:'$55K',  age:'1mo', h24:'+66.16%'},
+  { n:3,  ticker:'PsyopAnime', name:'PsyopAnime',                   mcap:'$2.5M',  price:0.002526,    alloc:1000, liq:'$260K', age:'3mo', h24:'+25.73%'},
+  { n:4,  ticker:'BILLBOARD',  name:'BILLBOARD',                    mcap:'$8.8K',  price:0.000059390, alloc:600,  liq:'$9.3K', age:'7mo', h24:'+15.59%'},
+  { n:5,  ticker:'CatFu',      name:'CatFu',                        mcap:'$19K',   price:0.00001991,  alloc:600,  liq:'$13K',  age:'1mo', h24:'+11.12%'},
+  { n:6,  ticker:'Degen',      name:'Degen the Otter',              mcap:'$14K',   price:0.00001458,  alloc:600,  liq:'$10K',  age:'3mo', h24:'+7.32%' },
+  { n:7,  ticker:'SLEAZE',     name:'KEANU SLEAZE',                 mcap:'$64K',   price:0.00006629,  alloc:600,  liq:'$33K',  age:'9mo', h24:'+6.62%' },
+  { n:8,  ticker:'JESTER',     name:'JESTERMAXXING',                mcap:'$54K',   price:0.00005448,  alloc:600,  liq:'$25K',  age:'4mo', h24:'+6.21%' },
+  { n:9,  ticker:'cobson',     name:'cobson',                       mcap:'$24K',   price:0.00002446,  alloc:600,  liq:'$14K',  age:'5mo', h24:'+4.16%' },
+  { n:10, ticker:'Samba',      name:'The Runner',                   mcap:'$36K',   price:0.00003616,  alloc:600,  liq:'$16K',  age:'1mo', h24:'+2.74%' },
+  { n:11, ticker:'NYAN',       name:'Nyan Cat',                     mcap:'$40K',   price:0.00004555,  alloc:600,  liq:'$23K',  age:'4mo', h24:'+1.18%' },
+  { n:12, ticker:'renta',      name:'rentahuman',                   mcap:'$37K',   price:0.00003764,  alloc:600,  liq:'$22K',  age:'2mo', h24:'+0.53%' },
+  { n:13, ticker:'KILROY',     name:'Kilroy was here',              mcap:'$290K',  price:0.0002939,   alloc:1000, liq:'$57K',  age:'5mo', h24:'+0.15%' },
+  { n:14, ticker:'AUTISM',     name:'Autism Coin',                  mcap:'$35K',   price:0.00003585,  alloc:600,  liq:'$24K',  age:'1mo', h24:'-0.41%' },
+  { n:15, ticker:'SNP500',     name:'Sock and Pussy 500',           mcap:'$47K',   price:0.00004792,  alloc:600,  liq:'$32K',  age:'3mo', h24:'-1.53%' },
+  { n:16, ticker:'SOL',        name:'Sol The Trophy Tomato',        mcap:'$468K',  price:0.0005708,   alloc:1000, liq:'$113K', age:'3mo', h24:'-2.32%' },
+  { n:17, ticker:'XAU',        name:'Gold',                         mcap:'$62K',   price:0.00006590,  alloc:600,  liq:'$32K',  age:'6mo', h24:'-3.55%' },
+  { n:18, ticker:'yomama',     name:'Yo mama',                      mcap:'$16K',   price:0.00001659,  alloc:600,  liq:'$14K',  age:'3mo', h24:'-3.63%' },
+  { n:19, ticker:'OILINU',     name:'oil inu',                      mcap:'$43K',   price:0.00004321,  alloc:600,  liq:'$20K',  age:'2mo', h24:'-4.42%' },
+  { n:20, ticker:'fish',       name:'rainbowfish',                  mcap:'$75K',   price:0.00007582,  alloc:600,  liq:'$40K',  age:'3mo', h24:'-5.53%' },
+  { n:21, ticker:'Monitor',    name:'Monitoring the Situation',     mcap:'$156K',  price:0.0001571,   alloc:600,  liq:'$58K',  age:'10mo',h24:'-5.74%' },
+  { n:22, ticker:'oora',       name:'oora',                         mcap:'$93K',   price:0.00009327,  alloc:600,  liq:'$37K',  age:'3mo', h24:'-5.83%' },
+  { n:23, ticker:'CIA',        name:'John Kiriakou',                mcap:'$19K',   price:0.00001948,  alloc:600,  liq:'$14K',  age:'2mo', h24:'-6.14%' },
+  { n:24, ticker:'Rome',       name:'All Roads Lead To Rome',       mcap:'$48K',   price:0.00004863,  alloc:600,  liq:'$28K',  age:'7mo', h24:'-6.63%' },
+  { n:25, ticker:'OBJECTS',    name:'Talking Objects',              mcap:'$23K',   price:0.00002478,  alloc:600,  liq:'$16K',  age:'3mo', h24:'-7.51%' },
+  { n:26, ticker:'FAFO',       name:'Fuck Around Find Out',         mcap:'$26K',   price:0.00002608,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-7.52%' },
+  { n:27, ticker:'worth',      name:'one life, its worth an attempt',mcap:'$26K', price:0.00002603,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-12.61%'},
+  { n:28, ticker:'Optimus',    name:'Optimus',                      mcap:'$28K',   price:0.00002888,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-15.24%'},
+  { n:29, ticker:'bulk',       name:'bulk',                         mcap:'$27K',   price:0.00002780,  alloc:600,  liq:'$15K',  age:'4mo', h24:'-19.10%'},
+  { n:30, ticker:'Cope',       name:'Cope',                         mcap:'$107K',  price:0.0001120,   alloc:600,  liq:'$53K',  age:'7mo', h24:'-31.23%'},
+  { n:31, ticker:'underclass', name:'escape the permanent underclass',mcap:'$88K', price:0.00008883,  alloc:600,  liq:'$26K',  age:'2mo', h24:'-34.80%'},
+];
+
+// ── FORMAT HELPERS ─────────────────────────────────────────────────────────
+function fmtTokens(n) {
+  if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+  return n.toFixed(0);
+}
+function fmtPrice(p) {
+  // Count leading zeros after decimal
+  const s = p.toFixed(20).replace(/0+$/,'');
+  const match = s.match(/^0\.(0+)/);
+  const zeros = match ? match[1].length : 0;
+  const sig = s.replace(/^0\.0*/,'').substring(0,4);
+  if (zeros >= 2) return `$0.0<sub>${zeros}</sub>${sig}`;
+  return '$' + p.toPrecision(4);
+}
+
+// ── BUILD TABLE ────────────────────────────────────────────────────────────
+const tbody = document.getElementById('holdingsBody');
+holdings.forEach(h => {
+  const tokens = h.alloc / h.price;
+  const isFeatured = h.alloc === 1000;
+  const up = !h.h24.startsWith('-');
+  const tr = document.createElement('tr');
+  if (isFeatured) tr.classList.add('featured');
+  tr.innerHTML = `
+    <td class="ord-cell">${h.n}</td>
+    <td class="ticker-cell">${h.ticker}</td>
+    <td class="name-cell">${h.name}</td>
+    <td class="num">${h.mcap}</td>
+    <td class="num">${fmtPrice(h.price)}</td>
+    <td><span class="alloc-badge ${isFeatured ? 'alloc-1000' : 'alloc-600'}">$${h.alloc.toLocaleString()}</span></td>
+    <td class="gold-val">${fmtTokens(tokens)}</td>
+    <td class="muted">${h.liq}</td>
+    <td class="muted">${h.age}</td>
+    <td class="${up ? 'up' : 'dn'}">${h.h24}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ── TICKER ─────────────────────────────────────────────────────────────────
+const tickerInner = document.getElementById('tickerInner');
+const tickItems = holdings.map(h => {
+  const up = !h.h24.startsWith('-');
+  return `<span class="tick-item"><b>${h.ticker}</b> ${h.mcap} <span class="${up?'up':'dn'}">${h.h24}</span></span>`;
+}).join('');
+tickerInner.innerHTML = tickItems + tickItems; // duplicate for seamless loop
+
+// ── SCROLL ANIMATIONS ──────────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.05});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
