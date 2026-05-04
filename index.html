@@ -12,8 +12,8 @@
   --gold2:#a07c2e;
   --gold-dim:rgba(201,168,76,0.12);
   --bg:#070707;
-  --bg2:#0d0d0d;
-  --bg3:#131313;
+  --bg2:rgba(10,10,10,0.82);
+  --bg3:rgba(16,16,16,0.88);
   --border:rgba(201,168,76,0.16);
   --border2:rgba(201,168,76,0.07);
   --text:#e8e0d0;
@@ -26,10 +26,10 @@
   --display:'Bebas Neue',sans-serif;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--serif);overflow-x:hidden}
+body{background:transparent;color:var(--text);font-family:var(--serif);overflow-x:hidden}
 
 /* ── TICKER ── */
-.ticker-wrap{position:sticky;top:0;z-index:200;background:#050505;border-bottom:1px solid var(--border);display:flex;align-items:center;height:34px;overflow:hidden}
+.ticker-wrap{position:sticky;top:0;z-index:200;background:rgba(4,4,4,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;height:34px;overflow:hidden}
 .ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
 .ticker-track{overflow:hidden;flex:1}
 .ticker-inner{display:flex;animation:ticker 70s linear infinite}
@@ -40,16 +40,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);overflow-x:
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ── NAV ── */
-nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0 52px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:34px;z-index:199;backdrop-filter:blur(12px)}
+nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0 52px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:34px;z-index:199;backdrop-filter:blur(12px)}
 .nav-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .nav-links{display:flex;gap:32px}
 .nav-links a{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
 .nav-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px}
 
-/* ── PYRAMID HERO ── */
-.hero-canvas-wrap{position:relative;min-height:520px;overflow:hidden;border-bottom:1px solid var(--border)}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%}
+/* ── PYRAMID BACKGROUND ── */
+#heroCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .hero-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px}
 .hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
 .hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--gold)}
@@ -68,7 +67,7 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .sec-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px}
 
 /* ── PORTFOLIO CARD ── */
-.portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(201,168,76,0.03);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d}
+.portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(5,4,2,0.75);backdrop-filter:blur(6px);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d}
 .portfolio-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
 .portfolio-card:hover{background:rgba(201,168,76,0.06);transform:translateY(-3px);box-shadow:0 12px 48px rgba(201,168,76,0.08)}
 .portfolio-card-left{padding:40px 48px;flex:1}
@@ -91,10 +90,10 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 @media(max-width:680px){.article-grid{grid-template-columns:1fr}}
 
 /* ── ARTICLE CARD ── */
-.acard{background:var(--bg2);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d;cursor:pointer}
+.acard{background:rgba(10,10,10,0.80);backdrop-filter:blur(6px);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d;cursor:pointer}
 .acard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .acard::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,168,76,0.06) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
-.acard:hover{background:var(--bg3);transform:translateY(-4px) rotateX(2deg);box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.12)}
+.acard:hover{background:rgba(14,12,8,0.92);transform:translateY(-4px) rotateX(2deg);box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.12)}
 .acard:hover::after{transform:scaleX(1)}
 .acard:hover::before{opacity:1}
 .acard.live .acard-status{color:var(--green)}
@@ -122,7 +121,7 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.4}90%{opacity:.1}100%{transform:translateY(-100px) rotate(720deg);opacity:0}}
 
 /* ── MANDATE ── */
-.mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden;transition:box-shadow .3s}
+.mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden;transition:box-shadow .3s;background:rgba(5,4,2,0.80);backdrop-filter:blur(8px);}
 .mandate:hover{box-shadow:0 0 60px rgba(201,168,76,0.06) inset}
 .mandate-wm{position:absolute;font-family:var(--display);font-size:150px;color:rgba(201,168,76,0.025);right:40px;top:50%;transform:translateY(-50%);pointer-events:none;letter-spacing:4px;white-space:nowrap}
 .mandate-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:14px}
@@ -131,7 +130,7 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .mandate-sig{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:28px;padding-top:22px;border-top:1px solid var(--border2)}
 
 /* ── FOOTER ── */
-footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify-content:space-between;align-items:center}
+footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,2,0.90);backdrop-filter:blur(8px);}
 .footer-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .footer-note{font-family:var(--mono);font-size:8px;color:var(--muted);text-align:right;line-height:2;letter-spacing:.5px}
 
@@ -170,9 +169,8 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 </nav>
 
 <!-- HERO WITH 3D CANVAS -->
-<section class="hero-canvas-wrap">
-  <canvas id="heroCanvas"></canvas>
-  <div class="hero-content hero">
+<canvas id="heroCanvas"></canvas>
+<section class="hero">
     <div class="hero-eyebrow">New World Capital · Meme Economy</div>
     <h1>The Meme<br><em>Economy</em></h1>
     <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
@@ -182,7 +180,6 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
       <div class="hs"><span class="hs-label">Base Size</span><span class="hs-val">$600</span></div>
       <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
     </div>
-  </div>
 </section>
 
 <!-- PORTFOLIO -->
@@ -320,282 +317,261 @@ tickEl.innerHTML = items + items;
 // ── EGYPTIAN PYRAMID SCENE ──
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
-let W, H, waves = [], stars = [], particles = [], t = 0;
+let W, H, stars = [], waves = [], dustP = [], t = 0;
 
 function resize(){
-  W = canvas.width = canvas.offsetWidth;
-  H = canvas.height = canvas.offsetHeight;
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
   initScene();
 }
 
 function initScene(){
-  // stars
   stars = [];
-  for(let i = 0; i < 180; i++){
-    stars.push({
-      x: Math.random() * W,
-      y: Math.random() * H * 0.55,
-      r: Math.random() * 1.2 + 0.2,
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.3 + Math.random() * 0.7
-    });
-  }
-  // wave layers
+  for(let i=0;i<220;i++) stars.push({
+    x:Math.random()*W, y:Math.random()*H*0.6,
+    r:Math.random()*1.4+0.2, phase:Math.random()*Math.PI*2, spd:0.4+Math.random()*0.8
+  });
   waves = [
-    { amp:18, freq:0.012, speed:0.018, y:0.72, alpha:0.55, color:'rgba(10,30,55,' },
-    { amp:12, freq:0.018, speed:0.026, y:0.76, alpha:0.65, color:'rgba(8,24,45,' },
-    { amp:8,  freq:0.025, speed:0.034, y:0.80, alpha:0.75, color:'rgba(5,18,35,' },
-    { amp:5,  freq:0.032, speed:0.045, y:0.84, alpha:0.85, color:'rgba(4,14,28,' },
+    {amp:22,freq:0.010,spd:0.014,yf:0.70,col:'rgba(4,18,40,'},
+    {amp:14,freq:0.016,spd:0.022,yf:0.74,col:'rgba(3,14,32,'},
+    {amp:9, freq:0.024,spd:0.031,yf:0.78,col:'rgba(2,10,24,'},
+    {amp:5, freq:0.033,spd:0.042,yf:0.82,col:'rgba(1,7,18,'},
   ];
-  // floating particles (gold dust)
-  particles = [];
-  for(let i = 0; i < 30; i++){
-    particles.push({
-      x: Math.random() * W,
-      y: H * 0.45 + Math.random() * H * 0.35,
-      size: Math.random() * 1.5 + 0.3,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -Math.random() * 0.4 - 0.1,
-      alpha: Math.random() * 0.5 + 0.1,
-      phase: Math.random() * Math.PI * 2
-    });
-  }
+  dustP = [];
+  for(let i=0;i<40;i++) dustP.push({
+    x:Math.random()*W, y:H*0.4+Math.random()*H*0.4,
+    sz:Math.random()*1.8+0.3, vx:(Math.random()-.5)*0.25, vy:-Math.random()*0.35-0.08,
+    a:Math.random()*0.6+0.1, ph:Math.random()*Math.PI*2
+  });
 }
 
 function drawSky(){
-  const grad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
-  grad.addColorStop(0,   '#000508');
-  grad.addColorStop(0.3, '#020d18');
-  grad.addColorStop(0.6, '#051524');
-  grad.addColorStop(1,   '#0a2035');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H * 0.75);
+  const g = ctx.createLinearGradient(0,0,0,H*0.78);
+  g.addColorStop(0,  '#000307');
+  g.addColorStop(0.25,'#010810');
+  g.addColorStop(0.55,'#041220');
+  g.addColorStop(1,  '#081c30');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H*0.78);
 }
 
 function drawStars(){
-  stars.forEach(s => {
-    const twinkle = 0.4 + 0.6 * Math.abs(Math.sin(t * s.speed + s.phase));
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(220,210,180,${twinkle * 0.85})`;
-    ctx.fill();
+  stars.forEach(s=>{
+    const tw = 0.3+0.7*Math.abs(Math.sin(t*s.spd+s.phase));
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(230,220,190,${tw*0.9})`; ctx.fill();
   });
 }
 
 function drawMoon(){
-  const mx = W * 0.78, my = H * 0.14, mr = 38;
-  // glow
-  const glow = ctx.createRadialGradient(mx, my, 0, mx, my, mr * 3.5);
-  glow.addColorStop(0,   'rgba(201,168,76,0.18)');
-  glow.addColorStop(0.4, 'rgba(201,168,76,0.06)');
-  glow.addColorStop(1,   'rgba(201,168,76,0)');
-  ctx.fillStyle = glow;
-  ctx.beginPath();
-  ctx.arc(mx, my, mr * 3.5, 0, Math.PI * 2);
-  ctx.fill();
-  // moon body
-  const moonGrad = ctx.createRadialGradient(mx - 8, my - 8, 2, mx, my, mr);
-  moonGrad.addColorStop(0,   '#f5e8c0');
-  moonGrad.addColorStop(0.5, '#d4b96a');
-  moonGrad.addColorStop(1,   '#a07830');
-  ctx.beginPath();
-  ctx.arc(mx, my, mr, 0, Math.PI * 2);
-  ctx.fillStyle = moonGrad;
-  ctx.fill();
-  // moon craters
-  [[mx+8, my+6, 5], [mx-10, my+12, 3], [mx+18, my-8, 4], [mx-5, my-14, 2.5]].forEach(([cx,cy,cr]) => {
-    ctx.beginPath();
-    ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(120,80,20,0.3)';
-    ctx.fill();
-  });
+  const mx=W*0.80, my=H*0.13, mr=34;
+  const gl=ctx.createRadialGradient(mx,my,0,mx,my,mr*4);
+  gl.addColorStop(0,'rgba(201,168,76,0.22)');
+  gl.addColorStop(0.5,'rgba(201,168,76,0.07)');
+  gl.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.fillStyle=gl; ctx.beginPath(); ctx.arc(mx,my,mr*4,0,Math.PI*2); ctx.fill();
+  const mg=ctx.createRadialGradient(mx-7,my-7,1,mx,my,mr);
+  mg.addColorStop(0,'#f8edd8'); mg.addColorStop(0.5,'#d4b060'); mg.addColorStop(1,'#8a6020');
+  ctx.beginPath(); ctx.arc(mx,my,mr,0,Math.PI*2); ctx.fillStyle=mg; ctx.fill();
 }
 
 function drawPyramid(){
-  const cx = W * 0.5;
-  const baseY = H * 0.72;
-  const pw = Math.min(W * 0.55, 600);
-  const ph = pw * 0.72;
-  const apex = { x: cx, y: baseY - ph };
+  const cx=W*0.5, baseY=H*0.70;
+  const pw=Math.min(W*0.72,720), ph=pw*0.75;
+  const ax=cx, ay=baseY-ph;
 
-  // pyramid shadow (behind)
+  // ground beneath pyramid
+  const gg=ctx.createLinearGradient(0,baseY,0,baseY+28);
+  gg.addColorStop(0,'#1c1408'); gg.addColorStop(1,'#080808');
+  ctx.fillStyle=gg; ctx.fillRect(0,baseY,W,28);
+
+  // pyramid shadow cast right
   ctx.save();
+  ctx.globalAlpha=0.28;
   ctx.beginPath();
-  ctx.moveTo(apex.x, apex.y);
-  ctx.lineTo(apex.x + pw * 0.85, baseY + 12);
-  ctx.lineTo(apex.x + pw * 1.1, baseY + 12);
+  ctx.moveTo(ax,ay);
+  ctx.lineTo(cx+pw/2,baseY);
+  ctx.lineTo(Math.min(W,cx+pw*0.95),baseY+16);
+  ctx.lineTo(ax+8,ay+4);
   ctx.closePath();
-  ctx.fillStyle = 'rgba(0,0,0,0.35)';
-  ctx.fill();
+  ctx.fillStyle='#000'; ctx.fill();
   ctx.restore();
 
-  // main pyramid body gradient (left face)
-  const leftGrad = ctx.createLinearGradient(cx - pw/2, baseY, cx, apex.y);
-  leftGrad.addColorStop(0,   '#1a1208');
-  leftGrad.addColorStop(0.4, '#2a1e0c');
-  leftGrad.addColorStop(1,   '#c9a84c');
-  ctx.beginPath();
-  ctx.moveTo(apex.x, apex.y);
-  ctx.lineTo(cx - pw/2, baseY);
-  ctx.lineTo(cx, baseY);
-  ctx.closePath();
-  ctx.fillStyle = leftGrad;
-  ctx.fill();
+  // LEFT FACE (moonlit)
+  const lf=ctx.createLinearGradient(cx-pw/2,baseY,ax,ay);
+  lf.addColorStop(0,'#0e0a04');
+  lf.addColorStop(0.35,'#1e1608');
+  lf.addColorStop(0.7,'#3a2c10');
+  lf.addColorStop(1,'#c9a84c');
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx-pw/2,baseY); ctx.lineTo(cx,baseY); ctx.closePath();
+  ctx.fillStyle=lf; ctx.fill();
 
-  // right face (darker)
-  const rightGrad = ctx.createLinearGradient(cx + pw/2, baseY, cx, apex.y);
-  rightGrad.addColorStop(0,   '#100c04');
-  rightGrad.addColorStop(0.5, '#1e1508');
-  rightGrad.addColorStop(1,   '#8a6428');
-  ctx.beginPath();
-  ctx.moveTo(apex.x, apex.y);
-  ctx.lineTo(cx, baseY);
-  ctx.lineTo(cx + pw/2, baseY);
-  ctx.closePath();
-  ctx.fillStyle = rightGrad;
-  ctx.fill();
+  // RIGHT FACE (shadow)
+  const rf=ctx.createLinearGradient(cx+pw/2,baseY,ax,ay);
+  rf.addColorStop(0,'#080604');
+  rf.addColorStop(0.5,'#100c06');
+  rf.addColorStop(1,'#6a5020');
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx,baseY); ctx.lineTo(cx+pw/2,baseY); ctx.closePath();
+  ctx.fillStyle=rf; ctx.fill();
 
-  // horizontal stone lines
-  const lines = 14;
-  for(let i = 1; i < lines; i++){
-    const frac = i / lines;
-    const lineY = apex.y + (baseY - apex.y) * frac;
-    const lw = pw * frac;
-    ctx.beginPath();
-    ctx.moveTo(cx - lw/2, lineY);
-    ctx.lineTo(cx + lw/2, lineY);
-    ctx.strokeStyle = `rgba(0,0,0,${0.25 + frac * 0.1})`;
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
+  // stone block horizontal lines
+  const rows=18;
+  for(let i=1;i<rows;i++){
+    const fr=i/rows;
+    const ly=ay+(baseY-ay)*fr;
+    const lw=(pw/2)*fr;
+    ctx.beginPath(); ctx.moveTo(cx-lw,ly); ctx.lineTo(cx+lw,ly);
+    ctx.strokeStyle=`rgba(0,0,0,${0.3+fr*0.12})`; ctx.lineWidth=0.8; ctx.stroke();
+  }
+  // vertical block joints on left face
+  for(let i=1;i<rows;i++){
+    const fr=i/rows;
+    const ly=ay+(baseY-ay)*fr;
+    const lw=(pw/2)*fr;
+    const jcount=Math.floor(fr*5)+1;
+    for(let j=1;j<jcount;j++){
+      const jx=cx-lw + (lw*j/jcount);
+      ctx.beginPath(); ctx.moveTo(jx,ly); ctx.lineTo(jx,ly+(baseY-ay)/rows);
+      ctx.strokeStyle='rgba(0,0,0,0.2)'; ctx.lineWidth=0.5; ctx.stroke();
+    }
   }
 
-  // pyramid edge glow (moonlit)
-  ctx.beginPath();
-  ctx.moveTo(apex.x, apex.y);
-  ctx.lineTo(cx - pw/2, baseY);
-  ctx.strokeStyle = 'rgba(201,168,76,0.3)';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
+  // left edge glow
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx-pw/2,baseY);
+  ctx.strokeStyle='rgba(201,168,76,0.45)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx+pw/2,baseY);
+  ctx.strokeStyle='rgba(201,168,76,0.12)'; ctx.lineWidth=1; ctx.stroke();
 
-  ctx.beginPath();
-  ctx.moveTo(apex.x, apex.y);
-  ctx.lineTo(cx + pw/2, baseY);
-  ctx.strokeStyle = 'rgba(201,168,76,0.12)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
+  // apex star glow
+  const ag=ctx.createRadialGradient(ax,ay,0,ax,ay,40);
+  ag.addColorStop(0,'rgba(201,168,76,0.9)');
+  ag.addColorStop(0.3,'rgba(201,168,76,0.3)');
+  ag.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(ax,ay,40,0,Math.PI*2); ctx.fill();
 
-  // apex glow
-  const apexGlow = ctx.createRadialGradient(apex.x, apex.y, 0, apex.x, apex.y, 28);
-  apexGlow.addColorStop(0,   'rgba(201,168,76,0.7)');
-  apexGlow.addColorStop(0.4, 'rgba(201,168,76,0.2)');
-  apexGlow.addColorStop(1,   'rgba(201,168,76,0)');
-  ctx.fillStyle = apexGlow;
-  ctx.beginPath();
-  ctx.arc(apex.x, apex.y, 28, 0, Math.PI * 2);
-  ctx.fill();
+  // ── GLOWING EYE OF HORUS ──
+  const ey_cx = cx, ey_cy = ay + (baseY-ay)*0.38;
+  const eyeW = pw*0.10, eyeH = eyeW*0.44;
+  const eyePulse = 0.7 + 0.3*Math.sin(t*1.1);
+  const eyePulse2 = 0.5 + 0.5*Math.sin(t*0.6);
 
-  // eye of horus silhouette at center
-  const ey = apex.y + (baseY - apex.y) * 0.45;
+  // outer glow rings
+  for(let ring=4;ring>=1;ring--){
+    const rg=ctx.createRadialGradient(ey_cx,ey_cy,0,ey_cx,ey_cy,eyeW*(0.8+ring*0.7));
+    rg.addColorStop(0,`rgba(201,168,76,${0.12*eyePulse/ring})`);
+    rg.addColorStop(1,'rgba(201,168,76,0)');
+    ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeW*(0.8+ring*0.7),0,Math.PI*2); ctx.fill();
+  }
+
+  // eye whites
   ctx.save();
-  ctx.globalAlpha = 0.18 + 0.06 * Math.sin(t * 0.8);
   ctx.beginPath();
-  ctx.ellipse(cx, ey, 18, 10, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = '#c9a84c';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.arc(cx, ey, 5, 0, Math.PI * 2);
-  ctx.fillStyle = '#c9a84c';
+  ctx.ellipse(ey_cx,ey_cy,eyeW,eyeH,0,0,Math.PI*2);
+  ctx.fillStyle=`rgba(255,220,100,${0.18*eyePulse})`;
   ctx.fill();
-  ctx.restore();
-}
 
-function drawDesert(){
-  const baseY = H * 0.72;
-  // sand ground plane
-  const sandGrad = ctx.createLinearGradient(0, baseY, 0, baseY + 20);
-  sandGrad.addColorStop(0, '#1a1208');
-  sandGrad.addColorStop(1, '#0a0a0a');
-  ctx.fillStyle = sandGrad;
-  ctx.fillRect(0, baseY, W, 20);
+  // iris
+  const iris=ctx.createRadialGradient(ey_cx,ey_cy,0,ey_cx,ey_cy,eyeH*0.75);
+  iris.addColorStop(0,`rgba(255,230,80,${eyePulse})`);
+  iris.addColorStop(0.4,`rgba(201,140,20,${eyePulse})`);
+  iris.addColorStop(0.8,`rgba(120,70,0,${eyePulse})`);
+  iris.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.75,0,Math.PI*2);
+  ctx.fillStyle=iris; ctx.fill();
+
+  // pupil
+  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.28,0,Math.PI*2);
+  ctx.fillStyle=`rgba(0,0,0,${0.9*eyePulse2})`; ctx.fill();
+
+  // pupil inner glow
+  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.1,0,Math.PI*2);
+  ctx.fillStyle=`rgba(255,200,50,${0.9*eyePulse})`; ctx.fill();
+
+  // eye outline
+  ctx.beginPath(); ctx.ellipse(ey_cx,ey_cy,eyeW,eyeH,0,0,Math.PI*2);
+  ctx.strokeStyle=`rgba(201,168,76,${0.8*eyePulse})`; ctx.lineWidth=1.5; ctx.stroke();
+
+  // kohl lines (egyptian eye markings)
+  ctx.beginPath();
+  ctx.moveTo(ey_cx-eyeW,ey_cy);
+  ctx.lineTo(ey_cx-eyeW-eyeW*0.5,ey_cy+eyeH*0.6);
+  ctx.strokeStyle=`rgba(201,168,76,${0.5*eyePulse})`; ctx.lineWidth=1.2; ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(ey_cx+eyeW,ey_cy);
+  ctx.lineTo(ey_cx+eyeW+eyeW*0.3,ey_cy-eyeH*0.4);
+  ctx.stroke();
+
+  // light beam from eye downward
+  const bgrad=ctx.createLinearGradient(ey_cx,ey_cy,ey_cx+40,baseY);
+  bgrad.addColorStop(0,`rgba(201,168,76,${0.2*eyePulse})`);
+  bgrad.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.beginPath();
+  ctx.moveTo(ey_cx-8,ey_cy+eyeH);
+  ctx.lineTo(ey_cx+60,baseY);
+  ctx.lineTo(ey_cx+8,baseY);
+  ctx.lineTo(ey_cx-4,ey_cy+eyeH);
+  ctx.fillStyle=bgrad; ctx.fill();
+
+  ctx.restore();
 }
 
 function drawWater(){
-  waves.forEach((w, wi) => {
-    const baseY = H * w.y;
-    ctx.beginPath();
-    ctx.moveTo(0, baseY);
-    for(let x = 0; x <= W; x += 3){
-      const y = baseY + Math.sin(x * w.freq + t * w.speed + wi) * w.amp
-                      + Math.sin(x * w.freq * 1.7 + t * w.speed * 0.7) * w.amp * 0.4;
-      ctx.lineTo(x, y);
+  waves.forEach((w,wi)=>{
+    const by=H*w.yf;
+    ctx.beginPath(); ctx.moveTo(0,by);
+    for(let x=0;x<=W;x+=3){
+      const y=by+Math.sin(x*w.freq+t*w.spd+wi*0.8)*w.amp
+               +Math.sin(x*w.freq*1.8+t*w.spd*0.6)*w.amp*0.35;
+      ctx.lineTo(x,y);
     }
-    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-    ctx.fillStyle = w.color + w.alpha + ')';
-    ctx.fill();
+    ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
+    ctx.fillStyle=w.col+'1)'; ctx.fill();
   });
 
-  // water surface shimmer (moon reflection)
-  const shimmerY = H * 0.74;
-  const reflGrad = ctx.createLinearGradient(W*0.6, shimmerY, W*0.9, shimmerY);
-  reflGrad.addColorStop(0,   'rgba(201,168,76,0)');
-  reflGrad.addColorStop(0.3, 'rgba(201,168,76,0.08)');
-  reflGrad.addColorStop(0.5, 'rgba(201,168,76,0.14)');
-  reflGrad.addColorStop(0.7, 'rgba(201,168,76,0.08)');
-  reflGrad.addColorStop(1,   'rgba(201,168,76,0)');
-  ctx.fillStyle = reflGrad;
-  for(let i = 0; i < 6; i++){
-    const ry = shimmerY + i * 18 + Math.sin(t * 1.2 + i) * 5;
-    ctx.fillRect(W * 0.55, ry, W * 0.35, 1.5);
+  // moon reflection column
+  const refX=W*0.78;
+  for(let i=0;i<10;i++){
+    const ry=H*0.72+i*14+Math.sin(t*1.3+i)*6;
+    const rw=60-i*4;
+    const ra=0.12-i*0.009;
+    ctx.fillStyle=`rgba(201,168,76,${ra})`;
+    ctx.fillRect(refX-rw/2,ry,rw,2);
   }
-
-  // small wave highlights
-  for(let i = 0; i < 8; i++){
-    const wx = (t * 40 * (i % 2 ? 1 : -1) + i * W / 8) % W;
-    const wy = H * (0.76 + i * 0.018) + Math.sin(t + i) * 6;
-    ctx.beginPath();
-    ctx.moveTo(wx, wy);
-    ctx.bezierCurveTo(wx + 20, wy - 3, wx + 40, wy - 3, wx + 60, wy);
-    ctx.strokeStyle = 'rgba(150,200,255,0.06)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
+  // eye reflection in water
+  const erx=W*0.5+30, ery=H*0.76;
+  const erPulse=0.6+0.4*Math.sin(t*1.1+1);
+  for(let i=0;i<6;i++){
+    const ry2=ery+i*16+Math.sin(t*1.1+i*0.5)*7;
+    const rw2=40-i*5;
+    ctx.fillStyle=`rgba(255,200,50,${(0.1-i*0.013)*erPulse})`;
+    ctx.fillRect(erx-rw2/2,ry2,rw2,1.5);
   }
 }
 
-function drawParticles(){
-  particles.forEach(p => {
-    p.x += p.vx + Math.sin(t * 0.5 + p.phase) * 0.3;
-    p.y += p.vy;
-    if(p.y < H * 0.3){ p.y = H * 0.75; p.x = Math.random() * W; }
-    const alpha = p.alpha * (0.5 + 0.5 * Math.sin(t * 0.8 + p.phase));
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(201,168,76,${alpha})`;
-    ctx.fill();
+function drawDust(){
+  dustP.forEach(p=>{
+    p.x+=p.vx+Math.sin(t*0.4+p.ph)*0.35;
+    p.y+=p.vy;
+    if(p.y<H*0.25){p.y=H*0.72;p.x=Math.random()*W;}
+    const a=p.a*(0.4+0.6*Math.abs(Math.sin(t*0.7+p.ph)));
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+    ctx.fillStyle=`rgba(201,168,76,${a})`; ctx.fill();
   });
 }
 
 function drawVignette(){
-  const vg = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.85);
-  vg.addColorStop(0,   'rgba(0,0,0,0)');
-  vg.addColorStop(0.7, 'rgba(0,0,0,0.2)');
-  vg.addColorStop(1,   'rgba(0,0,0,0.7)');
-  ctx.fillStyle = vg;
-  ctx.fillRect(0, 0, W, H);
+  const vg=ctx.createRadialGradient(W/2,H/2,H*0.15,W/2,H/2,H*0.9);
+  vg.addColorStop(0,'rgba(0,0,0,0)');
+  vg.addColorStop(0.65,'rgba(0,0,0,0.15)');
+  vg.addColorStop(1,'rgba(0,0,0,0.75)');
+  ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
 }
 
 function animCanvas(){
   requestAnimationFrame(animCanvas);
-  t += 0.016;
-  ctx.clearRect(0, 0, W, H);
-  drawSky();
-  drawStars();
-  drawMoon();
-  drawPyramid();
-  drawDesert();
-  drawWater();
-  drawParticles();
-  drawVignette();
+  t+=0.016;
+  ctx.clearRect(0,0,W,H);
+  drawSky(); drawStars(); drawMoon();
+  drawPyramid(); drawWater(); drawDust(); drawVignette();
 }
 
 window.addEventListener('resize', resize);
