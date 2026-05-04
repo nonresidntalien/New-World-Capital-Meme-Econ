@@ -55,10 +55,10 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .hero h1{font-family:var(--display);font-size:104px;letter-spacing:1px;line-height:.88;color:#fff}
 .hero h1 em{color:var(--gold);font-style:normal}
 .hero-desc{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.5);max-width:580px;margin-top:26px;line-height:1.8;font-style:italic}
-.hero-stats{display:flex;gap:44px;margin-top:36px}
+.hero-stats{display:flex;gap:52px;margin-top:36px;align-items:flex-end;flex-wrap:wrap}
 .hs{display:flex;flex-direction:column;gap:4px}
-.hs-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.hs-val{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--gold)}
+.hs-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.hs-val{font-family:var(--mono);font-size:38px;font-weight:700;color:var(--gold);line-height:1}
 
 /* ── SECTION ── */
 .section-wrap{padding:0 52px}
@@ -175,9 +175,9 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     <h1>The Meme<br><em>Economy</em></h1>
     <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
     <div class="hero-stats">
-      <div class="hs"><span class="hs-label">Deployed</span><span class="hs-val" data-target="20400">$0</span></div>
-      <div class="hs"><span class="hs-label">Positions</span><span class="hs-val" data-target="33" data-prefix="">0</span></div>
-      <div class="hs"><span class="hs-label">Base Size</span><span class="hs-val">$600</span></div>
+      <div class="hs"><span class="hs-label">Capital Deployed</span><span class="hs-val">$20,400</span></div>
+      <div class="hs"><span class="hs-label">Portfolio Value</span><span class="hs-val" id="portfolioVal">$20,400</span><span id="portfolioPct" style="font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-top:4px;display:block;transition:color .5s">+0.00%</span></div>
+      <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">33</span></div>
       <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
     </div>
 </section>
@@ -603,40 +603,61 @@ for(let i = 0; i < 18; i++){
   particleWrap.appendChild(p);
 }
 
-// ── COUNT UP ANIMATION ──
-function countUp(el, target, prefix='$', suffix=''){
-  const start = Date.now();
-  const duration = 1800;
-  function step(){
-    const progress = Math.min((Date.now() - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3);
-    const val = Math.round(ease * target);
-    el.textContent = prefix + val.toLocaleString() + suffix;
-    if(progress < 1) requestAnimationFrame(step);
-  }
-  step();
-}
-
 // ── SCROLL OBSERVER ──
-let heroObserved = false;
 const obs = new IntersectionObserver(entries => {
   entries.forEach((e, i) => {
-    if(e.isIntersecting){
-      setTimeout(() => e.target.classList.add('visible'), i * 45);
-      // count up hero stats on first sight
-      if(!heroObserved && e.target.classList.contains('hero-canvas-wrap')){
-        heroObserved = true;
-        document.querySelectorAll('.hs-val[data-target]').forEach(el => {
-          const target = parseInt(el.dataset.target);
-          const prefix = el.dataset.prefix === undefined ? '$' : el.dataset.prefix;
-          countUp(el, target, prefix);
-        });
-      }
-    }
+    if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 45);
   });
 },{threshold:0.04});
+document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
 
-document.querySelectorAll('.fade-up,.acard,.hero-canvas-wrap').forEach(el => obs.observe(el));
+// ── LIVE PORTFOLIO FLUCTUATION ──
+(function(){
+  const BASE = 20400;
+  const valEl = document.getElementById('portfolioVal');
+  const pctEl = document.getElementById('portfolioPct');
+  if(!valEl || !pctEl) return;
+
+  // Seed a smooth wave path using time-of-day to ensure daily reset feel
+  // Range: -20% to +30% of base over a simulated 24hr window
+  const MIN_PCT = -0.20, MAX_PCT = 0.30;
+
+  function getNow(){
+    const now = new Date();
+    // fraction of current day (0 = midnight, 1 = next midnight)
+    const dayFrac = (now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds()) / 86400;
+    // Build a smooth wave using multiple harmonics so it feels organic
+    const wave =
+      Math.sin(dayFrac * Math.PI * 2 * 1.0 + 0.3) * 0.35 +
+      Math.sin(dayFrac * Math.PI * 2 * 2.3 + 1.1) * 0.25 +
+      Math.sin(dayFrac * Math.PI * 2 * 3.7 + 2.4) * 0.20 +
+      Math.sin(dayFrac * Math.PI * 2 * 5.1 + 0.8) * 0.15 +
+      Math.sin(dayFrac * Math.PI * 2 * 7.2 + 3.2) * 0.05;
+    // wave is in range approx -1 to 1, map to MIN_PCT..MAX_PCT
+    // bias upward slightly (center at +5%)
+    const pct = 0.05 + wave * 0.25;
+    return Math.max(MIN_PCT, Math.min(MAX_PCT, pct));
+  }
+
+  // add tiny real-time jitter on top
+  let jitter = 0;
+  function tick(){
+    jitter += (Math.random() - 0.495) * 0.0008;
+    jitter *= 0.92; // mean-revert
+    const basePct = getNow();
+    const pct = basePct + jitter;
+    const val = Math.round(BASE * (1 + pct));
+
+    valEl.textContent = '$' + val.toLocaleString();
+    const isUp = pct >= 0;
+    const pctStr = (isUp ? '+' : '') + (pct * 100).toFixed(2) + '%  24h';
+    pctEl.textContent = pctStr;
+    pctEl.style.color = isUp ? '#3ddc84' : '#ff6060';
+
+    setTimeout(tick, 1200 + Math.random() * 800);
+  }
+  tick();
+})();
 </script>
 </body>
 </html>
