@@ -47,9 +47,9 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .nav-links a:hover{color:var(--gold)}
 .nav-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px}
 
-/* ── 3D CANVAS HERO ── */
+/* ── PYRAMID HERO ── */
 .hero-canvas-wrap{position:relative;min-height:520px;overflow:hidden;border-bottom:1px solid var(--border)}
-#heroCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.35}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%}
 .hero-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px}
 .hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
 .hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--gold)}
@@ -317,71 +317,287 @@ const items = tokens.map(t =>
 ).join('');
 tickEl.innerHTML = items + items;
 
-// ── 3D HERO CANVAS (particle grid) ──
+// ── EGYPTIAN PYRAMID SCENE ──
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
-let W, H, dots = [], mouse = {x: -999, y: -999};
+let W, H, waves = [], stars = [], particles = [], t = 0;
 
 function resize(){
   W = canvas.width = canvas.offsetWidth;
   H = canvas.height = canvas.offsetHeight;
-  buildDots();
+  initScene();
 }
 
-function buildDots(){
-  dots = [];
-  const spacing = 52;
-  for(let x = 0; x < W + spacing; x += spacing){
-    for(let y = 0; y < H + spacing; y += spacing){
-      dots.push({ x, y, ox: x, oy: y, vx: 0, vy: 0 });
-    }
+function initScene(){
+  // stars
+  stars = [];
+  for(let i = 0; i < 180; i++){
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H * 0.55,
+      r: Math.random() * 1.2 + 0.2,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.3 + Math.random() * 0.7
+    });
   }
+  // wave layers
+  waves = [
+    { amp:18, freq:0.012, speed:0.018, y:0.72, alpha:0.55, color:'rgba(10,30,55,' },
+    { amp:12, freq:0.018, speed:0.026, y:0.76, alpha:0.65, color:'rgba(8,24,45,' },
+    { amp:8,  freq:0.025, speed:0.034, y:0.80, alpha:0.75, color:'rgba(5,18,35,' },
+    { amp:5,  freq:0.032, speed:0.045, y:0.84, alpha:0.85, color:'rgba(4,14,28,' },
+  ];
+  // floating particles (gold dust)
+  particles = [];
+  for(let i = 0; i < 30; i++){
+    particles.push({
+      x: Math.random() * W,
+      y: H * 0.45 + Math.random() * H * 0.35,
+      size: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -Math.random() * 0.4 - 0.1,
+      alpha: Math.random() * 0.5 + 0.1,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawSky(){
+  const grad = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+  grad.addColorStop(0,   '#000508');
+  grad.addColorStop(0.3, '#020d18');
+  grad.addColorStop(0.6, '#051524');
+  grad.addColorStop(1,   '#0a2035');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H * 0.75);
+}
+
+function drawStars(){
+  stars.forEach(s => {
+    const twinkle = 0.4 + 0.6 * Math.abs(Math.sin(t * s.speed + s.phase));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(220,210,180,${twinkle * 0.85})`;
+    ctx.fill();
+  });
+}
+
+function drawMoon(){
+  const mx = W * 0.78, my = H * 0.14, mr = 38;
+  // glow
+  const glow = ctx.createRadialGradient(mx, my, 0, mx, my, mr * 3.5);
+  glow.addColorStop(0,   'rgba(201,168,76,0.18)');
+  glow.addColorStop(0.4, 'rgba(201,168,76,0.06)');
+  glow.addColorStop(1,   'rgba(201,168,76,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(mx, my, mr * 3.5, 0, Math.PI * 2);
+  ctx.fill();
+  // moon body
+  const moonGrad = ctx.createRadialGradient(mx - 8, my - 8, 2, mx, my, mr);
+  moonGrad.addColorStop(0,   '#f5e8c0');
+  moonGrad.addColorStop(0.5, '#d4b96a');
+  moonGrad.addColorStop(1,   '#a07830');
+  ctx.beginPath();
+  ctx.arc(mx, my, mr, 0, Math.PI * 2);
+  ctx.fillStyle = moonGrad;
+  ctx.fill();
+  // moon craters
+  [[mx+8, my+6, 5], [mx-10, my+12, 3], [mx+18, my-8, 4], [mx-5, my-14, 2.5]].forEach(([cx,cy,cr]) => {
+    ctx.beginPath();
+    ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(120,80,20,0.3)';
+    ctx.fill();
+  });
+}
+
+function drawPyramid(){
+  const cx = W * 0.5;
+  const baseY = H * 0.72;
+  const pw = Math.min(W * 0.55, 600);
+  const ph = pw * 0.72;
+  const apex = { x: cx, y: baseY - ph };
+
+  // pyramid shadow (behind)
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(apex.x, apex.y);
+  ctx.lineTo(apex.x + pw * 0.85, baseY + 12);
+  ctx.lineTo(apex.x + pw * 1.1, baseY + 12);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fill();
+  ctx.restore();
+
+  // main pyramid body gradient (left face)
+  const leftGrad = ctx.createLinearGradient(cx - pw/2, baseY, cx, apex.y);
+  leftGrad.addColorStop(0,   '#1a1208');
+  leftGrad.addColorStop(0.4, '#2a1e0c');
+  leftGrad.addColorStop(1,   '#c9a84c');
+  ctx.beginPath();
+  ctx.moveTo(apex.x, apex.y);
+  ctx.lineTo(cx - pw/2, baseY);
+  ctx.lineTo(cx, baseY);
+  ctx.closePath();
+  ctx.fillStyle = leftGrad;
+  ctx.fill();
+
+  // right face (darker)
+  const rightGrad = ctx.createLinearGradient(cx + pw/2, baseY, cx, apex.y);
+  rightGrad.addColorStop(0,   '#100c04');
+  rightGrad.addColorStop(0.5, '#1e1508');
+  rightGrad.addColorStop(1,   '#8a6428');
+  ctx.beginPath();
+  ctx.moveTo(apex.x, apex.y);
+  ctx.lineTo(cx, baseY);
+  ctx.lineTo(cx + pw/2, baseY);
+  ctx.closePath();
+  ctx.fillStyle = rightGrad;
+  ctx.fill();
+
+  // horizontal stone lines
+  const lines = 14;
+  for(let i = 1; i < lines; i++){
+    const frac = i / lines;
+    const lineY = apex.y + (baseY - apex.y) * frac;
+    const lw = pw * frac;
+    ctx.beginPath();
+    ctx.moveTo(cx - lw/2, lineY);
+    ctx.lineTo(cx + lw/2, lineY);
+    ctx.strokeStyle = `rgba(0,0,0,${0.25 + frac * 0.1})`;
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  }
+
+  // pyramid edge glow (moonlit)
+  ctx.beginPath();
+  ctx.moveTo(apex.x, apex.y);
+  ctx.lineTo(cx - pw/2, baseY);
+  ctx.strokeStyle = 'rgba(201,168,76,0.3)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(apex.x, apex.y);
+  ctx.lineTo(cx + pw/2, baseY);
+  ctx.strokeStyle = 'rgba(201,168,76,0.12)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // apex glow
+  const apexGlow = ctx.createRadialGradient(apex.x, apex.y, 0, apex.x, apex.y, 28);
+  apexGlow.addColorStop(0,   'rgba(201,168,76,0.7)');
+  apexGlow.addColorStop(0.4, 'rgba(201,168,76,0.2)');
+  apexGlow.addColorStop(1,   'rgba(201,168,76,0)');
+  ctx.fillStyle = apexGlow;
+  ctx.beginPath();
+  ctx.arc(apex.x, apex.y, 28, 0, Math.PI * 2);
+  ctx.fill();
+
+  // eye of horus silhouette at center
+  const ey = apex.y + (baseY - apex.y) * 0.45;
+  ctx.save();
+  ctx.globalAlpha = 0.18 + 0.06 * Math.sin(t * 0.8);
+  ctx.beginPath();
+  ctx.ellipse(cx, ey, 18, 10, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, ey, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#c9a84c';
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawDesert(){
+  const baseY = H * 0.72;
+  // sand ground plane
+  const sandGrad = ctx.createLinearGradient(0, baseY, 0, baseY + 20);
+  sandGrad.addColorStop(0, '#1a1208');
+  sandGrad.addColorStop(1, '#0a0a0a');
+  ctx.fillStyle = sandGrad;
+  ctx.fillRect(0, baseY, W, 20);
+}
+
+function drawWater(){
+  waves.forEach((w, wi) => {
+    const baseY = H * w.y;
+    ctx.beginPath();
+    ctx.moveTo(0, baseY);
+    for(let x = 0; x <= W; x += 3){
+      const y = baseY + Math.sin(x * w.freq + t * w.speed + wi) * w.amp
+                      + Math.sin(x * w.freq * 1.7 + t * w.speed * 0.7) * w.amp * 0.4;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
+    ctx.fillStyle = w.color + w.alpha + ')';
+    ctx.fill();
+  });
+
+  // water surface shimmer (moon reflection)
+  const shimmerY = H * 0.74;
+  const reflGrad = ctx.createLinearGradient(W*0.6, shimmerY, W*0.9, shimmerY);
+  reflGrad.addColorStop(0,   'rgba(201,168,76,0)');
+  reflGrad.addColorStop(0.3, 'rgba(201,168,76,0.08)');
+  reflGrad.addColorStop(0.5, 'rgba(201,168,76,0.14)');
+  reflGrad.addColorStop(0.7, 'rgba(201,168,76,0.08)');
+  reflGrad.addColorStop(1,   'rgba(201,168,76,0)');
+  ctx.fillStyle = reflGrad;
+  for(let i = 0; i < 6; i++){
+    const ry = shimmerY + i * 18 + Math.sin(t * 1.2 + i) * 5;
+    ctx.fillRect(W * 0.55, ry, W * 0.35, 1.5);
+  }
+
+  // small wave highlights
+  for(let i = 0; i < 8; i++){
+    const wx = (t * 40 * (i % 2 ? 1 : -1) + i * W / 8) % W;
+    const wy = H * (0.76 + i * 0.018) + Math.sin(t + i) * 6;
+    ctx.beginPath();
+    ctx.moveTo(wx, wy);
+    ctx.bezierCurveTo(wx + 20, wy - 3, wx + 40, wy - 3, wx + 60, wy);
+    ctx.strokeStyle = 'rgba(150,200,255,0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+}
+
+function drawParticles(){
+  particles.forEach(p => {
+    p.x += p.vx + Math.sin(t * 0.5 + p.phase) * 0.3;
+    p.y += p.vy;
+    if(p.y < H * 0.3){ p.y = H * 0.75; p.x = Math.random() * W; }
+    const alpha = p.alpha * (0.5 + 0.5 * Math.sin(t * 0.8 + p.phase));
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,168,76,${alpha})`;
+    ctx.fill();
+  });
+}
+
+function drawVignette(){
+  const vg = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.85);
+  vg.addColorStop(0,   'rgba(0,0,0,0)');
+  vg.addColorStop(0.7, 'rgba(0,0,0,0.2)');
+  vg.addColorStop(1,   'rgba(0,0,0,0.7)');
+  ctx.fillStyle = vg;
+  ctx.fillRect(0, 0, W, H);
 }
 
 function animCanvas(){
   requestAnimationFrame(animCanvas);
+  t += 0.016;
   ctx.clearRect(0, 0, W, H);
-  const t = Date.now() * 0.0005;
-
-  dots.forEach(d => {
-    const dx = d.x - mouse.x, dy = d.y - mouse.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    const force = Math.max(0, 1 - dist / 140);
-    d.vx += (d.ox - d.x) * 0.05 + (force * dx / dist || 0) * 2.5;
-    d.vy += (d.oy - d.y) * 0.05 + (force * dy / dist || 0) * 2.5;
-    d.vx *= 0.78; d.vy *= 0.78;
-    d.x += d.vx; d.y += d.vy;
-    const pulse = 0.5 + 0.5 * Math.sin(t * 2 + d.ox * 0.04 + d.oy * 0.04);
-    const r = 1 + force * 2.5 + pulse * 0.4;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(201,168,76,${0.15 + force * 0.55 + pulse * 0.08})`;
-    ctx.fill();
-  });
-
-  // draw connecting lines between close dots
-  for(let i = 0; i < dots.length; i++){
-    for(let j = i + 1; j < dots.length; j++){
-      const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if(d < 70){
-        ctx.beginPath();
-        ctx.moveTo(dots[i].x, dots[i].y);
-        ctx.lineTo(dots[j].x, dots[j].y);
-        ctx.strokeStyle = `rgba(201,168,76,${(1 - d/70) * 0.07})`;
-        ctx.lineWidth = .5;
-        ctx.stroke();
-      }
-    }
-  }
+  drawSky();
+  drawStars();
+  drawMoon();
+  drawPyramid();
+  drawDesert();
+  drawWater();
+  drawParticles();
+  drawVignette();
 }
 
-canvas.addEventListener('mousemove', e => {
-  const r = canvas.getBoundingClientRect();
-  mouse.x = e.clientX - r.left;
-  mouse.y = e.clientY - r.top;
-});
-canvas.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
 window.addEventListener('resize', resize);
 resize();
 animCanvas();
