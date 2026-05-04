@@ -175,7 +175,7 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     <h1>The Meme<br><em>Economy</em></h1>
     <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
     <div class="hero-stats">
-      <div class="hs"><span class="hs-label">Capital Deployed</span><span class="hs-val">$20,400</span></div>
+      <div class="hs"><span class="hs-label">Capital Deployed</span><span class="hs-val">$20,400.00</span></div>
       <div class="hs"><span class="hs-label">Portfolio Value</span><span class="hs-val" id="portfolioVal">$20,400</span><span id="portfolioPct" style="font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-top:4px;display:block;transition:color .5s">+0.00%</span></div>
       <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">33</span></div>
       <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
@@ -201,9 +201,9 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     </div>
   </div>
   <div class="portfolio-card-right">
-    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$20,400</span></div>
-    <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600</span></div>
-    <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000 × 3</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$20,400.00</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600.00</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000.00 × 3</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Live Prices</span>
       <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:14px;font-weight:700;color:#3ddc84;text-decoration:none;display:flex;align-items:center;gap:6px;margin-top:2px;">
         <span style="width:5px;height:5px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;flex-shrink:0;"></span>
@@ -295,7 +295,7 @@ tokens.forEach(t => {
     <div class="acard-name">${t.name}</div>
     <div class="acard-meta">
       <span class="acard-mcap">MCAP ${t.mcap}</span>
-      <span class="acard-badge" style="${isFeatured ? '' : 'border-color:rgba(201,168,76,0.3);color:var(--gold)'}">$${t.alloc.toLocaleString()}</span>
+      <span class="acard-badge" style="${isFeatured ? '' : 'border-color:rgba(201,168,76,0.3);color:var(--gold)'}">$${t.alloc.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
       ${t.live ? '<span class="acard-arrow">&#8594;</span>' : '<span class="acard-arrow" style="font-size:8px;letter-spacing:1px">SOON</span>'}
     </div>
   `;
@@ -327,6 +327,9 @@ tickEl.innerHTML = items + items;
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
 let W, H, stars = [], waves = [], dustP = [], t = 0;
+let mouseX = window.innerWidth * 0.5, mouseY = window.innerHeight * 0.4;
+let eyeLookX = 0, eyeLookY = 0; // smooth pupil offset
+window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
 function resize(){
   W = canvas.width = window.innerWidth;
@@ -384,143 +387,268 @@ function drawMoon(){
 }
 
 function drawPyramid(){
-  const cx=W*0.5, baseY=H*0.70;
-  const pw=Math.min(W*0.72,720), ph=pw*0.75;
-  const ax=cx, ay=baseY-ph;
+  const cx = W * 0.5;
+  const groundY = H * 0.70;
 
-  // ground beneath pyramid
-  const gg=ctx.createLinearGradient(0,baseY,0,baseY+28);
-  gg.addColorStop(0,'#1c1408'); gg.addColorStop(1,'#080808');
-  ctx.fillStyle=gg; ctx.fillRect(0,baseY,W,28);
+  // Slow camera wobble (4D dimensional feel)
+  const camWobble = Math.sin(t * 0.18) * 0.04;
+  const breathe = 1 + Math.sin(t * 0.22) * 0.012;
 
-  // pyramid shadow cast right
-  ctx.save();
-  ctx.globalAlpha=0.28;
-  ctx.beginPath();
-  ctx.moveTo(ax,ay);
-  ctx.lineTo(cx+pw/2,baseY);
-  ctx.lineTo(Math.min(W,cx+pw*0.95),baseY+16);
-  ctx.lineTo(ax+8,ay+4);
-  ctx.closePath();
-  ctx.fillStyle='#000'; ctx.fill();
-  ctx.restore();
+  // 3D pyramid geometry
+  const S = Math.min(W * 0.30, 300) * breathe;
+  const PH = S * 1.62;
+  const FOV = Math.min(W, H) * 1.1;
 
-  // LEFT FACE (moonlit)
-  const lf=ctx.createLinearGradient(cx-pw/2,baseY,ax,ay);
-  lf.addColorStop(0,'#0e0a04');
-  lf.addColorStop(0.35,'#1e1608');
-  lf.addColorStop(0.7,'#3a2c10');
-  lf.addColorStop(1,'#c9a84c');
-  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx-pw/2,baseY); ctx.lineTo(cx,baseY); ctx.closePath();
-  ctx.fillStyle=lf; ctx.fill();
+  // Slow Y-axis rotation + fixed downward camera tilt
+  const rotY = t * 0.06 + camWobble;
+  const tiltX = 0.38;
+  const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+  const cosX = Math.cos(tiltX), sinX = Math.sin(tiltX);
 
-  // RIGHT FACE (shadow)
-  const rf=ctx.createLinearGradient(cx+pw/2,baseY,ax,ay);
-  rf.addColorStop(0,'#080604');
-  rf.addColorStop(0.5,'#100c06');
-  rf.addColorStop(1,'#6a5020');
-  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx,baseY); ctx.lineTo(cx+pw/2,baseY); ctx.closePath();
-  ctx.fillStyle=rf; ctx.fill();
+  // 3D vertex positions: base corners + apex
+  const V3 = [
+    [-S,  0, -S],  // 0 back-left
+    [ S,  0, -S],  // 1 back-right
+    [ S,  0,  S],  // 2 front-right
+    [-S,  0,  S],  // 3 front-left
+    [ 0, -PH, 0],  // 4 apex
+  ];
 
-  // stone block horizontal lines
-  const rows=18;
-  for(let i=1;i<rows;i++){
-    const fr=i/rows;
-    const ly=ay+(baseY-ay)*fr;
-    const lw=(pw/2)*fr;
-    ctx.beginPath(); ctx.moveTo(cx-lw,ly); ctx.lineTo(cx+lw,ly);
-    ctx.strokeStyle=`rgba(0,0,0,${0.3+fr*0.12})`; ctx.lineWidth=0.8; ctx.stroke();
+  function proj(v){
+    let [x, y, z] = v;
+    const rx = x * cosY + z * sinY;
+    const rz = -x * sinY + z * cosY;
+    const ry2 = y * cosX - rz * sinX;
+    const rz2 = y * sinX + rz * cosX;
+    const d = FOV / (FOV + rz2 + S * 2.8);
+    return { sx: cx + rx * d, sy: groundY - PH * 0.12 + ry2 * d, depth: rz2 };
   }
-  // vertical block joints on left face
-  for(let i=1;i<rows;i++){
-    const fr=i/rows;
-    const ly=ay+(baseY-ay)*fr;
-    const lw=(pw/2)*fr;
-    const jcount=Math.floor(fr*5)+1;
-    for(let j=1;j<jcount;j++){
-      const jx=cx-lw + (lw*j/jcount);
-      ctx.beginPath(); ctx.moveTo(jx,ly); ctx.lineTo(jx,ly+(baseY-ay)/rows);
-      ctx.strokeStyle='rgba(0,0,0,0.2)'; ctx.lineWidth=0.5; ctx.stroke();
+
+  const P = V3.map(proj);
+
+  // Ground strip
+  const gg = ctx.createLinearGradient(0, groundY, 0, groundY + 32);
+  gg.addColorStop(0, '#1c1408'); gg.addColorStop(1, '#080808');
+  ctx.fillStyle = gg; ctx.fillRect(0, groundY, W, 32);
+
+  // Ground shadow ellipse
+  ctx.save();
+  ctx.globalAlpha = 0.32;
+  const shg = ctx.createRadialGradient(cx + S*0.3, groundY + 5, 4, cx + S*0.2, groundY + 4, S * 1.3);
+  shg.addColorStop(0, 'rgba(0,0,0,0.9)'); shg.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.beginPath(); ctx.ellipse(cx + S*0.25, groundY + 6, S * 1.2, 18, 0, 0, Math.PI * 2);
+  ctx.fillStyle = shg; ctx.fill(); ctx.restore();
+
+  // Face definitions with painter's-algo depth sort
+  const faces = [
+    { verts:[P[3],P[0],P[4]], key:'left'  },
+    { verts:[P[1],P[2],P[4]], key:'right' },
+    { verts:[P[0],P[1],P[4]], key:'back'  },
+    { verts:[P[2],P[3],P[4]], key:'front' },
+  ];
+  faces.forEach(f => { f.avgDepth = f.verts.reduce((s,v)=>s+v.depth,0)/f.verts.length; });
+  faces.sort((a,b) => b.avgDepth - a.avgDepth);
+
+  function cross2D(a,b,c){ return (b.sx-a.sx)*(c.sy-a.sy)-(b.sy-a.sy)*(c.sx-a.sx); }
+
+  function stoneFace(f, clipPath){
+    const ap=P[4], bl=f.verts[1], br=f.verts[0]; // verts[0] is one base, verts[1] is next
+    const rows=20;
+    ctx.save(); ctx.beginPath();
+    f.verts.forEach((v,i)=>i===0?ctx.moveTo(v.sx,v.sy):ctx.lineTo(v.sx,v.sy));
+    ctx.closePath(); ctx.clip();
+    for(let i=1;i<rows;i++){
+      const fr=i/rows;
+      const lx=ap.sx+(f.verts[1].sx-ap.sx)*fr, ly=ap.sy+(f.verts[1].sy-ap.sy)*fr;
+      const rx=ap.sx+(f.verts[0].sx-ap.sx)*fr, ry2=ap.sy+(f.verts[0].sy-ap.sy)*fr;
+      ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(rx,ry2);
+      ctx.strokeStyle=`rgba(0,0,0,${0.22+fr*0.18})`; ctx.lineWidth=0.7; ctx.stroke();
     }
+    if(f.key==='left'||f.key==='front'){
+      for(let i=1;i<rows;i++){
+        const fr=i/rows, nFr=(i+1)/rows;
+        const lx=ap.sx+(f.verts[1].sx-ap.sx)*fr, ly=ap.sy+(f.verts[1].sy-ap.sy)*fr;
+        const rx=ap.sx+(f.verts[0].sx-ap.sx)*fr, ry2=ap.sy+(f.verts[0].sy-ap.sy)*fr;
+        const nlx=ap.sx+(f.verts[1].sx-ap.sx)*nFr,nly=ap.sy+(f.verts[1].sy-ap.sy)*nFr;
+        const nrx=ap.sx+(f.verts[0].sx-ap.sx)*nFr,nry=ap.sy+(f.verts[0].sy-ap.sy)*nFr;
+        const jcount=Math.floor(fr*6)+1;
+        for(let j=1;j<jcount;j++){
+          const jf=j/jcount;
+          ctx.beginPath();
+          ctx.moveTo(lx+(rx-lx)*jf, ly+(ry2-ly)*jf);
+          ctx.lineTo(nlx+(nrx-nlx)*jf, nly+(nry-nly)*jf);
+          ctx.strokeStyle='rgba(0,0,0,0.14)'; ctx.lineWidth=0.35; ctx.stroke();
+        }
+      }
+    }
+    ctx.restore();
   }
 
-  // left edge glow
-  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx-pw/2,baseY);
-  ctx.strokeStyle='rgba(201,168,76,0.45)'; ctx.lineWidth=2; ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(cx+pw/2,baseY);
-  ctx.strokeStyle='rgba(201,168,76,0.12)'; ctx.lineWidth=1; ctx.stroke();
+  faces.forEach(f => {
+    const norm = cross2D(f.verts[0], f.verts[1], f.verts[2]);
+    ctx.save();
+    ctx.beginPath();
+    f.verts.forEach((v,i)=>i===0?ctx.moveTo(v.sx,v.sy):ctx.lineTo(v.sx,v.sy));
+    ctx.closePath();
 
-  // apex star glow
-  const ag=ctx.createRadialGradient(ax,ay,0,ax,ay,40);
-  ag.addColorStop(0,'rgba(201,168,76,0.9)');
-  ag.addColorStop(0.3,'rgba(201,168,76,0.3)');
+    const pulseDim = 0.88 + 0.12*Math.sin(t*0.31);
+    if(norm > 0){ // back-facing, very dark
+      ctx.fillStyle='rgba(3,2,1,0.97)'; ctx.fill();
+    } else if(f.key==='left'){
+      const grd=ctx.createLinearGradient(P[3].sx,P[3].sy,P[4].sx,P[4].sy);
+      grd.addColorStop(0,'#0a0702'); grd.addColorStop(0.3,'#1e1608');
+      grd.addColorStop(0.65,'#3e2e0e'); grd.addColorStop(0.88,'#8a6828'); grd.addColorStop(1,'#c9a84c');
+      ctx.fillStyle=grd; ctx.fill();
+    } else if(f.key==='front'){
+      const grd=ctx.createLinearGradient(P[3].sx,groundY,P[4].sx,P[4].sy);
+      grd.addColorStop(0,`rgba(${Math.floor(28*pulseDim)},${Math.floor(20*pulseDim)},${Math.floor(6*pulseDim)},0.97)`);
+      grd.addColorStop(1,`rgba(${Math.floor(60*pulseDim)},${Math.floor(44*pulseDim)},${Math.floor(12*pulseDim)},0.97)`);
+      ctx.fillStyle=grd; ctx.fill();
+    } else if(f.key==='right'){
+      ctx.fillStyle=`rgba(${Math.floor(16*pulseDim)},${Math.floor(12*pulseDim)},${Math.floor(3*pulseDim)},0.97)`;
+      ctx.fill();
+    } else {
+      ctx.fillStyle='rgba(8,6,2,0.97)'; ctx.fill();
+    }
+
+    if(norm <= 0) stoneFace(f);
+
+    // Edge glow
+    if(f.key==='left'&&norm<=0){
+      ctx.beginPath(); ctx.moveTo(P[4].sx,P[4].sy); ctx.lineTo(P[3].sx,P[3].sy);
+      ctx.strokeStyle='rgba(201,168,76,0.6)'; ctx.lineWidth=1.8; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(P[4].sx,P[4].sy); ctx.lineTo(P[0].sx,P[0].sy);
+      ctx.strokeStyle='rgba(201,168,76,0.2)'; ctx.lineWidth=1.0; ctx.stroke();
+    }
+    if(f.key==='front'&&norm<=0){
+      ctx.beginPath(); ctx.moveTo(P[4].sx,P[4].sy); ctx.lineTo(P[2].sx,P[2].sy);
+      ctx.strokeStyle='rgba(201,168,76,0.25)'; ctx.lineWidth=1.0; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(P[4].sx,P[4].sy); ctx.lineTo(P[3].sx,P[3].sy);
+      ctx.strokeStyle='rgba(201,168,76,0.18)'; ctx.lineWidth=0.8; ctx.stroke();
+    }
+    ctx.restore();
+  });
+
+  // Apex glow
+  const apX=P[4].sx, apY=P[4].sy;
+  const apulse=0.72+0.28*Math.sin(t*1.4);
+  const ag=ctx.createRadialGradient(apX,apY,0,apX,apY,60);
+  ag.addColorStop(0,`rgba(201,168,76,${0.95*apulse})`);
+  ag.addColorStop(0.25,`rgba(201,168,76,${0.38*apulse})`);
+  ag.addColorStop(0.6,`rgba(201,168,76,${0.10*apulse})`);
   ag.addColorStop(1,'rgba(201,168,76,0)');
-  ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(ax,ay,40,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(apX,apY,60,0,Math.PI*2); ctx.fill();
 
-  // ── GLOWING EYE OF HORUS ──
-  const ey_cx = cx, ey_cy = ay + (baseY-ay)*0.38;
-  const eyeW = pw*0.10, eyeH = eyeW*0.44;
-  const eyePulse = 0.7 + 0.3*Math.sin(t*1.1);
-  const eyePulse2 = 0.5 + 0.5*Math.sin(t*0.6);
+  // Rotating capstone
+  const capSize=4+3*apulse;
+  ctx.save(); ctx.translate(apX,apY); ctx.rotate(t*0.4);
+  ctx.beginPath();
+  for(let i=0;i<4;i++){
+    const a=(i/4)*Math.PI*2-Math.PI/4;
+    i===0?ctx.moveTo(Math.cos(a)*capSize,Math.sin(a)*capSize):ctx.lineTo(Math.cos(a)*capSize,Math.sin(a)*capSize);
+  }
+  ctx.closePath(); ctx.fillStyle=`rgba(255,220,80,${apulse})`; ctx.fill(); ctx.restore();
 
-  // outer glow rings
-  for(let ring=4;ring>=1;ring--){
-    const rg=ctx.createRadialGradient(ey_cx,ey_cy,0,ey_cx,ey_cy,eyeW*(0.8+ring*0.7));
-    rg.addColorStop(0,`rgba(201,168,76,${0.12*eyePulse/ring})`);
+  // Dimensional shimmer (4D feel)
+  const shimA=0.055+0.04*Math.sin(t*0.7);
+  const shimGrd=ctx.createLinearGradient(apX-S,apY,apX+S,groundY);
+  shimGrd.addColorStop(0,'rgba(201,168,76,0)');
+  shimGrd.addColorStop(0.3+0.2*Math.sin(t*0.5),`rgba(201,168,76,${shimA})`);
+  shimGrd.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.save(); ctx.globalCompositeOperation='screen';
+  ctx.fillStyle=shimGrd;
+  ctx.beginPath(); ctx.moveTo(apX,apY); ctx.lineTo(P[3].sx,groundY); ctx.lineTo(P[2].sx,groundY); ctx.closePath();
+  ctx.fill(); ctx.restore();
+
+  // ── EYE OF PROVIDENCE (mouse-tracking) ──
+  const eyeCX = cx + Math.sin(rotY) * S * 0.05;
+  const eyeCY = apY + (groundY - apY) * 0.36;
+  const eyeW = S * 0.26, eyeH = eyeW * 0.42;
+  const eyePulse = 0.72 + 0.28*Math.sin(t*1.1);
+
+  // Smooth pupil lerp toward mouse
+  const dx = mouseX - eyeCX, dy = mouseY - eyeCY;
+  const dist = Math.sqrt(dx*dx+dy*dy)||1;
+  const maxT = eyeH * 0.38;
+  const tLX = (dx/dist)*Math.min(dist*0.04,maxT);
+  const tLY = (dy/dist)*Math.min(dist*0.04,maxT);
+  eyeLookX += (tLX - eyeLookX) * 0.06;
+  eyeLookY += (tLY - eyeLookY) * 0.06;
+  const pupilX = eyeCX + eyeLookX, pupilY = eyeCY + eyeLookY;
+
+  // Outer glow rings
+  for(let ring=5;ring>=1;ring--){
+    const rg=ctx.createRadialGradient(eyeCX,eyeCY,0,eyeCX,eyeCY,eyeW*(0.7+ring*0.75));
+    rg.addColorStop(0,`rgba(201,168,76,${0.14*eyePulse/ring})`);
     rg.addColorStop(1,'rgba(201,168,76,0)');
-    ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeW*(0.8+ring*0.7),0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeW*(0.7+ring*0.75),0,Math.PI*2); ctx.fill();
   }
 
-  // eye whites
+  // Rhombus frame (eye of providence shape)
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(eyeCX-eyeW*1.25,eyeCY);
+  ctx.quadraticCurveTo(eyeCX,eyeCY-eyeH*1.8,eyeCX+eyeW*1.25,eyeCY);
+  ctx.quadraticCurveTo(eyeCX,eyeCY+eyeH*1.8,eyeCX-eyeW*1.25,eyeCY);
+  ctx.closePath();
+  ctx.strokeStyle=`rgba(201,168,76,${0.35*eyePulse})`; ctx.lineWidth=1.0; ctx.stroke(); ctx.restore();
+
+  // Eye socket
   ctx.save();
-  ctx.beginPath();
-  ctx.ellipse(ey_cx,ey_cy,eyeW,eyeH,0,0,Math.PI*2);
-  ctx.fillStyle=`rgba(255,220,100,${0.18*eyePulse})`;
-  ctx.fill();
+  ctx.beginPath(); ctx.ellipse(eyeCX,eyeCY,eyeW,eyeH,0,0,Math.PI*2);
+  ctx.fillStyle='rgba(10,6,0,0.85)'; ctx.fill();
 
-  // iris
-  const iris=ctx.createRadialGradient(ey_cx,ey_cy,0,ey_cx,ey_cy,eyeH*0.75);
-  iris.addColorStop(0,`rgba(255,230,80,${eyePulse})`);
-  iris.addColorStop(0.4,`rgba(201,140,20,${eyePulse})`);
-  iris.addColorStop(0.8,`rgba(120,70,0,${eyePulse})`);
+  // Iris (shifts with pupil for parallax)
+  const iris=ctx.createRadialGradient(pupilX,pupilY,0,eyeCX,eyeCY,eyeH*0.82);
+  iris.addColorStop(0,`rgba(255,235,90,${eyePulse})`);
+  iris.addColorStop(0.3,`rgba(220,160,20,${eyePulse})`);
+  iris.addColorStop(0.65,`rgba(140,80,5,${eyePulse})`);
+  iris.addColorStop(0.9,`rgba(60,30,0,${eyePulse*0.8})`);
   iris.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.75,0,Math.PI*2);
-  ctx.fillStyle=iris; ctx.fill();
+  ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeH*0.82,0,Math.PI*2); ctx.fillStyle=iris; ctx.fill();
 
-  // pupil
-  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.28,0,Math.PI*2);
-  ctx.fillStyle=`rgba(0,0,0,${0.9*eyePulse2})`; ctx.fill();
+  // Iris ring details
+  for(let r=0;r<3;r++){
+    ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeH*(0.5+r*0.11),0,Math.PI*2);
+    ctx.strokeStyle=`rgba(0,0,0,${0.15+r*0.08})`; ctx.lineWidth=0.5; ctx.stroke();
+  }
 
-  // pupil inner glow
-  ctx.beginPath(); ctx.arc(ey_cx,ey_cy,eyeH*0.1,0,Math.PI*2);
-  ctx.fillStyle=`rgba(255,200,50,${0.9*eyePulse})`; ctx.fill();
+  // Pupil (tracks mouse)
+  ctx.beginPath(); ctx.arc(pupilX,pupilY,eyeH*0.30,0,Math.PI*2);
+  ctx.fillStyle='rgba(0,0,0,0.92)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(pupilX,pupilY,eyeH*0.30,0,Math.PI*2);
+  ctx.strokeStyle='rgba(40,20,0,0.6)'; ctx.lineWidth=1.0; ctx.stroke();
+  // Main shine
+  ctx.beginPath(); ctx.arc(pupilX-eyeH*0.06,pupilY-eyeH*0.07,eyeH*0.09,0,Math.PI*2);
+  ctx.fillStyle=`rgba(255,210,60,${0.85*eyePulse})`; ctx.fill();
+  // Secondary glint
+  ctx.beginPath(); ctx.arc(pupilX+eyeH*0.08,pupilY+eyeH*0.06,eyeH*0.04,0,Math.PI*2);
+  ctx.fillStyle=`rgba(255,255,200,${0.4*eyePulse})`; ctx.fill();
 
-  // eye outline
-  ctx.beginPath(); ctx.ellipse(ey_cx,ey_cy,eyeW,eyeH,0,0,Math.PI*2);
-  ctx.strokeStyle=`rgba(201,168,76,${0.8*eyePulse})`; ctx.lineWidth=1.5; ctx.stroke();
-
-  // kohl lines (egyptian eye markings)
-  ctx.beginPath();
-  ctx.moveTo(ey_cx-eyeW,ey_cy);
-  ctx.lineTo(ey_cx-eyeW-eyeW*0.5,ey_cy+eyeH*0.6);
-  ctx.strokeStyle=`rgba(201,168,76,${0.5*eyePulse})`; ctx.lineWidth=1.2; ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(ey_cx+eyeW,ey_cy);
-  ctx.lineTo(ey_cx+eyeW+eyeW*0.3,ey_cy-eyeH*0.4);
-  ctx.stroke();
-
-  // light beam from eye downward
-  const bgrad=ctx.createLinearGradient(ey_cx,ey_cy,ey_cx+40,baseY);
-  bgrad.addColorStop(0,`rgba(201,168,76,${0.2*eyePulse})`);
-  bgrad.addColorStop(1,'rgba(201,168,76,0)');
-  ctx.beginPath();
-  ctx.moveTo(ey_cx-8,ey_cy+eyeH);
-  ctx.lineTo(ey_cx+60,baseY);
-  ctx.lineTo(ey_cx+8,baseY);
-  ctx.lineTo(ey_cx-4,ey_cy+eyeH);
-  ctx.fillStyle=bgrad; ctx.fill();
-
+  // Eye almond outline
+  ctx.beginPath(); ctx.ellipse(eyeCX,eyeCY,eyeW,eyeH,0,0,Math.PI*2);
+  ctx.strokeStyle=`rgba(201,168,76,${0.85*eyePulse})`; ctx.lineWidth=1.6; ctx.stroke();
   ctx.restore();
+
+  // Kohl markings
+  ctx.save(); ctx.strokeStyle=`rgba(201,168,76,${0.55*eyePulse})`; ctx.lineWidth=1.3;
+  ctx.beginPath(); ctx.moveTo(eyeCX-eyeW,eyeCY);
+  ctx.bezierCurveTo(eyeCX-eyeW*1.25,eyeCY+eyeH*0.3,eyeCX-eyeW*1.5,eyeCY+eyeH*0.7,eyeCX-eyeW*1.65,eyeCY+eyeH);
+  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(eyeCX+eyeW,eyeCY);
+  ctx.bezierCurveTo(eyeCX+eyeW*1.2,eyeCY-eyeH*0.25,eyeCX+eyeW*1.45,eyeCY-eyeH*0.5,eyeCX+eyeW*1.55,eyeCY-eyeH*0.65);
+  ctx.stroke(); ctx.restore();
+
+  // Light beam from eye
+  const bgrad=ctx.createLinearGradient(eyeCX,eyeCY,eyeCX+eyeW*0.6,groundY);
+  bgrad.addColorStop(0,`rgba(201,168,76,${0.28*eyePulse})`);
+  bgrad.addColorStop(0.5,`rgba(201,168,76,${0.08*eyePulse})`);
+  bgrad.addColorStop(1,'rgba(201,168,76,0)');
+  ctx.save(); ctx.globalCompositeOperation='screen';
+  ctx.beginPath();
+  ctx.moveTo(eyeCX-eyeW*0.4,eyeCY+eyeH);
+  ctx.lineTo(eyeCX+eyeW*1.2,groundY); ctx.lineTo(eyeCX+eyeW*0.3,groundY);
+  ctx.lineTo(eyeCX-eyeW*0.1,eyeCY+eyeH);
+  ctx.fillStyle=bgrad; ctx.fill(); ctx.restore();
 }
 
 function drawWater(){
@@ -646,9 +774,9 @@ document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
     jitter *= 0.92; // mean-revert
     const basePct = getNow();
     const pct = basePct + jitter;
-    const val = Math.round(BASE * (1 + pct));
+    const val = BASE * (1 + pct);
 
-    valEl.textContent = '$' + val.toLocaleString();
+    valEl.textContent = '$' + val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
     const isUp = pct >= 0;
     const pctStr = (isUp ? '+' : '') + (pct * 100).toFixed(2) + '%  24h';
     pctEl.textContent = pctStr;
