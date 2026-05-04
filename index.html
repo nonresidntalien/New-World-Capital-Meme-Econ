@@ -28,7 +28,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--serif);overflow-x:hidden}
 
-/* TICKER */
+/* ── TICKER ── */
 .ticker-wrap{position:sticky;top:0;z-index:200;background:#050505;border-bottom:1px solid var(--border);display:flex;align-items:center;height:34px;overflow:hidden}
 .ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
 .ticker-track{overflow:hidden;flex:1}
@@ -39,7 +39,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--serif);overflow-x:
 .tick-item .sep{color:var(--muted2);margin:0 10px}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* NAV */
+/* ── NAV ── */
 nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0 52px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:34px;z-index:199;backdrop-filter:blur(12px)}
 .nav-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .nav-links{display:flex;gap:32px}
@@ -47,31 +47,30 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .nav-links a:hover{color:var(--gold)}
 .nav-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px}
 
-/* HERO */
-.hero{min-height:500px;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
-.hero-radial{position:absolute;inset:0;background:radial-gradient(ellipse 80% 55% at 65% 25%,rgba(201,168,76,0.055) 0%,transparent 65%),linear-gradient(180deg,#0a0a0a 0%,var(--bg) 100%);pointer-events:none}
-.hero-wm{position:absolute;font-family:var(--display);font-size:300px;letter-spacing:-6px;color:rgba(201,168,76,0.02);bottom:-30px;right:-10px;pointer-events:none;user-select:none;line-height:1}
+/* ── 3D CANVAS HERO ── */
+.hero-canvas-wrap{position:relative;min-height:520px;overflow:hidden;border-bottom:1px solid var(--border)}
+#heroCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.35}
+.hero-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px}
 .hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
 .hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--gold)}
-.hero h1{font-family:var(--display);font-size:104px;letter-spacing:1px;line-height:.88;color:#fff;position:relative;z-index:1}
+.hero h1{font-family:var(--display);font-size:104px;letter-spacing:1px;line-height:.88;color:#fff}
 .hero h1 em{color:var(--gold);font-style:normal}
-.hero-desc{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.5);max-width:580px;margin-top:26px;line-height:1.8;font-style:italic;position:relative;z-index:1}
-.hero-stats{display:flex;gap:44px;margin-top:36px;position:relative;z-index:1}
+.hero-desc{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.5);max-width:580px;margin-top:26px;line-height:1.8;font-style:italic}
+.hero-stats{display:flex;gap:44px;margin-top:36px}
 .hs{display:flex;flex-direction:column;gap:4px}
 .hs-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
 .hs-val{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--gold)}
 
-/* SECTION */
+/* ── SECTION ── */
 .section-wrap{padding:0 52px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;padding:44px 0 0;margin-bottom:28px}
 .sec-title{font-family:var(--display);font-size:40px;letter-spacing:2px;color:#fff}
 .sec-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px}
 
-/* PORTFOLIO CARD */
-.portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(201,168,76,0.03);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s;position:relative;overflow:hidden}
+/* ── PORTFOLIO CARD ── */
+.portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(201,168,76,0.03);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d}
 .portfolio-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
-.portfolio-card:hover{background:rgba(201,168,76,0.06)}
+.portfolio-card:hover{background:rgba(201,168,76,0.06);transform:translateY(-3px);box-shadow:0 12px 48px rgba(201,168,76,0.08)}
 .portfolio-card-left{padding:40px 48px;flex:1}
 .portfolio-card-right{padding:40px 48px;border-left:1px solid var(--border2);display:flex;flex-direction:column;justify-content:center;gap:24px;min-width:280px}
 .pc-cat{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
@@ -86,16 +85,18 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .pc-arrow{font-family:var(--mono);font-size:13px;color:var(--muted2);margin-top:8px;transition:all .25s}
 .portfolio-card:hover .pc-arrow{color:var(--gold);transform:translateX(5px)}
 
-/* ARTICLE GRID */
+/* ── ARTICLE GRID ── */
 .article-grid{padding:0 52px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2)}
 @media(max-width:1100px){.article-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.article-grid{grid-template-columns:1fr}}
 
-/* ARTICLE CARD */
-.acard{background:var(--bg2);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s;position:relative;overflow:hidden}
+/* ── ARTICLE CARD ── */
+.acard{background:var(--bg2);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d;cursor:pointer}
 .acard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
-.acard:hover{background:var(--bg3)}
+.acard::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,168,76,0.06) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.acard:hover{background:var(--bg3);transform:translateY(-4px) rotateX(2deg);box-shadow:0 16px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.12)}
 .acard:hover::after{transform:scaleX(1)}
+.acard:hover::before{opacity:1}
 .acard.live .acard-status{color:var(--green)}
 .acard.pending{opacity:.45;pointer-events:none}
 .acard.pending .acard-status{color:var(--muted)}
@@ -111,27 +112,43 @@ nav{background:rgba(7,7,7,0.97);border-bottom:1px solid var(--border2);padding:0
 .acard-arrow{font-family:var(--mono);font-size:11px;color:var(--muted2);transition:all .25s}
 .acard:hover .acard-arrow{color:var(--gold);transform:translateX(4px)}
 
-/* MANDATE */
-.mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden}
+/* ── LIVE PULSE ── */
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.acard.live .acard-status::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s ease-in-out infinite;vertical-align:middle}
+
+/* ── FLOATING PARTICLES ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;background:var(--gold);animation:float linear infinite;opacity:0}
+@keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.4}90%{opacity:.1}100%{transform:translateY(-100px) rotate(720deg);opacity:0}}
+
+/* ── MANDATE ── */
+.mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden;transition:box-shadow .3s}
+.mandate:hover{box-shadow:0 0 60px rgba(201,168,76,0.06) inset}
 .mandate-wm{position:absolute;font-family:var(--display);font-size:150px;color:rgba(201,168,76,0.025);right:40px;top:50%;transform:translateY(-50%);pointer-events:none;letter-spacing:4px;white-space:nowrap}
 .mandate-lbl{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:14px}
 .mandate-title{font-family:var(--display);font-size:44px;letter-spacing:2px;color:#fff;margin-bottom:20px}
 .mandate-body{font-family:var(--serif);font-size:17px;color:rgba(232,224,208,0.55);font-style:italic;max-width:640px;line-height:1.8;margin-bottom:16px}
 .mandate-sig{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:28px;padding-top:22px;border-top:1px solid var(--border2)}
 
-/* FOOTER */
+/* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify-content:space-between;align-items:center}
 .footer-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .footer-note{font-family:var(--mono);font-size:8px;color:var(--muted);text-align:right;line-height:2;letter-spacing:.5px}
 
-/* ANIMS */
+/* ── COUNT UP NUMBERS ── */
+.count-val{display:inline-block;transition:color .3s}
+
+/* ── SCROLL ANIMS ── */
 .fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
 .fade-up.visible{opacity:1;transform:translateY(0)}
-.acard{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s ease,background .2s}
-.acard.visible{opacity:1;transform:translateY(0)}
+.acard{opacity:0;transform:translateY(14px) rotateX(8deg);transition:opacity .45s ease,transform .45s ease,background .2s,box-shadow .3s}
+.acard.visible{opacity:1;transform:translateY(0) rotateX(0)}
 </style>
 </head>
 <body>
+
+<!-- FLOATING PARTICLES -->
+<div id="particles"></div>
 
 <!-- TICKER -->
 <div class="ticker-wrap">
@@ -152,38 +169,38 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
   <div class="nav-ref">NWC · MEME ECONOMY</div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-radial"></div>
-  <div class="hero-wm">MEME</div>
-  <div class="hero-eyebrow">New World Capital · Meme Economy</div>
-  <h1>The Meme<br><em>Economy</em></h1>
-  <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation -- observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
-  <div class="hero-stats">
-    <div class="hs"><span class="hs-label">Deployed</span><span class="hs-val">$19,800</span></div>
-    <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">31</span></div>
-    <div class="hs"><span class="hs-label">Base Size</span><span class="hs-val">$600</span></div>
-    <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
+<!-- HERO WITH 3D CANVAS -->
+<section class="hero-canvas-wrap">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-content hero">
+    <div class="hero-eyebrow">New World Capital · Meme Economy</div>
+    <h1>The Meme<br><em>Economy</em></h1>
+    <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
+    <div class="hero-stats">
+      <div class="hs"><span class="hs-label">Deployed</span><span class="hs-val" data-target="20400">$0</span></div>
+      <div class="hs"><span class="hs-label">Positions</span><span class="hs-val" data-target="33" data-prefix="">0</span></div>
+      <div class="hs"><span class="hs-label">Base Size</span><span class="hs-val">$600</span></div>
+      <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
+    </div>
   </div>
 </section>
 
-<!-- PORTFOLIO LINK -->
+<!-- PORTFOLIO -->
 <div class="section-wrap fade-up" id="portfolio">
   <div class="section-header">
     <div class="sec-title">Breadth Map</div>
-    <div class="sec-sub">31 POSITIONS · $19,800 DEPLOYED · APR 23, 2026</div>
+    <div class="sec-sub">33 POSITIONS · $20,400 DEPLOYED · MAY 04, 2026</div>
   </div>
 </div>
 
 <a class="portfolio-card fade-up" href="nwc_sol_portfolio.html">
   <div class="portfolio-card-left">
     <div class="pc-cat"><span class="pc-dot"></span>Portfolio · Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
-    <h2>Thirty-One at the Line</h2>
-    <p>31-position equal-weight deployment across the lower stratum of the Solana meme ecosystem. $600 base per position. Three featured positions at $1,000. The portfolio is the thesis -- equal weight, no prediction, maximum surface area.</p>
+    <h2>Thirty-Three at the Line</h2>
+    <p>33-position equal-weight deployment across the lower stratum of the Solana meme ecosystem. $600 base per position. Three featured positions at $1,000. The portfolio is the thesis. Equal weight, no prediction, maximum surface area.</p>
   </div>
   <div class="portfolio-card-right">
-    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$19,800</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$20,400</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000 × 3</span></div>
     <div class="pc-arrow">&#8594;</div>
@@ -206,8 +223,8 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
   <div class="mandate-lbl">NWC MANDATE</div>
   <div class="mandate-title">Attention Into Liquidity</div>
   <p class="mandate-body">New World Capital's meme coin allocation is not framed as speculative novelty. It is a deliberate exposure to emergent attention markets where narrative, coordination, and liquidity interact in real time. The portfolio is both capital deployment and observational infrastructure.</p>
-  <p class="mandate-body">The objective is not only to capture asymmetric returns, but to map the conditions under which these markets emerge, sustain themselves, and in rare cases -- persist.</p>
-  <div class="mandate-sig">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; APR 23, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
+  <p class="mandate-body">The objective is not only to capture asymmetric returns, but to map the conditions under which these markets emerge, sustain themselves, and in rare cases, persist.</p>
+  <div class="mandate-sig">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; MAY 04, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
 </div>
 
 <footer>
@@ -219,6 +236,7 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 </footer>
 
 <script>
+// ── TOKEN DATA ──
 const tokens = [
   { n:1,  ticker:'1SOL',       name:'1 Sol and a Dream',              mcap:'$17K',  alloc:600,  file:'nwc-sol-1sol.html',       live:true },
   { n:2,  ticker:'WIZARD',     name:'Smoking Wizard',                 mcap:'$261K', alloc:600,  file:'nwc-sol-wizard.html',     live:false },
@@ -252,9 +270,10 @@ const tokens = [
   { n:30, ticker:'Cope',       name:'Cope',                           mcap:'$107K', alloc:600,  file:'nwc-sol-cope.html',       live:true },
   { n:31, ticker:'underclass', name:'escape the permanent underclass',mcap:'$88K',  alloc:600,  file:'nwc-sol-underclass.html', live:true },
   { n:32, ticker:'CHUDBOB',   name:'Chudbob Soypants',               mcap:'$40K',  alloc:600,  file:'nwc-sol-chudbob.html',    live:true },
+  { n:33, ticker:'SHOEBILL',  name:'The Shoebill',                   mcap:'$135K', alloc:600,  file:'nwc-sol-shoebill.html',   live:true },
 ];
 
-// Build grid
+// ── BUILD GRID ──
 const grid = document.getElementById('articleGrid');
 tokens.forEach(t => {
   const isFeatured = t.alloc === 1000;
@@ -274,23 +293,149 @@ tokens.forEach(t => {
       ${t.live ? '<span class="acard-arrow">&#8594;</span>' : '<span class="acard-arrow" style="font-size:8px;letter-spacing:1px">SOON</span>'}
     </div>
   `;
+  // 3D tilt on live cards
+  if(t.live){
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      el.style.transform = `translateY(-4px) rotateX(${(y - 0.5) * -6}deg) rotateY(${(x - 0.5) * 6}deg)`;
+      el.style.setProperty('--mx', x * 100 + '%');
+      el.style.setProperty('--my', y * 100 + '%');
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+    });
+  }
   grid.appendChild(el);
 });
 
-// Ticker
+// ── TICKER ──
 const tickEl = document.getElementById('tickerEl');
 const items = tokens.map(t =>
   `<span class="tick-item"><b>${t.ticker}</b><span class="sep">·</span>${t.name}<span class="sep">·</span>${t.mcap}</span>`
 ).join('');
 tickEl.innerHTML = items + items;
 
-// Scroll anims
+// ── 3D HERO CANVAS (particle grid) ──
+const canvas = document.getElementById('heroCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, dots = [], mouse = {x: -999, y: -999};
+
+function resize(){
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+  buildDots();
+}
+
+function buildDots(){
+  dots = [];
+  const spacing = 52;
+  for(let x = 0; x < W + spacing; x += spacing){
+    for(let y = 0; y < H + spacing; y += spacing){
+      dots.push({ x, y, ox: x, oy: y, vx: 0, vy: 0 });
+    }
+  }
+}
+
+function animCanvas(){
+  requestAnimationFrame(animCanvas);
+  ctx.clearRect(0, 0, W, H);
+  const t = Date.now() * 0.0005;
+
+  dots.forEach(d => {
+    const dx = d.x - mouse.x, dy = d.y - mouse.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const force = Math.max(0, 1 - dist / 140);
+    d.vx += (d.ox - d.x) * 0.05 + (force * dx / dist || 0) * 2.5;
+    d.vy += (d.oy - d.y) * 0.05 + (force * dy / dist || 0) * 2.5;
+    d.vx *= 0.78; d.vy *= 0.78;
+    d.x += d.vx; d.y += d.vy;
+    const pulse = 0.5 + 0.5 * Math.sin(t * 2 + d.ox * 0.04 + d.oy * 0.04);
+    const r = 1 + force * 2.5 + pulse * 0.4;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(201,168,76,${0.15 + force * 0.55 + pulse * 0.08})`;
+    ctx.fill();
+  });
+
+  // draw connecting lines between close dots
+  for(let i = 0; i < dots.length; i++){
+    for(let j = i + 1; j < dots.length; j++){
+      const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if(d < 70){
+        ctx.beginPath();
+        ctx.moveTo(dots[i].x, dots[i].y);
+        ctx.lineTo(dots[j].x, dots[j].y);
+        ctx.strokeStyle = `rgba(201,168,76,${(1 - d/70) * 0.07})`;
+        ctx.lineWidth = .5;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+canvas.addEventListener('mousemove', e => {
+  const r = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - r.left;
+  mouse.y = e.clientY - r.top;
+});
+canvas.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+window.addEventListener('resize', resize);
+resize();
+animCanvas();
+
+// ── FLOATING PARTICLES ──
+const particleWrap = document.getElementById('particles');
+for(let i = 0; i < 18; i++){
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 2 + 1;
+  p.style.cssText = `
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;
+    animation-duration:${12 + Math.random()*20}s;
+    animation-delay:${Math.random()*15}s;
+    opacity:0;
+  `;
+  particleWrap.appendChild(p);
+}
+
+// ── COUNT UP ANIMATION ──
+function countUp(el, target, prefix='$', suffix=''){
+  const start = Date.now();
+  const duration = 1800;
+  function step(){
+    const progress = Math.min((Date.now() - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(ease * target);
+    el.textContent = prefix + val.toLocaleString() + suffix;
+    if(progress < 1) requestAnimationFrame(step);
+  }
+  step();
+}
+
+// ── SCROLL OBSERVER ──
+let heroObserved = false;
 const obs = new IntersectionObserver(entries => {
-  entries.forEach((e,i) => {
-    if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 45);
+  entries.forEach((e, i) => {
+    if(e.isIntersecting){
+      setTimeout(() => e.target.classList.add('visible'), i * 45);
+      // count up hero stats on first sight
+      if(!heroObserved && e.target.classList.contains('hero-canvas-wrap')){
+        heroObserved = true;
+        document.querySelectorAll('.hs-val[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target);
+          const prefix = el.dataset.prefix === undefined ? '$' : el.dataset.prefix;
+          countUp(el, target, prefix);
+        });
+      }
+    }
   });
 },{threshold:0.04});
-document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
+
+document.querySelectorAll('.fade-up,.acard,.hero-canvas-wrap').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
