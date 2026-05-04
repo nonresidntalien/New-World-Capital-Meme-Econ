@@ -159,7 +159,7 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 
 <!-- NAV -->
 <nav>
-  <div class="nav-brand">NEW WORLD CAPITAL</div>
+  <a href="index.html" class="nav-brand" style="text-decoration:none;">NEW WORLD CAPITAL</a>
   <div class="nav-links">
     <a href="#portfolio">Portfolio</a>
     <a href="#articles">Articles</a>
@@ -190,19 +190,28 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
   </div>
 </div>
 
-<a class="portfolio-card fade-up" href="nwc_sol_portfolio.html">
+<div class="portfolio-card fade-up" style="cursor:default;">
   <div class="portfolio-card-left">
     <div class="pc-cat"><span class="pc-dot"></span>Portfolio · Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
     <h2>Thirty-Three at the Line</h2>
     <p>33-position equal-weight deployment across the lower stratum of the Solana meme ecosystem. $600 base per position. Three featured positions at $1,000. The portfolio is the thesis. Equal weight, no prediction, maximum surface area.</p>
+    <div style="margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="nwc_sol_portfolio.html" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-block;" onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='transparent'">&#8594; Full Archive</a>
+      <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#3ddc84;text-decoration:none;border:1px solid rgba(61,220,132,0.25);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(61,220,132,0.06)'" onmouseout="this.style.background='transparent'"><span style="width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;display:inline-block;"></span>Live Watchlist · DEX Screener</a>
+    </div>
   </div>
   <div class="portfolio-card-right">
     <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$20,400</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000 × 3</span></div>
-    <div class="pc-arrow">&#8594;</div>
+    <div class="pc-stat"><span class="pc-stat-label">Live Prices</span>
+      <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:14px;font-weight:700;color:#3ddc84;text-decoration:none;display:flex;align-items:center;gap:6px;margin-top:2px;">
+        <span style="width:5px;height:5px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;flex-shrink:0;"></span>
+        DEX Screener ↗
+      </a>
+    </div>
   </div>
-</a>
+</div>
 
 <!-- ARTICLES -->
 <div class="section-wrap fade-up" id="articles">
