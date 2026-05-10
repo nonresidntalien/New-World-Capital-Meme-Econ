@@ -175,9 +175,9 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     <h1>The Meme<br><em>Economy</em></h1>
     <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
     <div class="hero-stats">
-      <div class="hs"><span class="hs-label">Capital Deployed</span><span class="hs-val">$20,400.00</span></div>
-      <div class="hs"><span class="hs-label">Portfolio Value</span><span class="hs-val" id="portfolioVal">$20,400</span><span id="portfolioPct" style="font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-top:4px;display:block;transition:color .5s">+0.00%</span></div>
-      <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">33</span></div>
+      <div class="hs"><span class="hs-label">Capital Deployed</span><span class="hs-val">$18,524.00</span></div>
+      <div class="hs"><span class="hs-label">Portfolio Value</span><span class="hs-val" id="portfolioVal">$22,749</span><span id="portfolioPct" style="font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-top:4px;display:block;transition:color .5s">+0.00%</span></div>
+      <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">63</span></div>
       <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
     </div>
 </section>
@@ -186,24 +186,24 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 <div class="section-wrap" id="portfolio" style="opacity:1;transform:none;">
   <div class="section-header">
     <div class="sec-title">Breadth Map</div>
-    <div class="sec-sub">33 POSITIONS · $20,400 DEPLOYED · MAY 04, 2026</div>
+    <div class="sec-sub">63 POSITIONS · $18,524 DEPLOYED · UPDATED MAY 2026</div>
   </div>
 </div>
 
 <div class="portfolio-card" style="cursor:default;opacity:1;transform:none;">
   <div class="portfolio-card-left">
     <div class="pc-cat"><span class="pc-dot"></span>Portfolio · Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
-    <h2>Thirty-Three at the Line</h2>
-    <p>33-position equal-weight deployment across the lower stratum of the Solana meme ecosystem. $600 base per position. Three featured positions at $1,000. The portfolio is the thesis. Equal weight, no prediction, maximum surface area.</p>
+    <h2>Sixty-Three at the Line</h2>
+    <p>63-position breadth deployment across the lower stratum of the Solana meme ecosystem. Volatility harvest discipline. Sub one hundred thousand market cap focus. Soft cap targets per position. Hard cap trims sweep to the side pile. The portfolio is observational infrastructure.</p>
     <div style="margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;">
       <a href="nwc_sol_portfolio.html" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-block;" onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='transparent'">&#8594; Full Archive</a>
       <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#3ddc84;text-decoration:none;border:1px solid rgba(61,220,132,0.25);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(61,220,132,0.06)'" onmouseout="this.style.background='transparent'"><span style="width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;display:inline-block;"></span>Live Watchlist · DEX Screener</a>
     </div>
   </div>
   <div class="portfolio-card-right">
-    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$20,400.00</span></div>
-    <div class="pc-stat"><span class="pc-stat-label">Base Position</span><span class="pc-stat-val">$600.00</span></div>
-    <div class="pc-stat"><span class="pc-stat-label">Featured</span><span class="pc-stat-val">$1,000.00 × 3</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Total Deployed</span><span class="pc-stat-val">$18,524.00</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Live Value</span><span class="pc-stat-val">$22,749.07</span></div>
+    <div class="pc-stat"><span class="pc-stat-label">Net Performance</span><span class="pc-stat-val" style="color:#3ddc84;">+48.0%</span></div>
     <div class="pc-stat"><span class="pc-stat-label">Live Prices</span>
       <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:14px;font-weight:700;color:#3ddc84;text-decoration:none;display:flex;align-items:center;gap:6px;margin-top:2px;">
         <span style="width:5px;height:5px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;flex-shrink:0;"></span>
@@ -741,7 +741,7 @@ document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
 
 // ── LIVE PORTFOLIO FLUCTUATION ──
 (function(){
-  const BASE = 20400;
+  const BASE = 22749;
   const valEl = document.getElementById('portfolioVal');
   const pctEl = document.getElementById('portfolioPct');
   if(!valEl || !pctEl) return;

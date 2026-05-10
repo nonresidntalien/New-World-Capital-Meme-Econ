@@ -3,336 +3,649 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NWC-PORT-SOL-2026-001 · Solana Breadth Map</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<title>Solana Meme Portfolio . NWC Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#c9a84c;
-  --gold2:#a07c2e;
-  --bg:#080808;
-  --bg2:#0f0f0f;
-  --bg3:#161616;
-  --bg4:#1e1e1e;
-  --border:rgba(201,168,76,0.18);
-  --border2:rgba(201,168,76,0.08);
-  --text:#e8e0d0;
-  --muted:#7a7060;
-  --green:#3ddc84;
-  --red:#ff4d4d;
-  --mono:'JetBrains Mono',monospace;
-  --serif:'Crimson Pro',Georgia,serif;
-  --display:'Bebas Neue',sans-serif;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:16px;line-height:1.6;overflow-x:hidden}
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #0f0f12;
+    --panel: #14141a;
+    --panel-hi: #1c1c24;
+    --text: #e8e6dc;
+    --text-dim: #948e7a;
+    --gold: #c9a84c;
+    --gold-light: #e6c870;
+    --gold-dim: #8a7434;
+    --green: #6fa86a;
+    --red: #b83a3a;
+    --border: #2a2823;
+    --border-hi: #3d3a2e;
+  }
 
-/* TICKER */
-.ticker-wrap{position:sticky;top:0;z-index:100;background:#0a0a0a;border-bottom:1px solid var(--border);display:flex;align-items:center;height:36px;overflow:hidden}
-.ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:0 14px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
-.ticker-track{overflow:hidden;flex:1}
-.ticker-inner{display:flex;animation:ticker 60s linear infinite}
-.ticker-inner:hover{animation-play-state:paused}
-.tick-item{font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 28px;white-space:nowrap}
-.tick-item b{color:var(--gold)}
-.tick-item .up{color:var(--green)}
-.tick-item .dn{color:var(--red)}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* NAV */
-nav{background:rgba(8,8,8,0.97);border-bottom:1px solid var(--border2);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:36px;z-index:99;backdrop-filter:blur(8px)}
-.nav-brand{font-family:var(--display);font-size:18px;letter-spacing:2px;color:var(--gold)}
-.nav-links{display:flex;gap:32px}
-.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
-.nav-links a:hover{color:var(--gold)}
-.nav-ref{font-family:var(--mono);font-size:9px;color:var(--border);letter-spacing:1px}
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
 
-/* HERO */
-.hero{min-height:420px;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 48px 56px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(201,168,76,0.04) 0%,transparent 70%),radial-gradient(ellipse 50% 80% at 10% 80%,rgba(201,168,76,0.03) 0%,transparent 60%),linear-gradient(180deg,#0a0a0a 0%,#080808 100%)}
-.hero-wm{position:absolute;font-family:var(--display);font-size:260px;letter-spacing:-4px;color:rgba(201,168,76,0.025);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;user-select:none}
-.hero-cat{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:20px}
-.hero h1{font-family:var(--display);font-size:88px;letter-spacing:2px;line-height:.92;color:#fff;position:relative}
-.hero h1 em{color:var(--gold);font-style:normal}
-.hero-sub{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.65);max-width:600px;margin-top:20px;line-height:1.7;font-style:italic}
-.hero-meta{margin-top:32px;display:flex;gap:40px;align-items:center}
-.hero-meta-item{display:flex;flex-direction:column;gap:4px}
-.hero-meta-label{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
-.hero-meta-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--gold)}
+  /* TICKER */
+  .ticker {
+    background: #000;
+    border-bottom: 1px solid var(--gold-dim);
+    overflow: hidden;
+    height: 28px;
+    position: relative;
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 60s linear infinite;
+    height: 100%;
+    align-items: center;
+  }
+  .ticker span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    padding: 0 28px;
+    letter-spacing: 0.12em;
+  }
+  .ticker .dot { color: var(--gold-dim); }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
-/* METRICS BAND */
-.metrics-band{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border)}
-.mc{padding:28px 32px;border-right:1px solid var(--border2)}
-.mc:last-child{border-right:none}
-.mc-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
-.mc-val{font-family:var(--mono);font-size:24px;font-weight:700;color:#fff}
-.mc-val.gold{color:var(--gold)}
-.mc-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:6px}
+  /* NAV */
+  nav.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav.topbar .brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+  }
+  nav.topbar .brand span { color: var(--text-dim); margin: 0 10px; font-weight: 300; }
+  nav.topbar .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-left: 24px;
+    transition: color 0.2s;
+  }
+  nav.topbar .nav-links a:hover { color: var(--gold); }
 
-/* SECTION HEADERS */
-.section-wrap{padding:0 48px}
-.section-header{display:flex;align-items:baseline;justify-content:space-between;padding:40px 0 20px;border-bottom:1px solid var(--border)}
-.sec-title{font-family:var(--display);font-size:36px;letter-spacing:2px;color:#fff}
-.sec-ref{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px}
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 90px 32px 60px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  }
+  .hero .watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 22vw, 360px);
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    opacity: 0.05;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero .ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 96px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .hero h1 .gold { color: var(--gold); }
+  .hero .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    max-width: 720px;
+  }
+  .hero .meta-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+  }
+  .hero .meta-strip b { color: var(--gold); font-weight: 500; margin-right: 8px; }
 
-/* TABLE */
-.table-wrap{overflow-x:auto;padding:0 48px 48px}
-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px;margin-top:0}
-thead tr{border-bottom:2px solid var(--gold2)}
-th{padding:12px 10px;text-align:right;color:var(--gold);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;white-space:nowrap}
-th:first-child,th:nth-child(2),th:nth-child(3){text-align:left}
-tbody tr{border-bottom:1px solid var(--border2);transition:background .15s}
-tbody tr:hover{background:rgba(201,168,76,0.04)}
-tbody tr.featured{background:rgba(201,168,76,0.06);border-left:2px solid var(--gold)}
-td{padding:11px 10px;color:rgba(232,224,208,0.85);text-align:right;white-space:nowrap}
-td:first-child,td:nth-child(2),td:nth-child(3){text-align:left}
-td.num{color:#fff;font-weight:600}
-td.gold-val{color:var(--gold);font-weight:700}
-td.up{color:var(--green)}
-td.dn{color:var(--red)}
-td.muted{color:var(--muted)}
-.ord-cell{color:var(--muted);font-size:10px;width:28px}
-.ticker-cell{color:var(--gold);font-weight:700;font-size:12px}
-.name-cell{color:rgba(232,224,208,0.65);font-size:10px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.alloc-badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:1px}
-.alloc-600{background:rgba(201,168,76,0.1);color:var(--gold);border:1px solid rgba(201,168,76,0.25)}
-.alloc-1000{background:rgba(61,220,132,0.12);color:var(--green);border:1px solid rgba(61,220,132,0.3)}
+  /* CONTAINERS */
+  .container { max-width: 1200px; margin: 0 auto; padding: 56px 32px; }
 
-/* VERDICT */
-.verdict{margin:0 48px 64px;border:1px solid var(--border);padding:48px;position:relative;overflow:hidden}
-.verdict-wm{position:absolute;font-family:var(--display);font-size:140px;color:rgba(201,168,76,0.04);top:50%;right:40px;transform:translateY(-50%);pointer-events:none;letter-spacing:4px}
-.v-lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
-.v-title{font-family:var(--display);font-size:52px;letter-spacing:2px;color:#fff;margin-bottom:24px}
-.v-body{font-family:var(--serif);font-size:18px;color:rgba(232,224,208,0.75);max-width:720px;line-height:1.8;margin-bottom:16px;font-style:italic}
-.v-mandate{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+  /* SECTION TITLES */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.10em;
+    color: var(--text);
+  }
+  .section-head .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--gold-dim);
+  }
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;justify-content:space-between;align-items:center}
-.footer-brand{font-family:var(--display);font-size:22px;letter-spacing:3px;color:var(--gold)}
-.footer-note{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right;line-height:1.8;letter-spacing:.5px}
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+  .stat {
+    background: var(--panel);
+    padding: 28px 24px;
+    transition: background 0.2s;
+  }
+  .stat:hover { background: var(--panel-hi); }
+  .stat .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.20em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .stat .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .stat .value.gold  { color: var(--gold); }
+  .stat .value.green { color: var(--green); }
+  .stat .value.red   { color: var(--red); }
+  .stat .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.10em;
+  }
 
-/* SCROLL ANIMATION */
-.fade-in{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
-.fade-in.visible{opacity:1;transform:translateY(0)}
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .controls input, .controls select {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 9px 12px;
+    letter-spacing: 0.06em;
+  }
+  .controls input:focus, .controls select:focus {
+    outline: none;
+    border-color: var(--gold-dim);
+  }
+  .controls input::placeholder { color: var(--text-dim); }
+  .controls .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+  }
+  .controls .pill b { color: var(--gold); font-weight: 500; }
+
+  /* TABLE */
+  .table-wrap {
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    background: var(--panel);
+  }
+  table.holdings {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    min-width: 1100px;
+  }
+  table.holdings thead th {
+    background: #000;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 10px;
+    padding: 14px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--gold-dim);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  table.holdings thead th:hover { color: var(--gold-light); }
+  table.holdings thead th.sort-asc::after  { content: " ▲"; color: var(--gold-light); }
+  table.holdings thead th.sort-desc::after { content: " ▼"; color: var(--gold-light); }
+  table.holdings tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  table.holdings tbody tr:hover { background: var(--panel-hi); }
+  table.holdings td {
+    padding: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  table.holdings td.token { color: var(--gold); font-weight: 700; letter-spacing: 0.05em; }
+  table.holdings td.num   { text-align: right; }
+  table.holdings td.green { color: var(--green); }
+  table.holdings td.red   { color: var(--red); }
+  table.holdings td.dim   { color: var(--text-dim); }
+  table.holdings td.center { text-align: center; }
+
+  /* VERDICT */
+  .verdict {
+    margin: 56px 0 0;
+    padding: 36px;
+    border: 1px solid var(--gold-dim);
+    background: var(--panel);
+    position: relative;
+  }
+  .verdict::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gold);
+  }
+  .verdict h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .verdict p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .verdict .mandate { margin-top: 24px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    padding: 32px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+  }
+  footer .sig { color: var(--gold); margin-bottom: 8px; }
+
+  @media (max-width: 700px) {
+    .hero { padding: 64px 20px 40px; }
+    .container { padding: 36px 16px; }
+    nav.topbar { padding: 12px 16px; }
+    nav.topbar .nav-links a { margin-left: 14px; font-size: 10px; }
+  }
 </style>
 </head>
 <body>
 
 <!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-badge">SOL · BREADTH</div>
-  <div class="ticker-track">
-    <div class="ticker-inner" id="tickerInner"></div>
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <!-- populated by JS -->
   </div>
 </div>
 
 <!-- NAV -->
-<nav>
-  <div class="nav-brand">NEW WORLD CAPITAL</div>
+<nav class="topbar">
+  <div class="brand">NEW WORLD CAPITAL <span>·</span> ARCHIVE</div>
   <div class="nav-links">
-    <a href="#holdings">Holdings</a>
-    <a href="#verdict">Mandate</a>
+    <a href="index.html">INDEX</a>
+    <a href="#holdings">HOLDINGS</a>
+    <a href="#verdict">VERDICT</a>
   </div>
-  <div class="nav-ref">NWC-PORT-SOL-2026-001</div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-wm">BREADTH</div>
-  <div style="position:relative">
-    <div class="hero-cat">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; Solana Meme Breadth Map &nbsp;·&nbsp; Apr 23, 2026</div>
-    <h1>Thirty-One<br>at the <em>Line</em></h1>
-    <p class="hero-sub">A systematic deployment across the lower stratum of the Solana meme ecosystem. Equal weight. No prediction. Maximum surface area.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Total Deployed</span>
-        <span class="hero-meta-val">$19,800</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Positions</span>
-        <span class="hero-meta-val">31</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Base Size</span>
-        <span class="hero-meta-val">$600</span>
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-label">Chain</span>
-        <span class="hero-meta-val">SOL</span>
-      </div>
+  <div class="watermark">PORTFOLIO</div>
+  <div class="hero-inner">
+    <div class="ref">NWC-PORT-SOL-2026-001</div>
+    <h1>SOLANA <span class="gold">MEME</span><br>PORTFOLIO</h1>
+    <div class="subtitle">
+      Breadth map across sub one hundred thousand market cap names.
+      Volatility harvest discipline. Soft cap one hundred fifty.
+      Hard cap two hundred. Harvest sweeps to side pile.
+    </div>
+    <div class="meta-strip">
+      <div><b>ARCHIVE</b> NWC-PORT-SOL-2026-001</div>
+      <div><b>STRATEGY</b> VOLATILITY HARVEST</div>
+      <div><b>UPDATED</b> MAY 2026</div>
+      <div><b>STATUS</b> LIVE</div>
     </div>
   </div>
 </section>
 
-<!-- METRICS BAND -->
-<div class="metrics-band">
-  <div class="mc">
-    <div class="mc-lbl">Capital Deployed</div>
-    <div class="mc-val gold">$19,800</div>
-    <div class="mc-sub">28 × $600 + 3 × $1,000</div>
-  </div>
-  <div class="mc">
-    <div class="mc-lbl">Base Position</div>
-    <div class="mc-val">$600</div>
-    <div class="mc-sub">Equal weight · 28 positions</div>
-  </div>
-  <div class="mc">
-    <div class="mc-lbl">Featured Positions</div>
-    <div class="mc-val">$1,000</div>
-    <div class="mc-sub">PSYOPANIME · KILROY · SOL</div>
-  </div>
-  <div class="mc">
-    <div class="mc-lbl">Chain</div>
-    <div class="mc-val">SOLANA</div>
-    <div class="mc-sub">SPL · Raydium · Pump.fun</div>
-  </div>
-  <div class="mc">
-    <div class="mc-lbl">Strategy</div>
-    <div class="mc-val gold">BREADTH</div>
-    <div class="mc-sub">Low mcap · High dispersion</div>
-  </div>
-</div>
+<!-- PRIMARY STATS -->
+<div class="container">
 
-<!-- HOLDINGS TABLE -->
-<div class="section-wrap" id="holdings">
-  <div class="section-header fade-in">
-    <div class="sec-title">Holdings Registry</div>
-    <div class="sec-ref">31 POSITIONS · TOKENS HELD = ALLOCATION ÷ ENTRY PRICE</div>
+  <div class="section-head">
+    <h2>PORTFOLIO METRICS</h2>
+    <div class="label">SECTION 01</div>
   </div>
-</div>
 
-<div class="table-wrap fade-in">
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Ticker</th>
-        <th>Name</th>
-        <th>MCAP</th>
-        <th>Entry Price</th>
-        <th>Allocation</th>
-        <th>Tokens Held</th>
-        <th>Liquidity</th>
-        <th>Age</th>
-        <th>24H</th>
-      </tr>
-    </thead>
-    <tbody id="holdingsBody"></tbody>
-  </table>
-</div>
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="label">Holdings</div>
+      <div class="value gold">63</div>
+      <div class="sub">positions deployed</div>
+    </div>
+    <div class="stat">
+      <div class="label">Capital Deployed</div>
+      <div class="value">$18,524</div>
+      <div class="sub">aggregate soft cap baseline</div>
+    </div>
+    <div class="stat">
+      <div class="label">Current Value</div>
+      <div class="value">$22,749</div>
+      <div class="sub">live portfolio mark</div>
+    </div>
+    <div class="stat">
+      <div class="label">Net Performance</div>
+      <div class="value green">+$8,898</div>
+      <div class="sub">+48.0% versus deployed</div>
+    </div>
+  </div>
 
-<!-- VERDICT -->
-<div class="verdict fade-in" id="verdict">
-  <div class="verdict-wm">BREADTH</div>
-  <div class="v-lbl">NWC Mandate</div>
-  <div class="v-title">The Breadth Thesis</div>
-  <p class="v-body">This portfolio does not predict which token wins. It owns the entire lower stratum so that when the Solana meme supercycle reprices, NWC is already positioned across 31 parallel bets. The portfolio is the thesis. Equal weight enforces discipline. Breadth replaces prediction.</p>
-  <p class="v-body">When the supercycle ignites, it does not lift one token. It lifts everything that is positioned and liquid. This is probability working in our favor across the full distribution.</p>
-  <div class="v-mandate">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; 31 POSITIONS &nbsp;·&nbsp; $19,800 DEPLOYED &nbsp;·&nbsp; APR 23, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
+  <!-- SECONDARY STATS -->
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="label">Up Positions</div>
+      <div class="value green">36</div>
+      <div class="sub">57% of book</div>
+    </div>
+    <div class="stat">
+      <div class="label">Down Positions</div>
+      <div class="value red">19</div>
+      <div class="sub">30% of book</div>
+    </div>
+    <div class="stat">
+      <div class="label">Flat Positions</div>
+      <div class="value">8</div>
+      <div class="sub">at or near baseline</div>
+    </div>
+    <div class="stat">
+      <div class="label">Wallet Spread</div>
+      <div class="value">13</div>
+      <div class="sub">distinct custody endpoints</div>
+    </div>
+  </div>
+
+  <!-- HOLDINGS TABLE -->
+  <div id="holdings" class="section-head" style="margin-top: 48px;">
+    <h2>FULL HOLDINGS</h2>
+    <div class="label">SECTION 02 . SORTED BY UNITS HELD ASCENDING</div>
+  </div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="SEARCH TOKEN OR NAME" size="22">
+    <select id="filter-status">
+      <option value="">ALL STATUS</option>
+      <option value="UP">UP ONLY</option>
+      <option value="DOWN">DOWN ONLY</option>
+    </select>
+    <select id="filter-wallet">
+      <option value="">ALL WALLETS</option>
+    </select>
+    <div class="pill"><b>SHOWING</b> <span id="row-count">63</span> OF 63</div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="holdings" id="tbl">
+      <thead>
+        <tr>
+          <th data-key="n"             data-num="1">#</th>
+          <th data-key="token">TOKEN</th>
+          <th data-key="full_name">FULL NAME</th>
+          <th data-key="entry_price"   data-num="1">ENTRY</th>
+          <th data-key="current_price" data-num="1">CURRENT</th>
+          <th data-key="target"        data-num="1">TARGET</th>
+          <th data-key="units"         data-num="1" class="sort-asc">UNITS</th>
+          <th data-key="current_value" data-num="1">VALUE</th>
+          <th data-key="gain_dollar"   data-num="1">P&amp;L $</th>
+          <th data-key="gain_pct"      data-num="1">P&amp;L %</th>
+          <th data-key="status">STATUS</th>
+          <th data-key="activity">ACTIVITY</th>
+          <th data-key="wallet">WALLET</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- VERDICT -->
+  <div id="verdict" class="verdict">
+    <h3>VERDICT</h3>
+    <p>
+      Sixty three positions deployed across the breadth map. Aggregate book
+      sits at <b style="color: var(--gold);">48.0% above the deployed soft cap baseline</b>,
+      with thirty six names in the green and nineteen offsetting in the red.
+      The harvest model is doing what it was built to do.
+      Reflexive pumps convert into realized buffer. Caps prevent narrative relapse.
+    </p>
+    <div class="mandate">
+      <h3 style="font-size: 16px; margin-top: 6px;">MANDATE</h3>
+      <p>
+        Continue caps. Trim hard cap breaches back to two hundred and sweep the
+        difference. Sixty percent of the next weekly injection goes to adds on
+        names showing relative strength. Twenty five percent funds new sub one
+        hundred thousand market cap entries. Fifteen percent parks in stablecoin
+        buffer. Day to day discipline decides where capital goes. The book runs itself.
+      </p>
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  <div class="footer-brand">NEW WORLD CAPITAL</div>
-  <div class="footer-note">
-    NWC-PORT-SOL-2026-001 · SOLANA BREADTH MAP<br>
-    ARCHIVE OF FORESIGHT · NOT FINANCIAL ADVICE · DYOR<br>
-    THOTH THE 13TH · NEW WORLD CAPITAL
-  </div>
+  <div class="sig">THOTH THE 13TH . NEW WORLD CAPITAL</div>
+  <div>NWC-PORT-SOL-2026-001 . VOLATILITY HARVEST PROTOCOL . 2026</div>
 </footer>
 
 <script>
-// ── HOLDINGS DATA ──────────────────────────────────────────────────────────
-// price is exact entry price in USD
-// alloc: 1000 for featured, 600 for base
-// tokens = alloc / price (calculated precisely)
-const holdings = [
-  { n:1,  ticker:'1SOL',       name:'1 Sol and a Dream',            mcap:'$35K',   price:0.00003602,  alloc:600,  liq:'$16K',  age:'3mo', h24:'+117%'  },
-  { n:2,  ticker:'WIZARD',     name:'Smoking Wizard',               mcap:'$261K',  price:0.0002610,   alloc:600,  liq:'$55K',  age:'1mo', h24:'+66.16%'},
-  { n:3,  ticker:'PsyopAnime', name:'PsyopAnime',                   mcap:'$2.5M',  price:0.002526,    alloc:1000, liq:'$260K', age:'3mo', h24:'+25.73%'},
-  { n:4,  ticker:'BILLBOARD',  name:'BILLBOARD',                    mcap:'$8.8K',  price:0.000059390, alloc:600,  liq:'$9.3K', age:'7mo', h24:'+15.59%'},
-  { n:5,  ticker:'CatFu',      name:'CatFu',                        mcap:'$19K',   price:0.00001991,  alloc:600,  liq:'$13K',  age:'1mo', h24:'+11.12%'},
-  { n:6,  ticker:'Degen',      name:'Degen the Otter',              mcap:'$14K',   price:0.00001458,  alloc:600,  liq:'$10K',  age:'3mo', h24:'+7.32%' },
-  { n:7,  ticker:'SLEAZE',     name:'KEANU SLEAZE',                 mcap:'$64K',   price:0.00006629,  alloc:600,  liq:'$33K',  age:'9mo', h24:'+6.62%' },
-  { n:8,  ticker:'JESTER',     name:'JESTERMAXXING',                mcap:'$54K',   price:0.00005448,  alloc:600,  liq:'$25K',  age:'4mo', h24:'+6.21%' },
-  { n:9,  ticker:'cobson',     name:'cobson',                       mcap:'$24K',   price:0.00002446,  alloc:600,  liq:'$14K',  age:'5mo', h24:'+4.16%' },
-  { n:10, ticker:'Samba',      name:'The Runner',                   mcap:'$36K',   price:0.00003616,  alloc:600,  liq:'$16K',  age:'1mo', h24:'+2.74%' },
-  { n:11, ticker:'NYAN',       name:'Nyan Cat',                     mcap:'$40K',   price:0.00004555,  alloc:600,  liq:'$23K',  age:'4mo', h24:'+1.18%' },
-  { n:12, ticker:'renta',      name:'rentahuman',                   mcap:'$37K',   price:0.00003764,  alloc:600,  liq:'$22K',  age:'2mo', h24:'+0.53%' },
-  { n:13, ticker:'KILROY',     name:'Kilroy was here',              mcap:'$290K',  price:0.0002939,   alloc:1000, liq:'$57K',  age:'5mo', h24:'+0.15%' },
-  { n:14, ticker:'AUTISM',     name:'Autism Coin',                  mcap:'$35K',   price:0.00003585,  alloc:600,  liq:'$24K',  age:'1mo', h24:'-0.41%' },
-  { n:15, ticker:'SNP500',     name:'Sock and Pussy 500',           mcap:'$47K',   price:0.00004792,  alloc:600,  liq:'$32K',  age:'3mo', h24:'-1.53%' },
-  { n:16, ticker:'SOL',        name:'Sol The Trophy Tomato',        mcap:'$468K',  price:0.0005708,   alloc:1000, liq:'$113K', age:'3mo', h24:'-2.32%' },
-  { n:17, ticker:'XAU',        name:'Gold',                         mcap:'$62K',   price:0.00006590,  alloc:600,  liq:'$32K',  age:'6mo', h24:'-3.55%' },
-  { n:18, ticker:'yomama',     name:'Yo mama',                      mcap:'$16K',   price:0.00001659,  alloc:600,  liq:'$14K',  age:'3mo', h24:'-3.63%' },
-  { n:19, ticker:'OILINU',     name:'oil inu',                      mcap:'$43K',   price:0.00004321,  alloc:600,  liq:'$20K',  age:'2mo', h24:'-4.42%' },
-  { n:20, ticker:'fish',       name:'rainbowfish',                  mcap:'$75K',   price:0.00007582,  alloc:600,  liq:'$40K',  age:'3mo', h24:'-5.53%' },
-  { n:21, ticker:'Monitor',    name:'Monitoring the Situation',     mcap:'$156K',  price:0.0001571,   alloc:600,  liq:'$58K',  age:'10mo',h24:'-5.74%' },
-  { n:22, ticker:'oora',       name:'oora',                         mcap:'$93K',   price:0.00009327,  alloc:600,  liq:'$37K',  age:'3mo', h24:'-5.83%' },
-  { n:23, ticker:'CIA',        name:'John Kiriakou',                mcap:'$19K',   price:0.00001948,  alloc:600,  liq:'$14K',  age:'2mo', h24:'-6.14%' },
-  { n:24, ticker:'Rome',       name:'All Roads Lead To Rome',       mcap:'$48K',   price:0.00004863,  alloc:600,  liq:'$28K',  age:'7mo', h24:'-6.63%' },
-  { n:25, ticker:'OBJECTS',    name:'Talking Objects',              mcap:'$23K',   price:0.00002478,  alloc:600,  liq:'$16K',  age:'3mo', h24:'-7.51%' },
-  { n:26, ticker:'FAFO',       name:'Fuck Around Find Out',         mcap:'$26K',   price:0.00002608,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-7.52%' },
-  { n:27, ticker:'worth',      name:'one life, its worth an attempt',mcap:'$26K', price:0.00002603,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-12.61%'},
-  { n:28, ticker:'Optimus',    name:'Optimus',                      mcap:'$28K',   price:0.00002888,  alloc:600,  liq:'$14K',  age:'1mo', h24:'-15.24%'},
-  { n:29, ticker:'bulk',       name:'bulk',                         mcap:'$27K',   price:0.00002780,  alloc:600,  liq:'$15K',  age:'4mo', h24:'-19.10%'},
-  { n:30, ticker:'Cope',       name:'Cope',                         mcap:'$107K',  price:0.0001120,   alloc:600,  liq:'$53K',  age:'7mo', h24:'-31.23%'},
-  { n:31, ticker:'underclass', name:'escape the permanent underclass',mcap:'$88K', price:0.00008883,  alloc:600,  liq:'$26K',  age:'2mo', h24:'-34.80%'},
-];
+const HOLDINGS = [{"n":null,"token":"MRUBIO","full_name":"RUBIO","entry_price":6.6e-05,"current_price":6.6e-05,"target":300,"units":1500000,"current_value":100,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":null},{"n":null,"token":"FOLD","full_name":"CLARITY PROTOCOL","entry_price":5.4e-05,"current_price":5.4e-05,"target":200,"units":1500000,"current_value":100,"gain_dollar":92,"gain_pct":0.46,"status":"\ud83d\udfe2 UP","activity":null,"wallet":null},{"n":57,"token":"DELUSIONAL","full_name":"DELUSIONAL","entry_price":0.0001,"current_price":0.00013,"target":200,"units":2000000,"current_value":80,"gain_dollar":-120,"gain_pct":-0.6,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":null},{"n":7,"token":"NICE","full_name":"NICE","entry_price":8.8e-05,"current_price":0.000101,"target":200,"units":2272727.27272727,"current_value":229.545454545455,"gain_dollar":29.5454545454546,"gain_pct":0.147727272727273,"status":"\ud83d\udfe2 UP","activity":"HEALTHY","wallet":"POLARIS NODE"},{"n":null,"token":"FRANKLIN","full_name":"FRANKLIN","entry_price":7.7e-05,"current_price":7.7e-05,"target":200,"units":2655000,"current_value":205,"gain_dollar":5,"gain_pct":0.025,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"GODOFFINANCE"},{"n":null,"token":"MONITORING","full_name":"MONITORING","entry_price":6.6e-05,"current_price":6.6e-05,"target":400,"units":2888000,"current_value":900,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"OBSIDIAN L U"},{"n":34,"token":"Cope","full_name":"Cope","entry_price":0.0001102,"current_price":0.0001102,"target":250,"units":3148723,"current_value":346.9892746,"gain_dollar":96.9892746,"gain_pct":0.3879570984,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"PLUTO"},{"n":null,"token":"TRENCH","full_name":"TRENCHFU","entry_price":4.5e-05,"current_price":9.5e-05,"target":200,"units":3239000,"current_value":309,"gain_dollar":109,"gain_pct":0.545,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"GODOFFINANCE"},{"n":20,"token":"AYYLMAO","full_name":"AYYLMAO","entry_price":4.4e-05,"current_price":4.4e-05,"target":250,"units":3250000,"current_value":1000,"gain_dollar":750,"gain_pct":3,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"POLARIS NODE"},{"n":29,"token":"SNP500","full_name":"Sock and Pussy 500","entry_price":9.503e-05,"current_price":0.00025,"target":250,"units":3389000,"current_value":847.25,"gain_dollar":597.25,"gain_pct":2.389,"status":"\ud83d\udfe2 UP","activity":"NOT HEALTHY","wallet":null},{"n":null,"token":"MONK","full_name":"MONK","entry_price":8e-05,"current_price":2e-05,"target":350,"units":3500000,"current_value":700,"gain_dollar":350,"gain_pct":1,"status":"\ud83d\udfe2 UP","activity":"HEALTH","wallet":null},{"n":21,"token":"DOLLO","full_name":"DOLLO ALL IN","entry_price":6.6e-05,"current_price":6.6e-05,"target":250,"units":3787878.78787879,"current_value":250,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"LOFI"},{"n":32,"token":"XAU","full_name":"Gold","entry_price":0.00010033,"current_price":0.00010033,"target":250,"units":4000000,"current_value":401.32,"gain_dollar":151.32,"gain_pct":0.60528,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"TNGM4"},{"n":null,"token":"WIZARD","full_name":"WIZARD","entry_price":5.4e-05,"current_price":5.4e-05,"target":1000,"units":4000000,"current_value":1052,"gain_dollar":50,"gain_pct":0.05,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"TANGEM4"},{"n":18,"token":"CINEMA","full_name":"CINEMA","entry_price":5.881e-05,"current_price":5.881e-05,"target":250,"units":4250977.72487672,"current_value":250,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"AVAX SYS"},{"n":45,"token":"SLEAZE","full_name":"SLEAZE","entry_price":4.5e-05,"current_price":3.535e-05,"target":200,"units":4343000,"current_value":222,"gain_dollar":22,"gain_pct":0.11,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN L U"},{"n":null,"token":"SHAPE","full_name":"SHAPE","entry_price":4.5e-05,"current_price":3.9e-05,"target":200,"units":4500400,"current_value":176,"gain_dollar":-24,"gain_pct":-0.12,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"AVAX SYS"},{"n":null,"token":"SHOEBILL","full_name":"SHOEBILL","entry_price":3e-05,"current_price":3e-05,"target":200,"units":4733000,"current_value":279,"gain_dollar":2000,"gain_pct":10,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"GODOFFINANCE"},{"n":63,"token":"JESTER","full_name":"JESTER","entry_price":5.9e-05,"current_price":6.2e-05,"target":300,"units":4826000,"current_value":288,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"LOFI"},{"n":21,"token":"KOBUDE","full_name":"KOBUDE","entry_price":3.9e-05,"current_price":3.8e-05,"target":200,"units":4952000,"current_value":188,"gain_dollar":-12,"gain_pct":-0.06,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"GODOFFINANCE"},{"n":null,"token":"OPTIMUS","full_name":"OTIMUS","entry_price":3.2e-05,"current_price":2.5e-05,"target":200,"units":5088800,"current_value":127,"gain_dollar":-63,"gain_pct":-0.315,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"QUASARMIRAGE"},{"n":null,"token":"DELUSIONAL","full_name":"DELUSIONAL","entry_price":7e-06,"current_price":7e-06,"target":350,"units":5088800,"current_value":354,"gain_dollar":4,"gain_pct":0.0114285714285714,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"POLARIS NODE"},{"n":null,"token":"ALLIN","full_name":"ALL IN ","entry_price":5e-05,"current_price":5e-05,"target":250,"units":5088800,"current_value":332,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"AVAX SYS"},{"n":38,"token":"SOLBISCUIT","full_name":"Solana Horse","entry_price":9.2e-05,"current_price":8.9e-05,"target":250,"units":5239000,"current_value":466.271,"gain_dollar":216.271,"gain_pct":0.865084,"status":"\ud83d\udfe2 UP","activity":null,"wallet":null},{"n":69,"token":"ROME","full_name":"ROME","entry_price":9.2e-05,"current_price":8.9e-05,"target":250,"units":5840000,"current_value":75,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"QUASARMIRAGE"},{"n":39,"token":"LOST","full_name":"LOST","entry_price":5e-05,"current_price":5.2e-05,"target":300,"units":6000000,"current_value":312,"gain_dollar":12,"gain_pct":0.04,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"LOFI"},{"n":null,"token":"FEEDTHEPEOPLE","full_name":"FTP","entry_price":3.2e-05,"current_price":6.6e-05,"target":200,"units":6271000,"current_value":220,"gain_dollar":220,"gain_pct":1.1,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"CRIMSON SPHERE"},{"n":null,"token":"LEGEND","full_name":"LEGEND","entry_price":3e-05,"current_price":3e-05,"target":200,"units":6467000,"current_value":198,"gain_dollar":-2,"gain_pct":-0.01,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"AVAX SYS"},{"n":null,"token":"DOWNALD","full_name":"DOWNALD","entry_price":7.6e-05,"current_price":7.4e-05,"target":400,"units":6500000,"current_value":400,"gain_dollar":-70,"gain_pct":-0.175,"status":"\ud83d\udd34 DOWN","activity":"NOT HEALTHY","wallet":"CRIMSON SPHERE"},{"n":17,"token":"OORA","full_name":"OORA","entry_price":5.881e-05,"current_price":0.00016,"target":500,"units":7063000,"current_value":1130.08,"gain_dollar":630.08,"gain_pct":1.26016,"status":"\ud83d\udfe2 UP","activity":"HEALTHY","wallet":"TNGM1"},{"n":null,"token":"ADHD","full_name":"ADHD","entry_price":2.3e-05,"current_price":1.13e-05,"target":200,"units":7149000,"current_value":93,"gain_dollar":-107,"gain_pct":-0.535,"status":"\ud83d\udd34 DOWN","activity":"NOT HEALTHY","wallet":"AVAX SYS"},{"n":null,"token":"MUSKFOUNDATION","full_name":"MUSKFUNDATION","entry_price":1.6e-05,"current_price":9e-06,"target":200,"units":7149000,"current_value":100,"gain_dollar":-100,"gain_pct":-0.5,"status":"\ud83d\udd34 DOWN","activity":"NOT HEALTHY","wallet":"OBSIDIAN GATE II"},{"n":null,"token":"BIOHACKING","full_name":"BIOHACKING","entry_price":9e-05,"current_price":8.5e-05,"target":500,"units":7149000,"current_value":250,"gain_dollar":-50,"gain_pct":-0.1,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"TNGM1"},{"n":5,"token":"BAGS","full_name":"Bags News Network","entry_price":2.679e-05,"current_price":2.679e-05,"target":200,"units":7465472.19111609,"current_value":200,"gain_dollar":0,"gain_pct":0,"status":"\ud83d\udd34 DOWN","activity":"HEALTHY","wallet":"CRIMSON SPHERE"},{"n":null,"token":"MOUNTAIN","full_name":"MOUNTAIN","entry_price":2.3e-05,"current_price":2.9e-05,"target":200,"units":7615000,"current_value":228,"gain_dollar":28,"gain_pct":0.14,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"AVAX SYS"},{"n":null,"token":"1000X","full_name":"1000X","entry_price":7e-05,"current_price":7e-05,"target":400,"units":7615000,"current_value":283,"gain_dollar":83,"gain_pct":0.2075,"status":"\ud83d\udfe2 UP","activity":"NOT HEALTHY","wallet":"OBSIDIAN GATE II"},{"n":22,"token":"NYAN","full_name":"Nyan Cat","entry_price":7.354e-05,"current_price":7.354e-05,"target":250,"units":7812000,"current_value":230,"gain_dollar":-20,"gain_pct":-0.08,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"QUASARMIRAGE"},{"n":null,"token":"SNAKE","full_name":"SNAKE","entry_price":2.1e-05,"current_price":2.1e-05,"target":200,"units":7849200,"current_value":169,"gain_dollar":-31,"gain_pct":-0.155,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"GODOFFINANCE"},{"n":36,"token":"MILKERS","full_name":"MILKERS","entry_price":7.3e-05,"current_price":6.7e-05,"target":400,"units":8000000,"current_value":536,"gain_dollar":136,"gain_pct":0.34,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"LOFI"},{"n":null,"token":"NIETSZCHE","full_name":"NIETSZCHE","entry_price":2.6e-05,"current_price":7e-06,"target":200,"units":8203000,"current_value":62,"gain_dollar":-138,"gain_pct":-0.69,"status":"\ud83d\udd34 DOWN","activity":"NOT HEALTHY","wallet":"AVAX SYS"},{"n":null,"token":"RETARTRED","full_name":"RETARTRED","entry_price":2.7e-05,"current_price":1.8e-05,"target":200,"units":8203000,"current_value":178,"gain_dollar":-22,"gain_pct":-0.11,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"AVAX SYS"},{"n":null,"token":"WORTH","full_name":"WORTH","entry_price":3.6e-05,"current_price":3.7e-05,"target":300,"units":8333333.33333333,"current_value":487,"gain_dollar":187,"gain_pct":0.623333333333333,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"TANGEM4"},{"n":16,"token":"PISS","full_name":"PISS","entry_price":4.3e-05,"current_price":4.5e-05,"target":350,"units":8442750,"current_value":379.92375,"gain_dollar":29.92375,"gain_pct":0.0854964285714287,"status":"\ud83d\udfe2 UP","activity":"HEALTHY","wallet":"POLARIS NODE"},{"n":null,"token":"HYRAX","full_name":"HYRAX","entry_price":2e-05,"current_price":0.0001,"target":200,"units":8691000,"current_value":700,"gain_dollar":500,"gain_pct":2.5,"status":"\ud83d\udfe2 UP","activity":" HEALTHY","wallet":"OBSIDIAN GATE II"},{"n":null,"token":"BIG CHUNGUS","full_name":"BIG CHUNGUS","entry_price":2.4e-05,"current_price":2.4e-05,"target":200,"units":8691000,"current_value":209,"gain_dollar":9,"gain_pct":0.045,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN GATE II"},{"n":null,"token":"FAFO","full_name":"FAFO","entry_price":2.6e-05,"current_price":3e-06,"target":250,"units":8925000,"current_value":236,"gain_dollar":-189,"gain_pct":-0.756,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"PLUTO"},{"n":46,"token":"TOKEN","full_name":"TOKEN","entry_price":2.6e-05,"current_price":3.2e-05,"target":250,"units":9615384.61538462,"current_value":307.692307692308,"gain_dollar":57.6923076923077,"gain_pct":0.230769230769231,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"LOFI"},{"n":50,"token":"COBSON","full_name":"COBSON","entry_price":3.535e-05,"current_price":3.535e-05,"target":200,"units":10000000,"current_value":345,"gain_dollar":145,"gain_pct":0.725,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"PLUTO"},{"n":null,"token":"HUMANCOIN","full_name":"HUMANCOIN","entry_price":2.1e-05,"current_price":3.535e-05,"target":200,"units":11406353,"current_value":248,"gain_dollar":400,"gain_pct":2,"status":"\ud83d\udfe2 UP","activity":null,"wallet":null},{"n":14,"token":"BULK","full_name":"BULK","entry_price":0.0124,"current_price":0.04,"target":400,"units":11598000,"current_value":1700,"gain_dollar":1700,"gain_pct":4.25,"status":"\ud83d\udfe2 UP","activity":"HEALTHY","wallet":"QUASARMIRAGE"},{"n":71,"token":"AUTISM","full_name":"AUTISM","entry_price":3e-05,"current_price":3e-05,"target":350,"units":11666666.6666667,"current_value":362,"gain_dollar":300,"gain_pct":0.857142857142857,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN L U"},{"n":65,"token":"UNDERCLASS","full_name":"UNDERCLASS","entry_price":3.535e-05,"current_price":3.535e-05,"target":500,"units":12007000,"current_value":175,"gain_dollar":100,"gain_pct":0.2,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN L U"},{"n":58,"token":"OILINU","full_name":"OILINU","entry_price":5.1e-05,"current_price":4.8e-05,"target":400,"units":12792000,"current_value":150,"gain_dollar":-250,"gain_pct":-0.625,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"TNGM1"},{"n":null,"token":"CATFU","full_name":"CATFU","entry_price":6.6e-05,"current_price":6.6e-05,"target":600,"units":14000000,"current_value":600,"gain_dollar":800,"gain_pct":1.33333333333333,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"TNGM1"},{"n":19,"token":"SAMBA","full_name":"SAMBA","entry_price":3.1e-05,"current_price":4.8e-05,"target":400,"units":14342000,"current_value":365,"gain_dollar":-35,"gain_pct":-0.0875,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"POLARIS NODE"},{"n":null,"token":"CHUDBOB","full_name":"CHUDBOB","entry_price":2.7e-05,"current_price":2.7e-05,"target":574,"units":14768000,"current_value":574,"gain_dollar":26,"gain_pct":0.0452961672473868,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN GATE II"},{"n":null,"token":"NITRO","full_name":"NITRO","entry_price":1.2e-05,"current_price":9.6e-06,"target":200,"units":14788000,"current_value":129,"gain_dollar":-70,"gain_pct":-0.35,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"CRIMSON SPHERE"},{"n":null,"token":"1SOL&DREAM","full_name":"1SOL&DREAM","entry_price":1.8e-05,"current_price":2.3e-05,"target":250,"units":17000000,"current_value":500,"gain_dollar":250,"gain_pct":1,"status":"\ud83d\udfe2 UP","activity":" HEALTHY","wallet":"PLUTO"},{"n":null,"token":"SHITHEAD","full_name":"SHITHEAD","entry_price":2.7e-05,"current_price":2.7e-05,"target":300,"units":19000000,"current_value":202,"gain_dollar":2,"gain_pct":0.00666666666666667,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN GATE II"},{"n":null,"token":"BUTTPL","full_name":"BUTTPLUG","entry_price":3.2e-05,"current_price":1.6e-05,"target":300,"units":20400000,"current_value":145,"gain_dollar":-155,"gain_pct":-0.516666666666667,"status":"\ud83d\udd34 DOWN","activity":null,"wallet":"LOFI"},{"n":1,"token":"BILLBOARD","full_name":"BILLBOARD","entry_price":1.4115e-05,"current_price":1.9e-05,"target":300,"units":30000000,"current_value":570,"gain_dollar":270,"gain_pct":0.9,"status":"\ud83d\udfe2 UP","activity":"HEALTHY","wallet":"TNGM2"},{"n":31,"token":"BITSHARK","full_name":"BITSHARK","entry_price":6e-06,"current_price":8e-06,"target":200,"units":33333333.3333333,"current_value":250,"gain_dollar":50,"gain_pct":0.25,"status":"\ud83d\udfe2 UP","activity":null,"wallet":"OBSIDIAN GATE II"},{"n":null,"token":"GASCOIN","full_name":"GASCOIN","entry_price":7e-06,"current_price":8e-06,"target":300,"units":35992000,"current_value":247,"gain_dollar":-53,"gain_pct":-0.176666666666667,"status":"\ud83d\udd34 DOWN","activity":"NOT HEALTHY","wallet":"OBSIDIAN GATE II"}];
 
-// ── FORMAT HELPERS ─────────────────────────────────────────────────────────
-function fmtTokens(n) {
-  if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
-  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
-  if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
-  return n.toFixed(0);
-}
-function fmtPrice(p) {
-  // Count leading zeros after decimal
-  const s = p.toFixed(20).replace(/0+$/,'');
-  const match = s.match(/^0\.(0+)/);
-  const zeros = match ? match[1].length : 0;
-  const sig = s.replace(/^0\.0*/,'').substring(0,4);
-  if (zeros >= 2) return `$0.0<sub>${zeros}</sub>${sig}`;
-  return '$' + p.toPrecision(4);
+const fmt = {
+  num: (v) => v == null ? "" : v.toLocaleString("en-US", { maximumFractionDigits: 6 }),
+  usd: (v) => v == null ? "" : "$" + v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+  usdShort: (v) => v == null ? "" : "$" + v.toLocaleString("en-US", { maximumFractionDigits: 0 }),
+  pct: (v) => v == null ? "" : (v * 100).toFixed(1) + "%",
+  units: (v) => v == null ? "" : v.toLocaleString("en-US", { maximumFractionDigits: 0 }),
+  price: (v) => {
+    if (v == null) return "";
+    if (v < 0.001) return v.toExponential(3);
+    return v.toLocaleString("en-US", { maximumFractionDigits: 6 });
+  },
+  n: (v) => v == null ? "" : (Number.isInteger(v) ? v.toString() : v.toFixed(0)),
+};
+
+let sortKey = "units";
+let sortDir = "asc";
+let searchVal = "";
+let statusFilter = "";
+let walletFilter = "";
+
+function getStatusLabel(h) {
+  if (h.status && /UP/i.test(h.status)) return "UP";
+  if (h.status && /DOWN/i.test(h.status)) return "DOWN";
+  if ((h.gain_dollar || 0) > 0) return "UP";
+  if ((h.gain_dollar || 0) < 0) return "DOWN";
+  return "FLAT";
 }
 
-// ── BUILD TABLE ────────────────────────────────────────────────────────────
-const tbody = document.getElementById('holdingsBody');
-holdings.forEach(h => {
-  const tokens = h.alloc / h.price;
-  const isFeatured = h.alloc === 1000;
-  const up = !h.h24.startsWith('-');
-  const tr = document.createElement('tr');
-  if (isFeatured) tr.classList.add('featured');
-  tr.innerHTML = `
-    <td class="ord-cell">${h.n}</td>
-    <td class="ticker-cell">${h.ticker}</td>
-    <td class="name-cell">${h.name}</td>
-    <td class="num">${h.mcap}</td>
-    <td class="num">${fmtPrice(h.price)}</td>
-    <td><span class="alloc-badge ${isFeatured ? 'alloc-1000' : 'alloc-600'}">$${h.alloc.toLocaleString()}</span></td>
-    <td class="gold-val">${fmtTokens(tokens)}</td>
-    <td class="muted">${h.liq}</td>
-    <td class="muted">${h.age}</td>
-    <td class="${up ? 'up' : 'dn'}">${h.h24}</td>
-  `;
-  tbody.appendChild(tr);
+function render() {
+  let rows = HOLDINGS.slice();
+  if (searchVal) {
+    const q = searchVal.toLowerCase();
+    rows = rows.filter(h =>
+      (h.token||"").toString().toLowerCase().includes(q) ||
+      (h.full_name||"").toString().toLowerCase().includes(q)
+    );
+  }
+  if (statusFilter) {
+    rows = rows.filter(h => getStatusLabel(h) === statusFilter);
+  }
+  if (walletFilter) {
+    rows = rows.filter(h => (h.wallet || "") === walletFilter);
+  }
+
+  rows.sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (av == null && bv == null) return 0;
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (typeof av === "number" && typeof bv === "number") {
+      return sortDir === "asc" ? av - bv : bv - av;
+    }
+    return sortDir === "asc"
+      ? String(av).localeCompare(String(bv))
+      : String(bv).localeCompare(String(av));
+  });
+
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = rows.map(h => {
+    const status = getStatusLabel(h);
+    const statusClass = status === "UP" ? "green" : (status === "DOWN" ? "red" : "dim");
+    const statusText = status === "UP" ? "🟢 UP" : (status === "DOWN" ? "🔴 DOWN" : "・ FLAT");
+    const gainCls = (h.gain_dollar || 0) > 0 ? "green" : ((h.gain_dollar || 0) < 0 ? "red" : "dim");
+    const pctCls  = (h.gain_pct    || 0) > 0 ? "green" : ((h.gain_pct    || 0) < 0 ? "red" : "dim");
+    return `<tr>
+      <td class="num dim">${ fmt.n(h.n) }</td>
+      <td class="token">${ h.token || "" }</td>
+      <td class="dim">${ h.full_name || "" }</td>
+      <td class="num">${ fmt.price(h.entry_price) }</td>
+      <td class="num">${ fmt.price(h.current_price) }</td>
+      <td class="num">${ fmt.usdShort(h.target) }</td>
+      <td class="num dim">${ fmt.units(h.units) }</td>
+      <td class="num">${ fmt.usd(h.current_value) }</td>
+      <td class="num ${gainCls}">${ fmt.usd(h.gain_dollar) }</td>
+      <td class="num ${pctCls}">${ fmt.pct(h.gain_pct) }</td>
+      <td class="${statusClass} center">${ statusText }</td>
+      <td class="dim">${ h.activity || "" }</td>
+      <td class="dim">${ h.wallet || "" }</td>
+    </tr>`;
+  }).join("");
+
+  document.getElementById("row-count").textContent = rows.length;
+
+  document.querySelectorAll("th").forEach(th => {
+    th.classList.remove("sort-asc", "sort-desc");
+    if (th.dataset.key === sortKey) th.classList.add(sortDir === "asc" ? "sort-asc" : "sort-desc");
+  });
+}
+
+document.querySelectorAll("th[data-key]").forEach(th => {
+  th.addEventListener("click", () => {
+    const k = th.dataset.key;
+    if (k === sortKey) sortDir = sortDir === "asc" ? "desc" : "asc";
+    else { sortKey = k; sortDir = th.dataset.num ? "desc" : "asc"; }
+    render();
+  });
 });
 
-// ── TICKER ─────────────────────────────────────────────────────────────────
-const tickerInner = document.getElementById('tickerInner');
-const tickItems = holdings.map(h => {
-  const up = !h.h24.startsWith('-');
-  return `<span class="tick-item"><b>${h.ticker}</b> ${h.mcap} <span class="${up?'up':'dn'}">${h.h24}</span></span>`;
-}).join('');
-tickerInner.innerHTML = tickItems + tickItems; // duplicate for seamless loop
+document.getElementById("search").addEventListener("input", e => { searchVal = e.target.value; render(); });
+document.getElementById("filter-status").addEventListener("change", e => { statusFilter = e.target.value; render(); });
 
-// ── SCROLL ANIMATIONS ──────────────────────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:0.05});
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+const walletSelect = document.getElementById("filter-wallet");
+const wallets = [...new Set(HOLDINGS.map(h => h.wallet).filter(w => w && w.trim()))].sort();
+wallets.forEach(w => {
+  const opt = document.createElement("option");
+  opt.value = w;
+  opt.textContent = w;
+  walletSelect.appendChild(opt);
+});
+walletSelect.addEventListener("change", e => { walletFilter = e.target.value; render(); });
+
+// Build ticker
+const ref = "NWC-PORT-SOL-2026-001";
+const tokens = HOLDINGS.map(h => h.token).filter(Boolean);
+const items = [
+  "NWC . ARCHIVE", ref, "VOLATILITY HARVEST", "LIVE",
+  "$22,749".replace(/[^\d$,]/g, "") + " AUM",
+  "+48.0%".replace("++", "+"),
+  ...tokens
+];
+const tickerHTML = (items.map(t => `<span>${t}</span><span class="dot">.</span>`).join("")).repeat(2);
+document.getElementById("ticker").innerHTML = tickerHTML;
+
+render();
 </script>
 </body>
 </html>
