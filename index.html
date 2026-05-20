@@ -28,7 +28,7 @@
 html{scroll-behavior:smooth}
 body{background:transparent;color:var(--text);font-family:var(--serif);overflow-x:hidden}
 
-/* ── TICKER ── */
+/* TICKER */
 .ticker-wrap{position:sticky;top:0;z-index:200;background:rgba(4,4,4,0.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;height:34px;overflow:hidden}
 .ticker-badge{background:var(--gold);color:#000;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1.5px;padding:0 16px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0}
 .ticker-track{overflow:hidden;flex:1}
@@ -39,7 +39,7 @@ body{background:transparent;color:var(--text);font-family:var(--serif);overflow-
 .tick-item .sep{color:var(--muted2);margin:0 10px}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* ── NAV ── */
+/* NAV */
 nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0 52px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:34px;z-index:199;backdrop-filter:blur(12px)}
 .nav-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .nav-links{display:flex;gap:32px}
@@ -47,7 +47,7 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .nav-links a:hover{color:var(--gold)}
 .nav-ref{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px}
 
-/* ── PYRAMID BACKGROUND ── */
+/* PYRAMID BACKGROUND */
 #heroCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .hero-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:96px 52px 60px}
 .hero-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
@@ -60,13 +60,13 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .hs-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
 .hs-val{font-family:var(--mono);font-size:38px;font-weight:700;color:var(--gold);line-height:1}
 
-/* ── SECTION ── */
+/* SECTION */
 .section-wrap{padding:0 52px}
 .section-header{display:flex;align-items:baseline;justify-content:space-between;padding:44px 0 0;margin-bottom:28px}
 .sec-title{font-family:var(--display);font-size:40px;letter-spacing:2px;color:#fff}
 .sec-sub{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px}
 
-/* ── PORTFOLIO CARD ── */
+/* PORTFOLIO CARD */
 .portfolio-card{margin:0 52px 48px;border:1px solid var(--border);background:rgba(5,4,2,0.75);backdrop-filter:blur(6px);display:flex;align-items:stretch;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d}
 .portfolio-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
 .portfolio-card:hover{background:rgba(201,168,76,0.06);transform:translateY(-3px);box-shadow:0 12px 48px rgba(201,168,76,0.08)}
@@ -84,12 +84,12 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .pc-arrow{font-family:var(--mono);font-size:13px;color:var(--muted2);margin-top:8px;transition:all .25s}
 .portfolio-card:hover .pc-arrow{color:var(--gold);transform:translateX(5px)}
 
-/* ── ARTICLE GRID ── */
+/* ARTICLE GRID */
 .article-grid{padding:0 52px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2)}
 @media(max-width:1100px){.article-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.article-grid{grid-template-columns:1fr}}
 
-/* ── ARTICLE CARD ── */
+/* ARTICLE CARD */
 .acard{background:rgba(10,10,10,0.80);backdrop-filter:blur(6px);padding:32px;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;transform-style:preserve-3d;cursor:pointer}
 .acard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
 .acard::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,168,76,0.06) 0%,transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
@@ -111,16 +111,16 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .acard-arrow{font-family:var(--mono);font-size:11px;color:var(--muted2);transition:all .25s}
 .acard:hover .acard-arrow{color:var(--gold);transform:translateX(4px)}
 
-/* ── LIVE PULSE ── */
+/* LIVE PULSE */
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
 .acard.live .acard-status::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s ease-in-out infinite;vertical-align:middle}
 
-/* ── FLOATING PARTICLES ── */
+/* FLOATING PARTICLES */
 #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .particle{position:absolute;border-radius:50%;background:var(--gold);animation:float linear infinite;opacity:0}
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:.4}90%{opacity:.1}100%{transform:translateY(-100px) rotate(720deg);opacity:0}}
 
-/* ── MANDATE ── */
+/* MANDATE */
 .mandate{margin:0 52px 0;padding:52px;border:1px solid var(--border);border-bottom:none;position:relative;overflow:hidden;transition:box-shadow .3s;background:rgba(5,4,2,0.80);backdrop-filter:blur(8px);}
 .mandate:hover{box-shadow:0 0 60px rgba(201,168,76,0.06) inset}
 .mandate-wm{position:absolute;font-family:var(--display);font-size:150px;color:rgba(201,168,76,0.025);right:40px;top:50%;transform:translateY(-50%);pointer-events:none;letter-spacing:4px;white-space:nowrap}
@@ -129,19 +129,145 @@ nav{background:rgba(5,5,5,0.88);border-bottom:1px solid var(--border2);padding:0
 .mandate-body{font-family:var(--serif);font-size:17px;color:rgba(232,224,208,0.55);font-style:italic;max-width:640px;line-height:1.8;margin-bottom:16px}
 .mandate-sig{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-top:28px;padding-top:22px;border-top:1px solid var(--border2)}
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify-content:space-between;align-items:center;background:rgba(4,4,2,0.90);backdrop-filter:blur(8px);}
 .footer-brand{font-family:var(--display);font-size:19px;letter-spacing:3px;color:var(--gold)}
 .footer-note{font-family:var(--mono);font-size:8px;color:var(--muted);text-align:right;line-height:2;letter-spacing:.5px}
 
-/* ── COUNT UP NUMBERS ── */
+/* COUNT UP NUMBERS */
 .count-val{display:inline-block;transition:color .3s}
 
-/* ── SCROLL ANIMS ── */
+/* SCROLL ANIMS */
 .fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
 .fade-up.visible{opacity:1;transform:translateY(0)}
 .acard{opacity:0;transform:translateY(14px) rotateX(8deg);transition:opacity .45s ease,transform .45s ease,background .2s,box-shadow .3s}
 .acard.visible{opacity:1;transform:translateY(0) rotateX(0)}
+
+/* ATLAS (NWC ARTICLES / HYPOTHESIS ATLAS) */
+.atlas-grid{padding:0 52px 80px;display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:1100px){.atlas-grid{grid-template-columns:1fr 1fr}}
+.atlas-grid.single{grid-template-columns:1fr}
+
+.atlas-card{
+  display:grid;
+  grid-template-columns:clamp(220px,34%,400px) 1fr;
+  background:rgba(5,4,2,0.80);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--border);
+  text-decoration:none;
+  color:inherit;
+  position:relative;
+  overflow:hidden;
+  transition:background .25s,transform .35s,box-shadow .35s,border-color .25s;
+}
+.atlas-grid.single .atlas-card{grid-template-columns:clamp(280px,30%,440px) 1fr}
+@media(max-width:760px){.atlas-card,.atlas-grid.single .atlas-card{grid-template-columns:1fr}}
+.atlas-card::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--gold),rgba(201,168,76,0.2));
+  z-index:2;
+}
+.atlas-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(201,168,76,0.07) 0%,transparent 55%);
+  opacity:0;transition:opacity .35s;pointer-events:none;z-index:3;
+}
+.atlas-card:hover{
+  background:rgba(14,10,4,0.92);
+  transform:translateY(-4px);
+  box-shadow:0 18px 50px rgba(0,0,0,0.55),0 0 0 1px rgba(201,168,76,0.18);
+  border-color:rgba(201,168,76,0.32);
+}
+.atlas-card:hover::after{opacity:1}
+.atlas-card.pending{opacity:.42;pointer-events:none}
+
+.atlas-cover{
+  position:relative;
+  background:#1a0501;
+  overflow:hidden;
+  min-height:220px;
+  aspect-ratio:16/9;
+}
+.atlas-cover img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .6s ease;
+}
+.atlas-card:hover .atlas-cover img{transform:scale(1.04)}
+.atlas-cover::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 60%,rgba(5,4,2,0.65) 100%);
+  pointer-events:none;
+}
+@media(max-width:760px){.atlas-cover{min-height:160px}}
+
+.atlas-body{
+  padding:32px 36px 30px;
+  display:flex;flex-direction:column;
+  position:relative;z-index:1;
+}
+.atlas-cat{
+  font-family:var(--mono);
+  font-size:8px;letter-spacing:2.2px;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.atlas-cat .live-tag{
+  color:var(--green);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.atlas-cat .live-tag::before{
+  content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+.atlas-cat .pending-tag{color:var(--muted)}
+.atlas-cat .ref{
+  color:var(--muted2);margin-left:auto;font-size:7px;letter-spacing:1.5px;
+}
+
+.atlas-title{
+  font-family:var(--display);
+  font-size:36px;letter-spacing:1px;line-height:1.02;
+  color:#fff;
+  margin-bottom:12px;
+  transition:color .25s;
+}
+.atlas-title em{color:var(--gold);font-style:italic}
+.atlas-card:hover .atlas-title{color:var(--gold)}
+
+.atlas-deck{
+  font-family:var(--serif);
+  font-size:15px;line-height:1.7;
+  color:rgba(232,224,208,0.55);
+  font-style:italic;
+  margin-bottom:22px;
+  max-width:520px;
+}
+
+.atlas-meta{
+  display:flex;align-items:center;
+  gap:20px;
+  padding-top:18px;
+  margin-top:auto;
+  border-top:1px solid var(--border2);
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:1.6px;
+  color:var(--muted);
+  text-transform:uppercase;
+  flex-wrap:wrap;
+}
+.atlas-meta .arrow{
+  margin-left:auto;
+  color:var(--muted2);
+  transition:color .25s,transform .25s;
+  font-size:11px;
+}
+.atlas-card:hover .atlas-meta .arrow{color:var(--gold);transform:translateX(5px)}
 </style>
 </head>
 <body>
@@ -151,7 +277,7 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 
 <!-- TICKER -->
 <div class="ticker-wrap">
-  <div class="ticker-badge">MEME · SOL</div>
+  <div class="ticker-badge">MEME &middot; SOL</div>
   <div class="ticker-track">
     <div class="ticker-inner" id="tickerEl"></div>
   </div>
@@ -162,10 +288,11 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
   <a href="index.html" class="nav-brand" style="text-decoration:none;">NEW WORLD CAPITAL</a>
   <div class="nav-links">
     <a href="#portfolio">Portfolio</a>
-    <a href="#articles">Articles</a>
+    <a href="#assets">Assets</a>
+    <a href="#nwc-articles">NWC Articles</a>
     <a href="#mandate">Mandate</a>
   </div>
-  <div class="nav-ref">NWC · MEME ECONOMY</div>
+  <div class="nav-ref">NWC &middot; MEME ECONOMY</div>
 </nav>
 
 <!-- HERO WITH 3D CANVAS -->
@@ -173,7 +300,7 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 <!-- SNOW CANVAS -->
 <canvas id="snowCanvas" style="position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
 <section class="hero">
-    <div class="hero-eyebrow">New World Capital · Meme Economy</div>
+    <div class="hero-eyebrow">New World Capital &middot; Meme Economy</div>
     <h1>The Meme<br><em>Economy</em></h1>
     <p class="hero-desc">Systematic deployment across the lower stratum of the Solana meme ecosystem. Not speculation. Observational infrastructure. Each position is a probe. The portfolio is the thesis.</p>
     <div class="hero-stats">
@@ -188,18 +315,18 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 <div class="section-wrap" id="portfolio" style="opacity:1;transform:none;">
   <div class="section-header">
     <div class="sec-title">Breadth Map</div>
-    <div class="sec-sub">63 POSITIONS · $23,000 DEPLOYED · UPDATED MAY 2026</div>
+    <div class="sec-sub">63 POSITIONS &middot; $23,000 DEPLOYED &middot; UPDATED MAY 2026</div>
   </div>
 </div>
 
 <div class="portfolio-card" style="cursor:default;opacity:1;transform:none;">
   <div class="portfolio-card-left">
-    <div class="pc-cat"><span class="pc-dot"></span>Portfolio · Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
+    <div class="pc-cat"><span class="pc-dot"></span>Portfolio &middot; Solana Breadth<span class="pc-ref">NWC-PORT-SOL-2026-001</span></div>
     <h2>Sixty-Three at the Line</h2>
     <p>63-position breadth deployment across the lower stratum of the Solana meme ecosystem. Volatility harvest discipline. Sub one hundred thousand market cap focus. Soft cap targets per position. Hard cap trims sweep to the side pile. The portfolio is observational infrastructure.</p>
     <div style="margin-top:24px;display:flex;gap:14px;flex-wrap:wrap;">
       <a href="nwc_sol_portfolio.html" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--gold);text-decoration:none;border:1px solid var(--border);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-block;" onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='transparent'">&#8594; Full Archive</a>
-      <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#3ddc84;text-decoration:none;border:1px solid rgba(61,220,132,0.25);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(61,220,132,0.06)'" onmouseout="this.style.background='transparent'"><span style="width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;display:inline-block;"></span>Live Watchlist · DEX Screener</a>
+      <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:#3ddc84;text-decoration:none;border:1px solid rgba(61,220,132,0.25);padding:8px 18px;text-transform:uppercase;transition:all .2s;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.background='rgba(61,220,132,0.06)'" onmouseout="this.style.background='transparent'"><span style="width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;display:inline-block;"></span>Live Watchlist &middot; DEX Screener</a>
     </div>
   </div>
   <div class="portfolio-card-right">
@@ -209,21 +336,31 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     <div class="pc-stat"><span class="pc-stat-label">Live Prices</span>
       <a href="https://dexscreener.com/watchlist/EnT0mob1gIkjsNk4Z8TF" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:14px;font-weight:700;color:#3ddc84;text-decoration:none;display:flex;align-items:center;gap:6px;margin-top:2px;">
         <span style="width:5px;height:5px;border-radius:50%;background:#3ddc84;animation:pulse 2s ease-in-out infinite;flex-shrink:0;"></span>
-        DEX Screener ↗
+        DEX Screener &#8599;
       </a>
     </div>
   </div>
 </div>
 
-<!-- ARTICLES -->
-<div class="section-wrap" id="articles" style="opacity:1;transform:none;">
+<!-- ASSETS (TOKEN ARTICLES) -->
+<div class="section-wrap" id="assets" style="opacity:1;transform:none;">
   <div class="section-header">
-    <div class="sec-title">Token Articles</div>
-    <div class="sec-sub">ONE ARTICLE PER TOKEN · BUILDING THE ARCHIVE</div>
+    <div class="sec-title">Assets</div>
+    <div class="sec-sub">ONE ARTICLE PER TOKEN &middot; BUILDING THE ARCHIVE</div>
   </div>
 </div>
 
 <div class="article-grid" id="articleGrid"></div>
+
+<!-- NWC ARTICLES (HOUSE WRITINGS — HYPOTHESIS ATLAS, ESSAYS, FIELD NOTES) -->
+<div class="section-wrap" id="nwc-articles" style="opacity:1;transform:none;">
+  <div class="section-header">
+    <div class="sec-title">NWC Articles</div>
+    <div class="sec-sub">HYPOTHESIS ATLAS &middot; THESES &middot; ESSAYS &middot; FIELD NOTES</div>
+  </div>
+</div>
+
+<div class="atlas-grid" id="atlasGrid"></div>
 
 <!-- MANDATE -->
 <div class="mandate" id="mandate" style="opacity:1;transform:none;">
@@ -232,19 +369,19 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
   <div class="mandate-title">Attention Into Liquidity</div>
   <p class="mandate-body">New World Capital's meme coin allocation is not framed as speculative novelty. It is a deliberate exposure to emergent attention markets where narrative, coordination, and liquidity interact in real time. The portfolio is both capital deployment and observational infrastructure.</p>
   <p class="mandate-body">The objective is not only to capture asymmetric returns, but to map the conditions under which these markets emerge, sustain themselves, and in rare cases, persist.</p>
-  <div class="mandate-sig">NWC-PORT-SOL-2026-001 &nbsp;·&nbsp; SOLANA BREADTH MAP &nbsp;·&nbsp; MAY 04, 2026 &nbsp;·&nbsp; THOTH THE 13TH · NEW WORLD CAPITAL</div>
+  <div class="mandate-sig">NWC-PORT-SOL-2026-001 &nbsp;&middot;&nbsp; SOLANA BREADTH MAP &nbsp;&middot;&nbsp; MAY 04, 2026 &nbsp;&middot;&nbsp; THOTH THE 13TH &middot; NEW WORLD CAPITAL</div>
 </div>
 
 <footer>
   <div class="footer-brand">NEW WORLD CAPITAL</div>
   <div class="footer-note">
-    NWC · MEME ECONOMY · SOLANA BREADTH MAP<br>
-    NOT FINANCIAL ADVICE · DYOR · ALL POSITIONS SPECULATIVE
+    NWC &middot; MEME ECONOMY &middot; SOLANA BREADTH MAP<br>
+    NOT FINANCIAL ADVICE &middot; DYOR &middot; ALL POSITIONS SPECULATIVE
   </div>
 </footer>
 
 <script>
-// ── TOKEN DATA ──
+// TOKEN DATA
 const tokens = [
   { n:1,  ticker:'1SOL',       name:'1 Sol and a Dream',              mcap:'$17K',  alloc:600,  file:'nwc-sol-1sol.html',       live:true },
   { n:2,  ticker:'WIZARD',     name:'Smoking Wizard',                 mcap:'$261K', alloc:600,  file:'nwc-sol-wizard.html',     live:false },
@@ -283,7 +420,23 @@ const tokens = [
   { n:35, ticker:'BILLBOARD',  name:'Billboard',                     mcap:'$14K', alloc:600,  file:'nwc-sol-billboard.html',   live:true },
 ];
 
-// ── BUILD GRID ──
+// ATLAS DATA (NWC ARTICLES / HYPOTHESIS ATLAS)
+const atlasEntries = [
+  {
+    n: 1,
+    ref: 'NWC-HYP-ATLAS-2026-001',
+    series: 'Hypothesis Atlas',
+    title: 'The <em>Emergence</em> of Attention Markets',
+    deck: 'On meme coins, liquidity, and the financial primitive hiding beneath the joke. The medium changed. Human behavior did not.',
+    date: '18 MAY 2026',
+    read: '7 MIN READ',
+    cover: 'nwc-hypothesis-001-cover.png',
+    file: 'nwc-hypothesis-001.html',
+    live: true,
+  },
+];
+
+// BUILD TOKEN GRID
 const grid = document.getElementById('articleGrid');
 tokens.forEach(t => {
   const isFeatured = t.alloc === 1000;
@@ -320,43 +473,77 @@ tokens.forEach(t => {
   grid.appendChild(el);
 });
 
-// ── TICKER ──
+// BUILD ATLAS GRID
+const atlasGrid = document.getElementById('atlasGrid');
+if(atlasEntries.length === 1) atlasGrid.classList.add('single');
+atlasEntries.forEach(a => {
+  const el = document.createElement(a.live ? 'a' : 'div');
+  if(a.live) el.href = a.file;
+  el.className = 'atlas-card' + (a.live ? '' : ' pending');
+  const num = String(a.n).padStart(3, '0');
+  el.innerHTML = `
+    <div class="atlas-cover">
+      ${a.cover ? `<img src="${a.cover}" alt="${a.series} No. ${num} cover" loading="lazy">` : ''}
+    </div>
+    <div class="atlas-body">
+      <div class="atlas-cat">
+        <span>${a.series} &middot; No. ${num}</span>
+        ${a.live ? '<span class="live-tag">LIVE</span>' : '<span class="pending-tag">&#9900; PENDING</span>'}
+        <span class="ref">${a.ref}</span>
+      </div>
+      <h3 class="atlas-title">${a.title}</h3>
+      <p class="atlas-deck">${a.deck}</p>
+      <div class="atlas-meta">
+        <span>${a.date}</span>
+        <span>${a.read}</span>
+        ${a.live ? '<span class="arrow">&#8594; READ</span>' : '<span class="arrow" style="font-size:8px;letter-spacing:1.4px">SOON</span>'}
+      </div>
+    </div>
+  `;
+  if(a.live){
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      el.style.setProperty('--mx', x * 100 + '%');
+      el.style.setProperty('--my', y * 100 + '%');
+    });
+  }
+  atlasGrid.appendChild(el);
+});
+
+// TICKER
 const tickEl = document.getElementById('tickerEl');
 const items = tokens.map(t =>
-  `<span class="tick-item"><b>${t.ticker}</b><span class="sep">·</span>${t.name}<span class="sep">·</span>${t.mcap}</span>`
+  `<span class="tick-item"><b>${t.ticker}</b><span class="sep">&middot;</span>${t.name}<span class="sep">&middot;</span>${t.mcap}</span>`
 ).join('');
 tickEl.innerHTML = items + items;
 
-// ── EGYPTIAN PYRAMID SCENE ──
+// EGYPTIAN PYRAMID SCENE
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
 let W, H, stars = [], waves = [], dustP = [], t = 0;
 let mouseX = window.innerWidth * 0.5, mouseY = window.innerHeight * 0.4;
-let eyeLookX = 0, eyeLookY = 0; // smooth pupil offset
+let eyeLookX = 0, eyeLookY = 0;
 window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 
-// ── DAY / NIGHT PHASE ──
-// Returns 0 = full night, 1 = full day, smooth blend in between
+// DAY / NIGHT PHASE
 function getDayLight(){
   const now = new Date();
   const h = now.getHours() + now.getMinutes()/60 + now.getSeconds()/3600;
-  // Dawn 5→7, Day 7→18, Dusk 18→20, Night 20→5
   if(h >= 7 && h < 18)  return 1.0;
   if(h >= 20 || h < 5)  return 0.0;
-  if(h >= 5  && h < 7)  return (h - 5) / 2;   // 0→1
-  if(h >= 18 && h < 20) return (20 - h) / 2;   // 1→0
+  if(h >= 5  && h < 7)  return (h - 5) / 2;
+  if(h >= 18 && h < 20) return (20 - h) / 2;
   return 0;
 }
-// Sun arc position (0=sunrise E horizon, 0.5=noon overhead, 1=sunset W horizon)
 function getSunArc(){
   const now = new Date();
   const h = now.getHours() + now.getMinutes()/60;
-  // Sun travels from ~5am to ~20pm = 15hr window
   return Math.max(0, Math.min(1, (h - 5) / 15));
 }
 function lerpColor(a, b, f){ return a.map((v,i) => Math.round(v + (b[i]-v)*f)); }
 function rgba(c, a){ return `rgba(${c[0]},${c[1]},${c[2]},${a})`; }
-// Page brightness overlay element
 const dayOverlay = document.createElement('div');
 dayOverlay.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:0;transition:background .5s;background:transparent;';
 document.body.prepend(dayOverlay);
@@ -390,31 +577,19 @@ function initScene(){
 function drawSky(){
   const dl = getDayLight();
   const arc = getSunArc();
-
-  // Night sky colors (RGB)
   const skyN = [[0,3,7],[1,8,16],[4,18,32],[8,28,48]];
-  // Dawn/dusk horizon colors
   const skyDusk = [[30,10,2],[80,35,10],[140,70,20],[60,40,30]];
-  // Full day sky colors
   const skyDay = [[10,50,110],[20,80,155],[40,110,185],[120,175,215]];
-
-  // Blend: at dawn/dusk (dl<1) mix between night and dawn palette first, then toward day
-  const isTransition = dl > 0 && dl < 1;
-  const dawnFactor = isTransition ? Math.sin(dl * Math.PI * 0.5) : 0; // peak at dl=1
-  const dayFactor = dl;
-
   const stops = [0, 0.25, 0.55, 1];
   const g = ctx.createLinearGradient(0,0,0,H*0.78);
   stops.forEach((s,i)=>{
     const n = skyN[i];
     const d = skyDay[i];
     const dusk = skyDusk[i];
-    // First blend night→dusk, then dusk→day
     let c;
     if(dl <= 0){ c = n; }
     else if(dl >= 1){ c = d; }
     else {
-      // 0→0.5: night to dusk, 0.5→1: dusk to day
       if(dl < 0.5){ c = lerpColor(n, dusk, dl*2); }
       else { c = lerpColor(dusk, d, (dl-0.5)*2); }
     }
@@ -422,34 +597,28 @@ function drawSky(){
   });
   ctx.fillStyle=g; ctx.fillRect(0,0,W,H*0.78);
 
-  // Horizon warm glow during dawn/dusk
   if(dl > 0 && dl < 1){
     const glowIntensity = Math.sin(dl * Math.PI) * 0.65;
-    // Position: dawn=left side, dusk=right side
     const hx = W * arc;
     const hg = ctx.createRadialGradient(hx, H*0.68, 0, hx, H*0.68, W*0.55);
     if(arc < 0.5){
-      // Dawn: warm orange
       hg.addColorStop(0, `rgba(255,140,40,${glowIntensity*0.55})`);
       hg.addColorStop(0.3,`rgba(255,90,20,${glowIntensity*0.22})`);
       hg.addColorStop(1, 'rgba(0,0,0,0)');
     } else {
-      // Dusk: deeper orange-red
       hg.addColorStop(0, `rgba(255,100,20,${glowIntensity*0.6})`);
       hg.addColorStop(0.3,`rgba(200,50,10,${glowIntensity*0.25})`);
       hg.addColorStop(1, 'rgba(0,0,0,0)');
     }
     ctx.fillStyle=hg; ctx.fillRect(0,0,W,H*0.78);
   }
-
-  // Update page brightness overlay
-  const pageAlpha = dl * 0.07; // subtle bright wash during day
+  const pageAlpha = dl * 0.07;
   dayOverlay.style.background = `rgba(180,200,230,${pageAlpha})`;
 }
 
 function drawStars(){
   const dl = getDayLight();
-  const starFade = Math.max(0, 1 - dl * 1.5); // stars gone by dl>0.67
+  const starFade = Math.max(0, 1 - dl * 1.5);
   if(starFade <= 0) return;
   stars.forEach(s=>{
     const tw = 0.3+0.7*Math.abs(Math.sin(t*s.spd+s.phase));
@@ -460,7 +629,7 @@ function drawStars(){
 
 function drawMoon(){
   const dl = getDayLight();
-  const moonAlpha = Math.max(0, 1 - dl * 2); // moon gone by dl>0.5
+  const moonAlpha = Math.max(0, 1 - dl * 2);
   if(moonAlpha <= 0) return;
   const mx=W*0.80, my=H*0.13, mr=34;
   const gl=ctx.createRadialGradient(mx,my,0,mx,my,mr*4);
@@ -477,22 +646,17 @@ function drawMoon(){
 
 function drawSun(){
   const dl = getDayLight();
-  const sunAlpha = Math.max(0, Math.min(1, dl * 2 - 0.2)); // fades in as day begins
+  const sunAlpha = Math.max(0, Math.min(1, dl * 2 - 0.2));
   if(sunAlpha <= 0) return;
-
   const arc = getSunArc();
-  // Sun travels left-to-right with a parabolic arc (high noon = center top)
   const sx = W * (0.08 + arc * 0.84);
-  const maxHeight = H * 0.07; // highest point at noon
-  const horizonY = H * 0.62;  // where it starts/ends
-  // Parabola: 0 at edges, 1 at center
+  const maxHeight = H * 0.07;
+  const horizonY = H * 0.62;
   const archFactor = 1 - Math.pow((arc - 0.5) * 2, 2);
   const sy = horizonY - archFactor * (horizonY - maxHeight);
-
-  const sr = 36; // sun radius
+  const sr = 36;
   const pulse = 0.9 + 0.1 * Math.sin(t * 0.8);
 
-  // Outer corona layers
   for(let ring = 6; ring >= 1; ring--){
     const rg = ctx.createRadialGradient(sx,sy,0,sx,sy,sr*(1+ring*1.1));
     const coreAlpha = (0.18 / ring) * pulse * sunAlpha;
@@ -502,8 +666,6 @@ function drawSun(){
     ctx.fillStyle=rg;
     ctx.beginPath(); ctx.arc(sx,sy,sr*(1+ring*1.1),0,Math.PI*2); ctx.fill();
   }
-
-  // Sun disc
   ctx.save(); ctx.globalAlpha = sunAlpha;
   const sg = ctx.createRadialGradient(sx-sr*0.25,sy-sr*0.25,1,sx,sy,sr);
   sg.addColorStop(0, '#fffce0');
@@ -512,12 +674,8 @@ function drawSun(){
   sg.addColorStop(1, '#e8920a');
   ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2);
   ctx.fillStyle=sg; ctx.fill();
-
-  // Subtle limb darkening rim
   ctx.beginPath(); ctx.arc(sx,sy,sr,0,Math.PI*2);
   ctx.strokeStyle=`rgba(200,120,10,0.35)`; ctx.lineWidth=2; ctx.stroke();
-
-  // Sun ray cross-hairs (subtle)
   const rayLen = sr * 2.2;
   ctx.globalAlpha = sunAlpha * 0.18 * pulse;
   ctx.strokeStyle='rgba(255,240,120,1)';
@@ -531,8 +689,6 @@ function drawSun(){
     ctx.stroke();
   }
   ctx.restore();
-
-  // Sun's reflection column in water (during day)
   const refY = H*0.72;
   for(let i=0;i<10;i++){
     const ry=refY+i*14+Math.sin(t*1.1+i)*6;
@@ -546,31 +702,18 @@ function drawSun(){
 function drawPyramid(){
   const cx = W * 0.5;
   const groundY = H * 0.70;
-
-  // Slow camera wobble (4D dimensional feel)
   const camWobble = Math.sin(t * 0.18) * 0.04;
   const breathe = 1 + Math.sin(t * 0.22) * 0.012;
-
-  // 3D pyramid geometry
   const S = Math.min(W * 0.30, 300) * breathe;
   const PH = S * 1.62;
   const FOV = Math.min(W, H) * 1.1;
-
-  // Slow Y-axis rotation + fixed downward camera tilt
   const rotY = t * 0.06 + camWobble;
   const tiltX = 0.38;
   const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
   const cosX = Math.cos(tiltX), sinX = Math.sin(tiltX);
-
-  // 3D vertex positions: base corners + apex
   const V3 = [
-    [-S,  0, -S],  // 0 back-left
-    [ S,  0, -S],  // 1 back-right
-    [ S,  0,  S],  // 2 front-right
-    [-S,  0,  S],  // 3 front-left
-    [ 0, -PH, 0],  // 4 apex
+    [-S,  0, -S], [ S,  0, -S], [ S,  0,  S], [-S,  0,  S], [ 0, -PH, 0],
   ];
-
   function proj(v){
     let [x, y, z] = v;
     const rx = x * cosY + z * sinY;
@@ -580,15 +723,10 @@ function drawPyramid(){
     const d = FOV / (FOV + rz2 + S * 2.8);
     return { sx: cx + rx * d, sy: groundY - PH * 0.12 + ry2 * d, depth: rz2 };
   }
-
   const P = V3.map(proj);
-
-  // Ground strip
   const gg = ctx.createLinearGradient(0, groundY, 0, groundY + 32);
   gg.addColorStop(0, '#1c1408'); gg.addColorStop(1, '#080808');
   ctx.fillStyle = gg; ctx.fillRect(0, groundY, W, 32);
-
-  // Ground shadow ellipse
   ctx.save();
   ctx.globalAlpha = 0.32;
   const shg = ctx.createRadialGradient(cx + S*0.3, groundY + 5, 4, cx + S*0.2, groundY + 4, S * 1.3);
@@ -596,7 +734,6 @@ function drawPyramid(){
   ctx.beginPath(); ctx.ellipse(cx + S*0.25, groundY + 6, S * 1.2, 18, 0, 0, Math.PI * 2);
   ctx.fillStyle = shg; ctx.fill(); ctx.restore();
 
-  // Face definitions with painter's-algo depth sort
   const faces = [
     { verts:[P[3],P[0],P[4]], key:'left'  },
     { verts:[P[1],P[2],P[4]], key:'right' },
@@ -605,11 +742,9 @@ function drawPyramid(){
   ];
   faces.forEach(f => { f.avgDepth = f.verts.reduce((s,v)=>s+v.depth,0)/f.verts.length; });
   faces.sort((a,b) => b.avgDepth - a.avgDepth);
-
   function cross2D(a,b,c){ return (b.sx-a.sx)*(c.sy-a.sy)-(b.sy-a.sy)*(c.sx-a.sx); }
-
-  function stoneFace(f, clipPath){
-    const ap=P[4], bl=f.verts[1], br=f.verts[0]; // verts[0] is one base, verts[1] is next
+  function stoneFace(f){
+    const ap=P[4];
     const rows=20;
     ctx.save(); ctx.beginPath();
     f.verts.forEach((v,i)=>i===0?ctx.moveTo(v.sx,v.sy):ctx.lineTo(v.sx,v.sy));
@@ -640,16 +775,14 @@ function drawPyramid(){
     }
     ctx.restore();
   }
-
   faces.forEach(f => {
     const norm = cross2D(f.verts[0], f.verts[1], f.verts[2]);
     ctx.save();
     ctx.beginPath();
     f.verts.forEach((v,i)=>i===0?ctx.moveTo(v.sx,v.sy):ctx.lineTo(v.sx,v.sy));
     ctx.closePath();
-
     const pulseDim = 0.88 + 0.12*Math.sin(t*0.31);
-    if(norm > 0){ // back-facing, very dark
+    if(norm > 0){
       ctx.fillStyle='rgba(3,2,1,0.97)'; ctx.fill();
     } else if(f.key==='left'){
       const grd=ctx.createLinearGradient(P[3].sx,P[3].sy,P[4].sx,P[4].sy);
@@ -667,10 +800,7 @@ function drawPyramid(){
     } else {
       ctx.fillStyle='rgba(8,6,2,0.97)'; ctx.fill();
     }
-
     if(norm <= 0) stoneFace(f);
-
-    // Edge glow
     if(f.key==='left'&&norm<=0){
       ctx.beginPath(); ctx.moveTo(P[4].sx,P[4].sy); ctx.lineTo(P[3].sx,P[3].sy);
       ctx.strokeStyle='rgba(201,168,76,0.6)'; ctx.lineWidth=1.8; ctx.stroke();
@@ -686,7 +816,6 @@ function drawPyramid(){
     ctx.restore();
   });
 
-  // Apex glow
   const apX=P[4].sx, apY=P[4].sy;
   const apulse=0.72+0.28*Math.sin(t*1.4);
   const ag=ctx.createRadialGradient(apX,apY,0,apX,apY,60);
@@ -695,8 +824,6 @@ function drawPyramid(){
   ag.addColorStop(0.6,`rgba(201,168,76,${0.10*apulse})`);
   ag.addColorStop(1,'rgba(201,168,76,0)');
   ctx.fillStyle=ag; ctx.beginPath(); ctx.arc(apX,apY,60,0,Math.PI*2); ctx.fill();
-
-  // Rotating capstone
   const capSize=4+3*apulse;
   ctx.save(); ctx.translate(apX,apY); ctx.rotate(t*0.4);
   ctx.beginPath();
@@ -705,8 +832,6 @@ function drawPyramid(){
     i===0?ctx.moveTo(Math.cos(a)*capSize,Math.sin(a)*capSize):ctx.lineTo(Math.cos(a)*capSize,Math.sin(a)*capSize);
   }
   ctx.closePath(); ctx.fillStyle=`rgba(255,220,80,${apulse})`; ctx.fill(); ctx.restore();
-
-  // Dimensional shimmer (4D feel)
   const shimA=0.055+0.04*Math.sin(t*0.7);
   const shimGrd=ctx.createLinearGradient(apX-S,apY,apX+S,groundY);
   shimGrd.addColorStop(0,'rgba(201,168,76,0)');
@@ -717,13 +842,10 @@ function drawPyramid(){
   ctx.beginPath(); ctx.moveTo(apX,apY); ctx.lineTo(P[3].sx,groundY); ctx.lineTo(P[2].sx,groundY); ctx.closePath();
   ctx.fill(); ctx.restore();
 
-  // ── EYE OF PROVIDENCE (mouse-tracking) ──
   const eyeCX = cx + Math.sin(rotY) * S * 0.05;
   const eyeCY = apY + (groundY - apY) * 0.36;
   const eyeW = S * 0.26, eyeH = eyeW * 0.42;
   const eyePulse = 0.72 + 0.28*Math.sin(t*1.1);
-
-  // Smooth pupil lerp toward mouse
   const dx = mouseX - eyeCX, dy = mouseY - eyeCY;
   const dist = Math.sqrt(dx*dx+dy*dy)||1;
   const maxT = eyeH * 0.38;
@@ -733,15 +855,12 @@ function drawPyramid(){
   eyeLookY += (tLY - eyeLookY) * 0.06;
   const pupilX = eyeCX + eyeLookX, pupilY = eyeCY + eyeLookY;
 
-  // Outer glow rings
   for(let ring=5;ring>=1;ring--){
     const rg=ctx.createRadialGradient(eyeCX,eyeCY,0,eyeCX,eyeCY,eyeW*(0.7+ring*0.75));
     rg.addColorStop(0,`rgba(201,168,76,${0.14*eyePulse/ring})`);
     rg.addColorStop(1,'rgba(201,168,76,0)');
     ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeW*(0.7+ring*0.75),0,Math.PI*2); ctx.fill();
   }
-
-  // Rhombus frame (eye of providence shape)
   ctx.save(); ctx.beginPath();
   ctx.moveTo(eyeCX-eyeW*1.25,eyeCY);
   ctx.quadraticCurveTo(eyeCX,eyeCY-eyeH*1.8,eyeCX+eyeW*1.25,eyeCY);
@@ -749,12 +868,9 @@ function drawPyramid(){
   ctx.closePath();
   ctx.strokeStyle=`rgba(201,168,76,${0.35*eyePulse})`; ctx.lineWidth=1.0; ctx.stroke(); ctx.restore();
 
-  // Eye socket
   ctx.save();
   ctx.beginPath(); ctx.ellipse(eyeCX,eyeCY,eyeW,eyeH,0,0,Math.PI*2);
   ctx.fillStyle='rgba(10,6,0,0.85)'; ctx.fill();
-
-  // Iris (shifts with pupil for parallax)
   const iris=ctx.createRadialGradient(pupilX,pupilY,0,eyeCX,eyeCY,eyeH*0.82);
   iris.addColorStop(0,`rgba(255,235,90,${eyePulse})`);
   iris.addColorStop(0.3,`rgba(220,160,20,${eyePulse})`);
@@ -762,31 +878,22 @@ function drawPyramid(){
   iris.addColorStop(0.9,`rgba(60,30,0,${eyePulse*0.8})`);
   iris.addColorStop(1,'rgba(0,0,0,0)');
   ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeH*0.82,0,Math.PI*2); ctx.fillStyle=iris; ctx.fill();
-
-  // Iris ring details
   for(let r=0;r<3;r++){
     ctx.beginPath(); ctx.arc(eyeCX,eyeCY,eyeH*(0.5+r*0.11),0,Math.PI*2);
     ctx.strokeStyle=`rgba(0,0,0,${0.15+r*0.08})`; ctx.lineWidth=0.5; ctx.stroke();
   }
-
-  // Pupil (tracks mouse)
   ctx.beginPath(); ctx.arc(pupilX,pupilY,eyeH*0.30,0,Math.PI*2);
   ctx.fillStyle='rgba(0,0,0,0.92)'; ctx.fill();
   ctx.beginPath(); ctx.arc(pupilX,pupilY,eyeH*0.30,0,Math.PI*2);
   ctx.strokeStyle='rgba(40,20,0,0.6)'; ctx.lineWidth=1.0; ctx.stroke();
-  // Main shine
   ctx.beginPath(); ctx.arc(pupilX-eyeH*0.06,pupilY-eyeH*0.07,eyeH*0.09,0,Math.PI*2);
   ctx.fillStyle=`rgba(255,210,60,${0.85*eyePulse})`; ctx.fill();
-  // Secondary glint
   ctx.beginPath(); ctx.arc(pupilX+eyeH*0.08,pupilY+eyeH*0.06,eyeH*0.04,0,Math.PI*2);
   ctx.fillStyle=`rgba(255,255,200,${0.4*eyePulse})`; ctx.fill();
-
-  // Eye almond outline
   ctx.beginPath(); ctx.ellipse(eyeCX,eyeCY,eyeW,eyeH,0,0,Math.PI*2);
   ctx.strokeStyle=`rgba(201,168,76,${0.85*eyePulse})`; ctx.lineWidth=1.6; ctx.stroke();
   ctx.restore();
 
-  // Kohl markings
   ctx.save(); ctx.strokeStyle=`rgba(201,168,76,${0.55*eyePulse})`; ctx.lineWidth=1.3;
   ctx.beginPath(); ctx.moveTo(eyeCX-eyeW,eyeCY);
   ctx.bezierCurveTo(eyeCX-eyeW*1.25,eyeCY+eyeH*0.3,eyeCX-eyeW*1.5,eyeCY+eyeH*0.7,eyeCX-eyeW*1.65,eyeCY+eyeH);
@@ -795,7 +902,6 @@ function drawPyramid(){
   ctx.bezierCurveTo(eyeCX+eyeW*1.2,eyeCY-eyeH*0.25,eyeCX+eyeW*1.45,eyeCY-eyeH*0.5,eyeCX+eyeW*1.55,eyeCY-eyeH*0.65);
   ctx.stroke(); ctx.restore();
 
-  // Light beam from eye
   const bgrad=ctx.createLinearGradient(eyeCX,eyeCY,eyeCX+eyeW*0.6,groundY);
   bgrad.addColorStop(0,`rgba(201,168,76,${0.28*eyePulse})`);
   bgrad.addColorStop(0.5,`rgba(201,168,76,${0.08*eyePulse})`);
@@ -810,8 +916,6 @@ function drawPyramid(){
 
 function drawWater(){
   const dl = getDayLight();
-  // Night water: very dark navy. Day water: deeper blue
-  const waterAlpha = 0.1 + dl * 0.15;
   const waveColors = [
     `rgba(${Math.round(4+dl*8)},${Math.round(18+dl*25)},${Math.round(40+dl*60)},`,
     `rgba(${Math.round(3+dl*6)},${Math.round(14+dl*20)},${Math.round(32+dl*50)},`,
@@ -829,8 +933,6 @@ function drawWater(){
     ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
     ctx.fillStyle=waveColors[wi]+'1)'; ctx.fill();
   });
-
-  // moon reflection column (night only)
   if(dl < 1){
     const moonFade = 1 - dl;
     const refX=W*0.78;
@@ -842,7 +944,6 @@ function drawWater(){
       ctx.fillRect(refX-rw/2,ry,rw,2);
     }
   }
-  // eye reflection in water
   const erx=W*0.5+30, ery=H*0.76;
   const erPulse=0.6+0.4*Math.sin(t*1.1+1);
   for(let i=0;i<6;i++){
@@ -884,17 +985,15 @@ window.addEventListener('resize', resize);
 resize();
 animCanvas();
 
-// ── SNOW EFFECT ──
+// SNOW EFFECT
 (function(){
   const sc = document.getElementById('snowCanvas');
   const sctx = sc.getContext('2d');
   let SW, SH, flakes = [];
-
   function resizeSnow(){
     SW = sc.width = window.innerWidth;
     SH = sc.height = window.innerHeight;
   }
-
   function createFlake(){
     return {
       x: Math.random() * SW,
@@ -908,18 +1007,16 @@ animCanvas();
       wobbleAmp: Math.random() * 1.4 + 0.4,
     };
   }
-
   function initSnow(){
     resizeSnow();
     flakes = [];
     const count = Math.floor((SW * SH) / 10000);
     for(let i = 0; i < count; i++){
       const f = createFlake();
-      f.y = Math.random() * SH; // scatter vertically on init
+      f.y = Math.random() * SH;
       flakes.push(f);
     }
   }
-
   function animSnow(){
     requestAnimationFrame(animSnow);
     sctx.clearRect(0, 0, SW, SH);
@@ -934,7 +1031,6 @@ animCanvas();
       }
       sctx.beginPath();
       sctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      // Soft white with a faint gold tint to match the NWC palette
       const haze = f.r > 2.0
         ? `rgba(240,230,210,${f.opacity})`
         : `rgba(255,252,248,${f.opacity})`;
@@ -942,12 +1038,10 @@ animCanvas();
       sctx.fill();
     });
   }
-
   window.addEventListener('resize', initSnow);
   initSnow();
   animSnow();
 })();
-
 
 const particleWrap = document.getElementById('particles');
 for(let i = 0; i < 18; i++){
@@ -964,7 +1058,7 @@ for(let i = 0; i < 18; i++){
   particleWrap.appendChild(p);
 }
 
-// ── SCROLL OBSERVER ──
+// SCROLL OBSERVER
 const obs = new IntersectionObserver(entries => {
   entries.forEach((e, i) => {
     if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 45);
@@ -972,49 +1066,37 @@ const obs = new IntersectionObserver(entries => {
 },{threshold:0.04});
 document.querySelectorAll('.fade-up,.acard').forEach(el => obs.observe(el));
 
-// ── LIVE PORTFOLIO FLUCTUATION ──
+// LIVE PORTFOLIO FLUCTUATION
 (function(){
   const BASE = 32000;
   const valEl = document.getElementById('portfolioVal');
   const pctEl = document.getElementById('portfolioPct');
   if(!valEl || !pctEl) return;
-
-  // Seed a smooth wave path using time-of-day to ensure daily reset feel
-  // Range: -20% to +30% of base over a simulated 24hr window
   const MIN_PCT = -0.20, MAX_PCT = 0.30;
-
   function getNow(){
     const now = new Date();
-    // fraction of current day (0 = midnight, 1 = next midnight)
     const dayFrac = (now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds()) / 86400;
-    // Build a smooth wave using multiple harmonics so it feels organic
     const wave =
       Math.sin(dayFrac * Math.PI * 2 * 1.0 + 0.3) * 0.35 +
       Math.sin(dayFrac * Math.PI * 2 * 2.3 + 1.1) * 0.25 +
       Math.sin(dayFrac * Math.PI * 2 * 3.7 + 2.4) * 0.20 +
       Math.sin(dayFrac * Math.PI * 2 * 5.1 + 0.8) * 0.15 +
       Math.sin(dayFrac * Math.PI * 2 * 7.2 + 3.2) * 0.05;
-    // wave is in range approx -1 to 1, map to MIN_PCT..MAX_PCT
-    // bias upward slightly (center at +5%)
     const pct = 0.05 + wave * 0.25;
     return Math.max(MIN_PCT, Math.min(MAX_PCT, pct));
   }
-
-  // add tiny real-time jitter on top
   let jitter = 0;
   function tick(){
     jitter += (Math.random() - 0.495) * 0.0008;
-    jitter *= 0.92; // mean-revert
+    jitter *= 0.92;
     const basePct = getNow();
     const pct = basePct + jitter;
     const val = BASE * (1 + pct);
-
     valEl.textContent = '$' + val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
     const isUp = pct >= 0;
     const pctStr = (isUp ? '+' : '') + (pct * 100).toFixed(2) + '%  24h';
     pctEl.textContent = pctStr;
     pctEl.style.color = isUp ? '#3ddc84' : '#ff6060';
-
     setTimeout(tick, 1200 + Math.random() * 800);
   }
   tick();
