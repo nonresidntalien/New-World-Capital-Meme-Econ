@@ -418,10 +418,6 @@ const tokens = [
   { n:33, ticker:'SHOEBILL',  name:'The Shoebill',                   mcap:'$135K', alloc:600,  file:'nwc-sol-shoebill.html',   live:true },
   { n:34, ticker:'BTC',  name:'BTC on Sol',                          mcap:'$145K', alloc:1000,  file:'nwc-sol-btc.html',   live:true },
   { n:35, ticker:'BILLBOARD',  name:'Billboard',                     mcap:'$14K', alloc:600,  file:'nwc-sol-billboard.html',   live:true },
-   { n:36, ticker:'ESOTERIC',  name:'Esoteric Monkey',                     mcap:'$29K', alloc:600,  file:'nwc-sol-esoteric.html',   live:false },
-   { n:37, ticker:'MIM',  name:'Magic Internet Money',                     mcap:'$14K', alloc:600,  file:'nwc-sol-mim.html',   live:false },
-   { n:38, ticker:'AYYLMAO',  name:'Ayylmao',                     mcap:'$50K', alloc:600,  file:'nwc-sol-ayylmao.html',   live:false },
-  
 ];
 
 // ATLAS DATA (NWC ARTICLES / HYPOTHESIS ATLAS)
@@ -977,12 +973,218 @@ function drawVignette(){
   ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
 }
 
+// LEVIATHAN (swims past pyramid, left to right, every 5 minutes)
+let levState = null;
+let levLastSpawn = -Infinity;
+const LEV_LEN = 720;
+const LEV_CROSS_MS = 55000;        // ~55s to traverse the screen
+const LEV_INTERVAL_MS = 300000;    // 5 minutes between spawns
+const LEV_FIRST_DELAY_MS = 10000;  // first one shows ~10s after load
+
+function spawnLeviathanIfDue(){
+  const now = performance.now();
+  const interval = levLastSpawn === -Infinity ? LEV_FIRST_DELAY_MS : LEV_INTERVAL_MS;
+  if(!levState && (now - levLastSpawn) >= interval){
+    levLastSpawn = now;
+    levState = {
+      startTime: now,
+      startX: -LEV_LEN - 80,
+      endX: W + 120,
+      baseY: H * 0.73,
+    };
+  }
+}
+
+function updateLeviathan(){
+  if(!levState) return;
+  const now = performance.now();
+  const progress = (now - levState.startTime) / LEV_CROSS_MS;
+  if(progress >= 1.1){ levState = null; return; }
+  const x = levState.startX + (levState.endX - levState.startX) * progress;
+  drawLeviathan(x, levState.baseY);
+}
+
+function drawLeviathan(headX, baseY){
+  const len = LEV_LEN;
+
+  // Hump definitions
+  const humps = [
+    {off:140, h:62,  w:140},
+    {off:285, h:46,  w:118},
+    {off:420, h:54,  w:118},
+    {off:550, h:38,  w:102},
+    {off:660, h:28,  w:86},
+    {off:740, h:18,  w:62},
+  ];
+
+  // Underwater body shadow (darkens water locally, hints at submerged mass)
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  const sg = ctx.createRadialGradient(
+    headX - len*0.42, baseY + 38, 0,
+    headX - len*0.42, baseY + 38, len*0.6
+  );
+  sg.addColorStop(0,   'rgba(35,35,50,1)');
+  sg.addColorStop(0.5, 'rgba(120,120,140,1)');
+  sg.addColorStop(1,   'rgba(255,255,255,1)');
+  ctx.fillStyle = sg;
+  ctx.beginPath();
+  ctx.ellipse(headX - len*0.42, baseY + 45, len*0.55, 75, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // Connecting body silhouette (smooth spline through all hump bases, above water)
+  ctx.beginPath();
+  ctx.moveTo(headX - humps[humps.length-1].off - humps[humps.length-1].w/2, baseY + 3);
+  // Trace under-spine through each hump base going back to front
+  for(let i = humps.length - 1; i >= 0; i--){
+    const hp = humps[i];
+    const x = headX - hp.off;
+    const breathe = 1 + Math.sin(t * 0.45 + i * 0.7) * 0.07;
+    const peakY = baseY - hp.h * breathe * 0.55;
+    ctx.lineTo(x, peakY);
+  }
+  // Continue to head
+  ctx.lineTo(headX - 25, baseY - 35);
+  ctx.lineTo(headX + 55, baseY + 3);
+  ctx.lineTo(headX - humps[humps.length-1].off - humps[humps.length-1].w/2, baseY + 3);
+  ctx.closePath();
+  const bodyGrd = ctx.createLinearGradient(0, baseY - 70, 0, baseY + 5);
+  bodyGrd.addColorStop(0, 'rgba(10,8,6,0.35)');
+  bodyGrd.addColorStop(1, 'rgba(2,2,1,0.85)');
+  ctx.fillStyle = bodyGrd;
+  ctx.fill();
+
+  // Humps (back to front)
+  for(let i = humps.length - 1; i >= 0; i--){
+    const hp = humps[i];
+    const x = headX - hp.off;
+    const breathe = 1 + Math.sin(t * 0.45 + i * 0.7) * 0.07;
+    drawLevHump(x, baseY, hp.w, hp.h * breathe, i);
+  }
+
+  // Head with eye
+  drawLevHead(headX, baseY);
+
+  // Ripples at each hump base + head
+  humps.forEach((hp, i) => {
+    drawLevRipple(headX - hp.off, baseY, hp.w * 0.7, 0.28 - i*0.03);
+  });
+  drawLevRipple(headX - 30, baseY, 130, 0.32);
+}
+
+function drawLevHump(x, y, w, h, idx){
+  ctx.beginPath();
+  ctx.moveTo(x - w/2, y + 2);
+  ctx.bezierCurveTo(x - w/2 + 6, y - h, x + w/2 - 6, y - h, x + w/2, y + 2);
+  ctx.closePath();
+  const grd = ctx.createLinearGradient(0, y - h, 0, y);
+  grd.addColorStop(0, '#1a120a');
+  grd.addColorStop(0.55, '#080604');
+  grd.addColorStop(1, '#020100');
+  ctx.fillStyle = grd; ctx.fill();
+  // Scale ridge along top
+  ctx.beginPath();
+  ctx.moveTo(x - w/2 + 10, y - 1);
+  ctx.quadraticCurveTo(x, y - h * 1.04, x + w/2 - 10, y - 1);
+  ctx.strokeStyle = 'rgba(120,80,30,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+  // Secondary subtle inner highlight (gives volume)
+  ctx.beginPath();
+  ctx.moveTo(x - w/2 + 18, y - 3);
+  ctx.quadraticCurveTo(x - w*0.1, y - h * 0.85, x + w/2 - 18, y - 3);
+  ctx.strokeStyle = 'rgba(60,40,15,0.35)'; ctx.lineWidth = 0.7; ctx.stroke();
+  // Bioluminescent gold spot
+  const sx = x, sy = y - h * 0.82;
+  const pulse = 0.55 + 0.45 * Math.sin(t * 0.9 + idx);
+  // Outer halo (much bigger)
+  const spotG = ctx.createRadialGradient(sx, sy, 0, sx, sy, 28);
+  spotG.addColorStop(0, `rgba(255,210,90,${0.85 * pulse})`);
+  spotG.addColorStop(0.3, `rgba(255,180,60,${0.45 * pulse})`);
+  spotG.addColorStop(0.7, `rgba(201,168,76,${0.15 * pulse})`);
+  spotG.addColorStop(1, 'rgba(201,168,76,0)');
+  ctx.fillStyle = spotG;
+  ctx.beginPath(); ctx.arc(sx, sy, 28, 0, Math.PI*2); ctx.fill();
+  // Bright core
+  ctx.fillStyle = `rgba(255,240,160,${0.95 * pulse})`;
+  ctx.beginPath(); ctx.arc(sx, sy, 3, 0, Math.PI*2); ctx.fill();
+}
+
+function drawLevHead(x, y){
+  const hw = 150, hh = 88;
+  ctx.beginPath();
+  ctx.moveTo(x - hw*0.5, y + 2);
+  ctx.quadraticCurveTo(x - hw*0.56, y - hh*0.5, x - hw*0.28, y - hh*0.96);
+  ctx.quadraticCurveTo(x + hw*0.15, y - hh*1.05, x + hw*0.45, y - hh*0.55);
+  ctx.quadraticCurveTo(x + hw*0.58, y - hh*0.3,  x + hw*0.52, y + 2);
+  ctx.lineTo(x - hw*0.5, y + 2);
+  ctx.closePath();
+  const grd = ctx.createLinearGradient(0, y - hh, 0, y);
+  grd.addColorStop(0, '#1a120a');
+  grd.addColorStop(0.55, '#0a0705');
+  grd.addColorStop(1, '#020201');
+  ctx.fillStyle = grd; ctx.fill();
+  // Brow ridge
+  ctx.beginPath();
+  ctx.moveTo(x - hw*0.22, y - hh*0.72);
+  ctx.quadraticCurveTo(x + hw*0.05, y - hh*1.0, x + hw*0.36, y - hh*0.5);
+  ctx.strokeStyle = 'rgba(120,80,30,0.6)'; ctx.lineWidth = 1.5; ctx.stroke();
+  // Jaw line
+  ctx.beginPath();
+  ctx.moveTo(x - hw*0.45, y - hh*0.1);
+  ctx.quadraticCurveTo(x, y - hh*0.18, x + hw*0.48, y - hh*0.05);
+  ctx.strokeStyle = 'rgba(70,45,18,0.45)'; ctx.lineWidth = 0.9; ctx.stroke();
+  // Eye (big, prominent, gold glow)
+  const eyeX = x + hw*0.04, eyeY = y - hh*0.65;
+  const pulse = 0.55 + 0.45 * Math.sin(t * 1.3);
+  // Outer corona
+  const eg2 = ctx.createRadialGradient(eyeX, eyeY, 0, eyeX, eyeY, 48);
+  eg2.addColorStop(0, `rgba(255,220,90,${0.55 * pulse})`);
+  eg2.addColorStop(0.4, `rgba(255,170,40,${0.22 * pulse})`);
+  eg2.addColorStop(1, 'rgba(201,168,76,0)');
+  ctx.fillStyle = eg2;
+  ctx.beginPath(); ctx.arc(eyeX, eyeY, 48, 0, Math.PI*2); ctx.fill();
+  // Inner iris
+  const eg = ctx.createRadialGradient(eyeX, eyeY, 0, eyeX, eyeY, 18);
+  eg.addColorStop(0, `rgba(255,235,140,${0.98 * pulse})`);
+  eg.addColorStop(0.3, `rgba(255,180,40,${0.85 * pulse})`);
+  eg.addColorStop(0.7, `rgba(180,120,20,${0.6 * pulse})`);
+  eg.addColorStop(1, 'rgba(60,40,5,0)');
+  ctx.fillStyle = eg;
+  ctx.beginPath(); ctx.arc(eyeX, eyeY, 18, 0, Math.PI*2); ctx.fill();
+  // Pupil
+  ctx.fillStyle = `rgba(20,10,0,${0.85})`;
+  ctx.beginPath(); ctx.ellipse(eyeX + 2, eyeY, 1.8, 6, 0, 0, Math.PI*2); ctx.fill();
+  // Bright catchlight
+  ctx.fillStyle = `rgba(255,250,200,${pulse})`;
+  ctx.beginPath(); ctx.arc(eyeX - 2, eyeY - 3, 1.4, 0, Math.PI*2); ctx.fill();
+  // Horns (longer, more dramatic)
+  ctx.strokeStyle = 'rgba(40,28,12,0.85)'; ctx.lineWidth = 2.2; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x - hw*0.14, y - hh*0.88); ctx.quadraticCurveTo(x - hw*0.30, y - hh*1.15, x - hw*0.34, y - hh*1.42); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x + hw*0.02, y - hh*0.95); ctx.quadraticCurveTo(x + hw*0.08, y - hh*1.25, x + hw*0.04, y - hh*1.50); ctx.stroke();
+  // Inner horn highlight
+  ctx.strokeStyle = 'rgba(120,80,30,0.5)'; ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.moveTo(x - hw*0.14, y - hh*0.88); ctx.quadraticCurveTo(x - hw*0.30, y - hh*1.15, x - hw*0.34, y - hh*1.42); ctx.stroke();
+  ctx.lineCap='butt';
+}
+
+function drawLevRipple(x, y, w, alpha){
+  for(let i = 0; i < 3; i++){
+    const ex = 1 + i * 0.35;
+    ctx.beginPath();
+    ctx.ellipse(x, y + i*2 + 1, (w/2)*ex, 2 + i*0.7, 0, 0, Math.PI*2);
+    ctx.strokeStyle = `rgba(190,210,225,${Math.max(0, alpha - i*0.05)})`;
+    ctx.lineWidth = 1; ctx.stroke();
+  }
+}
+
 function animCanvas(){
   requestAnimationFrame(animCanvas);
   t+=0.016;
   ctx.clearRect(0,0,W,H);
   drawSky(); drawStars(); drawMoon(); drawSun();
-  drawPyramid(); drawWater(); drawDust(); drawVignette();
+  drawPyramid(); drawWater();
+  spawnLeviathanIfDue(); updateLeviathan();
+  drawDust(); drawVignette();
 }
 
 window.addEventListener('resize', resize);
