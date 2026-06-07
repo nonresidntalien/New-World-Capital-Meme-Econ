@@ -103,6 +103,31 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
 .acard{opacity:0;transform:translateY(14px) rotateX(8deg);transition:opacity .45s ease,transform .45s ease,background .2s,box-shadow .3s}
 .acard.visible{opacity:1;transform:translateY(0) rotateX(0)}
 
+/* ── FEAR & GREED WIDGET ── */
+.fg-widget{margin-top:40px;background:rgba(5,4,2,0.82);border:1px solid var(--border);backdrop-filter:blur(6px);position:relative;overflow:hidden;max-width:860px;}
+.fg-widget::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);}
+.fg-widget-inner{display:grid;grid-template-columns:1fr auto;gap:0;}
+@media(max-width:720px){.fg-widget-inner{grid-template-columns:1fr;}}
+.fg-left{padding:24px 28px;}
+.fg-right{padding:24px 28px;border-left:1px solid var(--border2);display:flex;flex-direction:column;justify-content:center;gap:8px;min-width:200px;}
+@media(max-width:720px){.fg-right{border-left:none;border-top:1px solid var(--border2);}}
+.fg-label-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.fg-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite;flex-shrink:0;}
+.fg-label{font-family:var(--mono);font-size:9px;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;}
+.fg-protocol-link{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--muted);text-decoration:none;text-transform:uppercase;margin-left:auto;transition:color .2s;}
+.fg-protocol-link:hover{color:var(--gold);}
+.fg-score-row{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;}
+.fg-score{font-family:'Bebas Neue',sans-serif;font-size:64px;line-height:1;letter-spacing:1px;transition:color 1s ease;}
+.fg-classification{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;line-height:1;transition:color 1s ease;}
+.fg-bar-wrap{margin-top:4px;}
+.fg-bar-track{height:4px;border-radius:2px;background:linear-gradient(90deg,#c9a84c 0%,#a07c38 25%,#606068 50%,#7a2020 75%,#be1e26 100%);position:relative;margin-bottom:8px;}
+.fg-needle{position:absolute;top:50%;transform:translate(-50%,-50%);width:2px;height:14px;background:#fff;border-radius:1px;transition:left 1.2s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 4px rgba(255,255,255,.5);}
+.fg-needle::after{content:'';position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 5px rgba(255,255,255,.5);}
+.fg-bar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.5px;color:var(--muted2);text-transform:uppercase;}
+.fg-action-label{font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.fg-action{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;transition:color 1s ease;}
+.fg-updated{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px;margin-top:8px;}
+
 /* ── ATLAS GRID ── */
 .atlas-grid{padding:0 52px 80px;display:grid;grid-template-columns:1fr;gap:24px}
 @media(min-width:1100px){.atlas-grid{grid-template-columns:1fr 1fr}}
@@ -158,6 +183,35 @@ footer{border-top:1px solid var(--border);padding:28px 52px;display:flex;justify
     <div class="hs"><span class="hs-label">Portfolio Value</span><span class="hs-val" id="portfolioVal">$32,000</span><span id="portfolioPct" style="font-family:var(--mono);font-size:12px;letter-spacing:1px;margin-top:4px;display:block;transition:color .5s">+0.00%</span></div>
     <div class="hs"><span class="hs-label">Positions</span><span class="hs-val">63</span></div>
     <div class="hs"><span class="hs-label">Chain</span><span class="hs-val">SOLANA</span></div>
+  </div>
+  <!-- FEAR & GREED WIDGET -->
+  <div class="fg-widget" id="fgWidget">
+    <div class="fg-widget-inner">
+      <div class="fg-left">
+        <div class="fg-label-row">
+          <span class="fg-dot" id="fgDot"></span>
+          <span class="fg-label">FEAR &amp; GREED INDEX</span>
+          <a href="nwc-fear-greed-protocol.html" class="fg-protocol-link">VIEW PROTOCOL &rarr;</a>
+        </div>
+        <div class="fg-score-row">
+          <span class="fg-score" id="fgScore">--</span>
+          <span class="fg-classification" id="fgClassification">LOADING</span>
+        </div>
+        <div class="fg-bar-wrap">
+          <div class="fg-bar-track">
+            <div class="fg-needle" id="fgNeedle" style="left:50%"></div>
+          </div>
+          <div class="fg-bar-labels">
+            <span>Extreme Fear</span><span>Fear</span><span>Neutral</span><span>Greed</span><span>Extreme Greed</span>
+          </div>
+        </div>
+      </div>
+      <div class="fg-right">
+        <div class="fg-action-label">PROTOCOL ACTION</div>
+        <div class="fg-action" id="fgAction">LOADING...</div>
+        <div class="fg-updated" id="fgUpdated"></div>
+      </div>
+    </div>
   </div>
 </section>
 <div class="section-wrap" id="portfolio" style="opacity:1;transform:none;">
@@ -456,6 +510,42 @@ const particleWrap=document.getElementById('particles');for(let i=0;i<18;i++){co
 const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*45);});},{threshold:0.04});
 document.querySelectorAll('.fade-up,.acard').forEach(el=>obs.observe(el));
 (function(){const BASE=32000;const valEl=document.getElementById('portfolioVal');const pctEl=document.getElementById('portfolioPct');if(!valEl||!pctEl)return;function getNow(){const now=new Date();const dayFrac=(now.getHours()*3600+now.getMinutes()*60+now.getSeconds())/86400;const wave=Math.sin(dayFrac*Math.PI*2*1.0+0.3)*0.35+Math.sin(dayFrac*Math.PI*2*2.3+1.1)*0.25+Math.sin(dayFrac*Math.PI*2*3.7+2.4)*0.20+Math.sin(dayFrac*Math.PI*2*5.1+0.8)*0.15+Math.sin(dayFrac*Math.PI*2*7.2+3.2)*0.05;return Math.max(-0.20,Math.min(0.30,0.05+wave*0.25));}let jitter=0;function tick(){jitter+=(Math.random()-0.495)*0.0008;jitter*=0.92;const basePct=getNow();const pct=basePct+jitter;const val=BASE*(1+pct);valEl.textContent='$'+val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});const isUp=pct>=0;pctEl.textContent=(isUp?'+':'')+(pct*100).toFixed(2)+'%  24h';pctEl.style.color=isUp?'#3ddc84':'#ff6060';setTimeout(tick,1200+Math.random()*800);}tick();})();
+
+// ── FEAR & GREED WIDGET ──
+(function(){
+  function fgColor(v){if(v<=24)return'#c9a84c';if(v<=39)return'#c89a40';if(v<=59)return'#9090a8';if(v<=74)return'#c06060';return'#be1e26';}
+  function fgAction(v){if(v<=24)return'AGGRESSIVE ACCUMULATION';if(v<=39)return'BEGIN ACCUMULATION';if(v<=59)return'OBSERVE. HOLD CASH.';if(v<=74)return'NO NEW POSITIONS';return'DO NOT BUY';}
+  async function loadFG(){
+    try{
+      const r=await fetch('https://api.alternative.me/fng/?limit=1');
+      const j=await r.json();
+      const d=j.data[0];
+      const val=parseInt(d.value);
+      const label=d.value_classification;
+      const ts=new Date(parseInt(d.timestamp)*1000);
+      const dateStr=ts.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const col=fgColor(val);
+      const pct=Math.min(Math.max(val,0),100);
+      const scoreEl=document.getElementById('fgScore');
+      const classEl=document.getElementById('fgClassification');
+      const needleEl=document.getElementById('fgNeedle');
+      const actionEl=document.getElementById('fgAction');
+      const updEl=document.getElementById('fgUpdated');
+      const dotEl=document.getElementById('fgDot');
+      if(scoreEl)scoreEl.textContent=val;
+      if(scoreEl)scoreEl.style.color=col;
+      if(classEl){classEl.textContent=label.toUpperCase();classEl.style.color=col;}
+      if(needleEl)needleEl.style.left=pct+'%';
+      if(actionEl){actionEl.textContent=fgAction(val);actionEl.style.color=col;}
+      if(updEl)updEl.textContent='Updated '+dateStr+' · Source: alternative.me';
+      if(dotEl)dotEl.style.background=col;
+    }catch(e){
+      const actionEl=document.getElementById('fgAction');
+      if(actionEl)actionEl.textContent='DATA UNAVAILABLE';
+    }
+  }
+  loadFG();
+})();
 </script>
 </body>
 </html>
