@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NWC // Fear & Greed Accumulation Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: #8a6e2f;
+    --gold-glow: rgba(201,168,76,0.18);
+    --red: #be1e26;
+    --bg: #0a0a0b;
+    --bg-2: #0f0f11;
+    --bg-3: #141416;
+    --bg-4: #1a1a1d;
+    --text: #e8e0d0;
+    --text-dim: #7a7265;
+    --text-muted: #3d3a33;
+    --border: rgba(201,168,76,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Crimson Pro', Georgia, serif; font-size: 18px; line-height: 1.7; overflow-x: hidden; }
+
+  /* TICKER */
+  .ticker-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #050506; border-bottom: 1px solid var(--border); height: 32px; overflow: hidden; display: flex; align-items: center; }
+  .ticker-track { display: flex; animation: ticker 32s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--text-dim); padding: 0 28px; text-transform: uppercase; }
+  .ticker-item span { color: var(--gold); }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* NAV */
+  nav { position: fixed; top: 32px; left: 0; right: 0; z-index: 99; background: rgba(10,10,11,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 52px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.2em; color: var(--gold); text-decoration: none; }
+  .nav-code { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; }
+
+  main { padding-top: 84px; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 88vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 60px 60px; overflow: hidden; border-bottom: 1px solid var(--border); }
+  .hero-watermark { position: absolute; right: -40px; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(140px, 20vw, 280px); color: rgba(201,168,76,0.04); letter-spacing: 0.05em; line-height: 1; pointer-events: none; user-select: none; white-space: nowrap; }
+  .hero-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 9vw, 120px); line-height: 0.92; letter-spacing: 0.04em; color: var(--text); max-width: 820px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.35s; }
+  .hero-title .accent { color: var(--gold); display: block; }
+  .hero-title .subdued { color: var(--text-dim); }
+  .hero-rule { width: 80px; height: 1px; background: var(--gold); margin: 36px 0; opacity: 0; animation: fadeUp 0.7s ease forwards 0.5s; }
+  .hero-purpose { max-width: 620px; font-size: 20px; font-weight: 300; font-style: italic; color: var(--text-dim); line-height: 1.65; opacity: 0; animation: fadeUp 0.7s ease forwards 0.65s; }
+  .hero-purpose strong { font-style: normal; font-weight: 600; color: var(--text); }
+  .hero-meta { position: absolute; bottom: 40px; right: 60px; text-align: right; opacity: 0; animation: fadeUp 0.7s ease forwards 0.8s; }
+  .hero-meta-code { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .hero-meta-ref { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--gold-dim); letter-spacing: 0.1em; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* LIVE GAUGE WIDGET */
+  .live-gauge-section { padding: 60px 60px 0; border-bottom: none; }
+  .gauge-widget { background: var(--bg-2); border: 1px solid var(--border); max-width: 820px; position: relative; overflow: hidden; }
+  .gauge-widget::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .gauge-header { padding: 24px 32px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .gauge-header-left { display: flex; align-items: center; gap: 14px; }
+  .gauge-live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: glow-pulse 2s ease-in-out infinite; flex-shrink: 0; }
+  @keyframes glow-pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(201,168,76,0.5); } 50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(201,168,76,0); } }
+  .gauge-header-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+  .gauge-timestamp { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; }
+  .gauge-body { padding: 32px 32px 36px; }
+  .gauge-score-row { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 28px; }
+  .gauge-score-num { font-family: 'Bebas Neue', sans-serif; font-size: 88px; line-height: 1; letter-spacing: 0.02em; transition: color 1s ease; }
+  .gauge-score-right { display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; }
+  .gauge-classification { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 0.08em; line-height: 1; transition: color 1s ease; }
+  .gauge-out-of { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .gauge-protocol-action { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 14px; border: 1px solid; display: inline-block; margin-top: 6px; }
+  /* Spectrum bar */
+  .gauge-spectrum { margin-bottom: 14px; position: relative; }
+  .gauge-bar-track { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #c9a84c 0%, #a07c38 25%, #606068 50%, #7a2020 75%, #be1e26 100%); position: relative; overflow: visible; }
+  .gauge-needle { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 2px; height: 18px; background: #fff; border-radius: 1px; transition: left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 6px rgba(255,255,255,0.6); }
+  .gauge-needle::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,0.6); }
+  .gauge-spectrum-labels { display: flex; justify-content: space-between; margin-top: 10px; }
+  .gauge-spectrum-label { font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; }
+  .gauge-loading { padding: 40px 32px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; }
+  .gauge-error { padding: 20px 32px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--red); letter-spacing: 0.1em; }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  section.visible { opacity: 1; transform: translateY(0); }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: var(--gold-dim); text-transform: uppercase; margin-bottom: 36px; display: flex; align-items: center; gap: 16px; }
+  .section-label::after { content: ''; flex: 1; max-width: 120px; height: 1px; background: var(--border); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 60px); letter-spacing: 0.06em; color: var(--text); margin-bottom: 40px; line-height: 1; }
+
+  /* CORE PRINCIPLE */
+  .principle-block { background: var(--bg-2); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 40px 48px; max-width: 780px; position: relative; overflow: hidden; }
+  .principle-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .principle-headline { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 20px; }
+  .principle-text { font-size: 19px; color: var(--text-dim); line-height: 1.75; font-style: italic; font-weight: 300; }
+  .rule-list { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .rule-item { font-size: 17px; color: var(--text); padding-left: 24px; position: relative; line-height: 1.6; }
+  .rule-item::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 8px; height: 1px; background: var(--gold); }
+
+  /* GAUGE LABELS STATIC */
+  .gauge-range-bar { height: 8px; width: 100%; max-width: 800px; border-radius: 4px; background: linear-gradient(90deg, #c9a84c 0%, #a07c38 25%, #4a4a52 50%, #5a2020 75%, #be1e26 100%); margin-bottom: 8px; }
+  .gauge-range-labels { display: flex; justify-content: space-between; max-width: 800px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 48px; }
+
+  /* PROTOCOL CARDS */
+  .protocol-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2px; margin-top: 8px; }
+  .protocol-card { padding: 36px 36px 40px; background: var(--bg-2); position: relative; overflow: hidden; border: 1px solid transparent; transition: border-color 0.3s ease; }
+  .protocol-card:hover { border-color: var(--border); }
+  .protocol-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .card-extreme-fear::before { background: var(--gold); }
+  .card-fear::before { background: #a07c38; }
+  .card-neutral::before { background: #606068; }
+  .card-greed::before { background: #7a2020; }
+  .card-extreme-greed::before { background: var(--red); }
+  .card-range { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .card-state { font-family: 'Bebas Neue', sans-serif; font-size: 38px; letter-spacing: 0.06em; line-height: 1; margin-bottom: 4px; }
+  .card-extreme-fear .card-state { color: var(--gold); }
+  .card-fear .card-state { color: #c89a40; }
+  .card-neutral .card-state { color: #8888a0; }
+  .card-greed .card-state { color: #c06060; }
+  .card-extreme-greed .card-state { color: var(--red); }
+  .card-action-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin: 28px 0 10px; }
+  .card-action { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 20px; }
+  .card-reason-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .card-reason { font-size: 15px; font-weight: 300; font-style: italic; color: var(--text-dim); line-height: 1.65; }
+  .card-bg-num { position: absolute; bottom: -20px; right: -10px; font-family: 'Bebas Neue', sans-serif; font-size: 110px; line-height: 1; pointer-events: none; user-select: none; opacity: 0.04; letter-spacing: -0.02em; color: var(--text); }
+  /* Current zone highlight */
+  .protocol-card.current-zone { border-color: rgba(201,168,76,0.35) !important; }
+  .protocol-card.current-zone::after { content: 'CURRENT ZONE'; position: absolute; top: 14px; right: 18px; font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+
+  /* CHECKPOINT */
+  .checkpoint-block { background: var(--bg-3); border: 1px solid var(--border); padding: 48px 52px; max-width: 820px; position: relative; }
+  .checkpoint-block::after { content: '?'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 180px; color: rgba(201,168,76,0.05); line-height: 1; pointer-events: none; }
+  .checkpoint-question { font-size: 22px; font-style: italic; font-weight: 300; color: var(--text); line-height: 1.6; margin-bottom: 28px; border-left: 2px solid var(--gold); padding-left: 24px; }
+  .checkpoint-question em { font-style: normal; color: var(--gold); }
+  .checkpoint-response { margin-left: 26px; }
+  .checkpoint-if { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+  .checkpoint-steps { display: flex; flex-direction: column; gap: 8px; }
+  .checkpoint-step { font-size: 17px; color: var(--text-dim); padding-left: 20px; position: relative; }
+  .checkpoint-step::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 6px; height: 1px; background: var(--red); }
+
+  /* LONG TERM */
+  .longterm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; max-width: 900px; margin-bottom: 48px; }
+  .longterm-cell { background: var(--bg-2); padding: 28px 32px; border: 1px solid transparent; }
+  .longterm-cell-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .longterm-cell-text { font-size: 17px; font-style: italic; font-weight: 300; color: var(--text-dim); line-height: 1.6; }
+  .longterm-cell-text strong { font-style: normal; font-weight: 600; color: var(--text); }
+
+  /* TRIAD */
+  .final-triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 780px; margin-bottom: 56px; }
+  .triad-card { background: var(--bg-2); border: 1px solid var(--border); padding: 32px 28px; text-align: center; position: relative; overflow: hidden; }
+  .triad-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .triad-word { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 0.1em; color: var(--gold); display: block; margin-bottom: 6px; }
+  .triad-sub { font-size: 14px; font-style: italic; font-weight: 300; color: var(--text-muted); }
+  .final-statement { max-width: 680px; font-size: 20px; font-style: italic; font-weight: 300; color: var(--text-dim); line-height: 1.75; border-left: 3px solid var(--gold); padding-left: 28px; }
+  .final-statement strong { font-style: normal; font-weight: 600; color: var(--text); }
+
+  /* FOOTER */
+  footer { padding: 36px 60px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+  .footer-sig { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 0.2em; color: var(--gold-dim); }
+  .footer-disclaimer { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; text-align: right; line-height: 1.8; }
+
+  @media (max-width: 768px) {
+    .hero, section, .live-gauge-section { padding: 60px 28px; }
+    nav { padding: 0 20px; }
+    footer { padding: 28px; flex-direction: column; gap: 16px; text-align: center; }
+    .footer-disclaimer { text-align: center; }
+    .protocol-grid, .longterm-grid, .final-triad { grid-template-columns: 1fr; }
+    .hero-meta { position: relative; bottom: auto; right: auto; text-align: left; margin-top: 40px; }
+    .checkpoint-block::after { display: none; }
+    .gauge-score-num { font-size: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span class="ticker-item">EXTREME FEAR <span>0-24</span> AGGRESSIVE ACCUMULATION</span>
+    <span class="ticker-item">FEAR <span>25-39</span> BEGIN DEPLOYMENT</span>
+    <span class="ticker-item">NEUTRAL <span>40-59</span> OBSERVE. WAIT.</span>
+    <span class="ticker-item">GREED <span>60-74</span> HOLD. NO NEW POSITIONS.</span>
+    <span class="ticker-item">EXTREME GREED <span>75-100</span> DO NOT BUY</span>
+    <span class="ticker-item">CASH IS A POSITION</span>
+    <span class="ticker-item">PATIENCE IS A POSITION</span>
+    <span class="ticker-item">WAITING IS A POSITION</span>
+    <span class="ticker-item">EXTREME FEAR <span>0-24</span> AGGRESSIVE ACCUMULATION</span>
+    <span class="ticker-item">FEAR <span>25-39</span> BEGIN DEPLOYMENT</span>
+    <span class="ticker-item">NEUTRAL <span>40-59</span> OBSERVE. WAIT.</span>
+    <span class="ticker-item">GREED <span>60-74</span> HOLD. NO NEW POSITIONS.</span>
+    <span class="ticker-item">EXTREME GREED <span>75-100</span> DO NOT BUY</span>
+    <span class="ticker-item">CASH IS A POSITION</span>
+    <span class="ticker-item">PATIENCE IS A POSITION</span>
+    <span class="ticker-item">WAITING IS A POSITION</span>
+  </div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">NEW WORLD CAPITAL</a>
+  <div class="nav-code">NWC-PROTO-FG-2026-001</div>
+</nav>
+
+<main>
+  <div class="hero">
+    <div class="hero-watermark">FEAR</div>
+    <div class="hero-label">New World Capital // Deployment Protocol</div>
+    <h1 class="hero-title">
+      <span class="subdued">FEAR &amp;</span>
+      <span class="accent">GREED</span>
+      <span class="subdued">ACCUMULATION</span>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-purpose">
+      This protocol exists to prevent <strong>emotional buying during euphoria</strong>
+      and to concentrate capital deployment during periods of
+      <strong>uncertainty, pessimism, and fear.</strong>
+    </p>
+    <div class="hero-meta">
+      <span class="hero-meta-code">Archive Reference</span>
+      <span class="hero-meta-ref">NWC-PROTO-FG-2026-001</span>
+    </div>
+  </div>
+
+  <!-- LIVE GAUGE -->
+  <div class="live-gauge-section" id="liveGaugeAnchor">
+    <div class="gauge-widget" id="gaugeWidget">
+      <div class="gauge-header">
+        <div class="gauge-header-left">
+          <div class="gauge-live-dot"></div>
+          <div class="gauge-header-label">Live Fear &amp; Greed Index</div>
+        </div>
+        <div class="gauge-timestamp" id="gaugeTimestamp">Fetching data...</div>
+      </div>
+      <div id="gaugeInner" class="gauge-loading">
+        LOADING INDEX DATA...
+      </div>
+    </div>
+  </div>
+
+  <section id="principle">
+    <div class="section-label">01 // Core Principle</div>
+    <h2 class="section-title">THE MARKET ALWAYS LIES</h2>
+    <div class="principle-block">
+      <div class="principle-headline">The Fundamental Inversion</div>
+      <p class="principle-text">The market always feels strongest near the top and weakest near the bottom. Euphoria is not a signal to enter. It is a signal to wait. Discomfort is not a signal to exit. It is a signal to accumulate.</p>
+      <div class="rule-list">
+        <div class="rule-item">I do not buy because prices are rising.</div>
+        <div class="rule-item">I do not buy because influencers are excited.</div>
+        <div class="rule-item">I do not buy because everyone believes the future is obvious.</div>
+        <div class="rule-item">I buy when uncertainty is high, sentiment is weak, and fear dominates.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="protocol">
+    <div class="section-label">02 // Deployment Rules</div>
+    <h2 class="section-title">THE FIVE ZONES</h2>
+    <div class="gauge-range-bar"></div>
+    <div class="gauge-range-labels">
+      <span>0 — Extreme Fear</span>
+      <span>25 — Fear</span>
+      <span>50 — Neutral</span>
+      <span>75 — Greed</span>
+      <span>100 — Extreme Greed</span>
+    </div>
+    <div class="protocol-grid" id="protocolGrid">
+      <div class="protocol-card card-extreme-fear" data-zone="extreme-fear">
+        <span class="card-range">Index Range: 0 to 24</span>
+        <div class="card-state">EXTREME FEAR</div>
+        <div class="card-action-label">Action</div>
+        <div class="card-action">Aggressive accumulation. Deploy the largest allocations here. Maintain reserve capital in case fear deepens further.</div>
+        <div class="card-reason-label">Reasoning</div>
+        <div class="card-reason">Emotional discomfort is highest. Opportunity is often greatest. These are the moments the protocol was built to capture.</div>
+        <div class="card-bg-num">0</div>
+      </div>
+      <div class="protocol-card card-fear" data-zone="fear">
+        <span class="card-range">Index Range: 25 to 39</span>
+        <div class="card-state">FEAR</div>
+        <div class="card-action-label">Action</div>
+        <div class="card-action">Begin accumulation. Deploy capital gradually. Never deploy all available capital at once.</div>
+        <div class="card-reason-label">Reasoning</div>
+        <div class="card-reason">Uncertainty is increasing. Future returns are often improving even though sentiment is worsening. Gradual entry preserves optionality.</div>
+        <div class="card-bg-num">25</div>
+      </div>
+      <div class="protocol-card card-neutral" data-zone="neutral">
+        <span class="card-range">Index Range: 40 to 59</span>
+        <div class="card-state">NEUTRAL</div>
+        <div class="card-action-label">Action</div>
+        <div class="card-action">Observe. Continue saving cash. Continue research. No significant deployment unless a specific asset trades at an exceptional valuation.</div>
+        <div class="card-reason-label">Reasoning</div>
+        <div class="card-reason">This is the waiting zone. Most investors become impatient here. Patience is not passivity. It is precision held in reserve.</div>
+        <div class="card-bg-num">50</div>
+      </div>
+      <div class="protocol-card card-greed" data-zone="greed">
+        <span class="card-range">Index Range: 60 to 74</span>
+        <div class="card-state">GREED</div>
+        <div class="card-action-label">Action</div>
+        <div class="card-action">No new major positions. Maintain existing positions only. Any desire to increase exposure requires written justification and a 48-hour waiting period.</div>
+        <div class="card-reason-label">Reasoning</div>
+        <div class="card-reason">Opportunity cost feels painful here. That pain is the protocol working. Emotional mistakes are most common in this zone.</div>
+        <div class="card-bg-num">74</div>
+      </div>
+      <div class="protocol-card card-extreme-greed" data-zone="extreme-greed">
+        <span class="card-range">Index Range: 75 to 100</span>
+        <div class="card-state">EXTREME GREED</div>
+        <div class="card-action-label">Action</div>
+        <div class="card-action">No buying. If urgency to buy is felt, do nothing for 72 hours. The feeling itself is the warning signal.</div>
+        <div class="card-reason-label">Reasoning</div>
+        <div class="card-reason">This is historically where the largest volume of emotional decision-making occurs. My job is not to participate in euphoria. My job is to preserve capital for future opportunity.</div>
+        <div class="card-bg-num">100</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="checkpoint">
+    <div class="section-label">03 // Psychological Checkpoint</div>
+    <h2 class="section-title">BEFORE EVERY PURCHASE</h2>
+    <div class="checkpoint-block">
+      <div class="checkpoint-question">"Am I buying because this asset is attractive, or because I am afraid of <em>missing out</em>?"</div>
+      <div class="checkpoint-response">
+        <div class="checkpoint-if">If the answer is fear of missing out:</div>
+        <div class="checkpoint-steps">
+          <div class="checkpoint-step">Do not buy.</div>
+          <div class="checkpoint-step">Wait 48 hours.</div>
+          <div class="checkpoint-step">Return to the question with a clear record and a clear mind.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="longterm">
+    <div class="section-label">04 // The Long-Term Reminder</div>
+    <h2 class="section-title">INVESTING IS WAITING</h2>
+    <div class="longterm-grid">
+      <div class="longterm-cell">
+        <div class="longterm-cell-label">On Time</div>
+        <div class="longterm-cell-text">Months may pass. Years may pass. <strong>That is not failure.</strong> That is the protocol operating exactly as intended.</div>
+      </div>
+      <div class="longterm-cell">
+        <div class="longterm-cell-label">On Idle Capital</div>
+        <div class="longterm-cell-text">Capital may sit without deployment. <strong>That is not weakness.</strong> That is preserved optionality waiting for asymmetric conditions.</div>
+      </div>
+      <div class="longterm-cell">
+        <div class="longterm-cell-label">On Constant Action</div>
+        <div class="longterm-cell-text">The objective is not to <strong>always be invested.</strong> The objective is to deploy capital when risk and reward become asymmetrical.</div>
+      </div>
+      <div class="longterm-cell">
+        <div class="longterm-cell-label">On Opportunity</div>
+        <div class="longterm-cell-text">If the index does not justify deployment, <strong>hold cash without guilt.</strong> The market will provide another opportunity. It always does.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="section-label">05 // Final Rule</div>
+    <h2 class="section-title">THREE POSITIONS</h2>
+    <div class="final-triad">
+      <div class="triad-card"><span class="triad-word">CASH</span><span class="triad-sub">is a position.</span></div>
+      <div class="triad-card"><span class="triad-word">WAITING</span><span class="triad-sub">is a position.</span></div>
+      <div class="triad-card"><span class="triad-word">PATIENCE</span><span class="triad-sub">is a position.</span></div>
+    </div>
+    <p class="final-statement">If the Fear and Greed Index does not justify deployment, <strong>hold cash without guilt.</strong> The market will provide another opportunity. <strong>It always does.</strong></p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-sig">THOTH THE 13TH · NEW WORLD CAPITAL</div>
+  <div class="footer-disclaimer">
+    NOT INVESTMENT ADVICE // NWC Internal Archive // Thoth the 13th<br>
+    NWC-PROTO-FG-2026-001 // Fear &amp; Greed Accumulation Protocol
+  </div>
+</footer>
+
+<script>
+// ── SCORE COLORS ──
+function scoreColor(val) {
+  if (val <= 24) return '#c9a84c';
+  if (val <= 39) return '#c89a40';
+  if (val <= 59) return '#8888a0';
+  if (val <= 74) return '#c06060';
+  return '#be1e26';
+}
+function scoreZone(val) {
+  if (val <= 24) return 'extreme-fear';
+  if (val <= 39) return 'fear';
+  if (val <= 59) return 'neutral';
+  if (val <= 74) return 'greed';
+  return 'extreme-greed';
+}
+function protocolAction(val) {
+  if (val <= 24) return { text: 'AGGRESSIVE ACCUMULATION', color: '#c9a84c' };
+  if (val <= 39) return { text: 'BEGIN ACCUMULATION', color: '#c89a40' };
+  if (val <= 59) return { text: 'OBSERVE. HOLD CASH.', color: '#8888a0' };
+  if (val <= 74) return { text: 'NO NEW POSITIONS', color: '#c06060' };
+  return { text: 'DO NOT BUY', color: '#be1e26' };
+}
+
+async function loadFearGreed() {
+  try {
+    const res = await fetch('https://api.alternative.me/fng/?limit=1');
+    const json = await res.json();
+    const data = json.data[0];
+    const val = parseInt(data.value);
+    const label = data.value_classification;
+    const ts = new Date(parseInt(data.timestamp) * 1000);
+    const dateStr = ts.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    const color = scoreColor(val);
+    const zone = scoreZone(val);
+    const action = protocolAction(val);
+    const needlePct = Math.min(Math.max(val, 0), 100);
+
+    document.getElementById('gaugeTimestamp').textContent = 'Updated: ' + dateStr;
+
+    document.getElementById('gaugeInner').innerHTML = `
+      <div class="gauge-body">
+        <div class="gauge-score-row">
+          <div class="gauge-score-num" style="color:${color}">${val}</div>
+          <div class="gauge-score-right">
+            <div class="gauge-classification" style="color:${color}">${label.toUpperCase()}</div>
+            <div class="gauge-out-of">Out of 100</div>
+            <div class="gauge-protocol-action" style="color:${action.color};border-color:${action.color}30">
+              ${action.text}
+            </div>
+          </div>
+        </div>
+        <div class="gauge-spectrum">
+          <div class="gauge-bar-track">
+            <div class="gauge-needle" style="left:${needlePct}%"></div>
+          </div>
+          <div class="gauge-spectrum-labels">
+            <span class="gauge-spectrum-label">Extreme Fear</span>
+            <span class="gauge-spectrum-label">Fear</span>
+            <span class="gauge-spectrum-label">Neutral</span>
+            <span class="gauge-spectrum-label">Greed</span>
+            <span class="gauge-spectrum-label">Extreme Greed</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Highlight current zone card
+    document.querySelectorAll('.protocol-card').forEach(card => {
+      card.classList.remove('current-zone');
+      if (card.dataset.zone === zone) card.classList.add('current-zone');
+    });
+
+  } catch(e) {
+    document.getElementById('gaugeInner').innerHTML = '<div class="gauge-error">Index data unavailable. Check connection and reload.</div>';
+  }
+}
+
+loadFearGreed();
+
+// Scroll reveal
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
